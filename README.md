@@ -2,43 +2,55 @@
 
 A coastal hotel and homestay booking platform built for **Dapoli** and **Harnai** in Maharashtra, India.
 
-## 🚀 Tech Stack
-- **Framework:** Next.js 14 (App Router, TypeScript)
-- **Styling:** Tailwind CSS (Coastal Konkan Palette: Teal, Sand, White)
-- **Database, Auth & Storage:** Supabase (Free Tier) via `@supabase/supabase-js`
-- **Maps:** Leaflet & OpenStreetMap (100% open-source, no paid API keys required)
-- **Image Compression:** `browser-image-compression` (strictly enforces < 300 KB per photo for free-tier storage)
-- **Date Range Picker:** `react-day-picker` with `date-fns`
-- **Instant Messaging:** Direct `wa.me` links pre-filled with guest reservation details
-- **Payments:** 0% commission direct payments — "Pay at Hotel" or "UPI QR with Manual Owner Confirmation"
-
 ---
 
-## 📁 Folder Structure
+## 📁 Repository Structure
+
 ```
 HMS/
-├── app/                  # Next.js 14 App Router pages & layout
-│   ├── globals.css       # Tailwind CSS & theme definitions
-│   ├── layout.tsx        # Shared layout with Navbar and Footer
-│   ├── page.tsx          # Homepage with hero, search, & OpenStreetMap
-│   ├── hotels/           # Hotel listings & individual detail pages
-│   └── login/            # Supabase Auth guest & owner login
-├── components/           # Reusable UI components (Navbar, Footer, LeafletMap, BookingModal, ImageUploader, HotelCard)
-├── lib/                  # Utilities (supabase client, image compression, sample data)
-├── types/                # TypeScript type definitions
-└── .env.local            # Supabase configuration with placeholders
+├── frontend/             # Next.js 14 App Router fullstack web application
+│   ├── app/              # App Router routes, layouts, and API routes (/api/*)
+│   ├── components/       # UI components (LeafletMap, HotelCard, BookingModal, etc.)
+│   ├── context/          # React contexts (AuthContext, LanguageContext)
+│   ├── lib/              # Services (Supabase client, booking service, rate limiter)
+│   ├── types/            # TypeScript type declarations
+│   ├── middleware.ts     # Edge security headers and route guards
+│   ├── .env.local        # Local environment variables
+│   └── package.json      # Frontend dependencies
+├── backend/              # Database schemas, migrations, and architecture documentation
+│   ├── supabase/         # SQL migrations and seed data
+│   │   ├── migrations/   # Migration scripts (00 to 05)
+│   │   └── seed.sql      # Seed hotels and rooms
+│   └── docs/             # Technical docs, flowcharts, and ER diagrams
+├── package.json          # Root monorepo workspace runner
+└── README.md
 ```
 
 ---
 
-## 🛠️ Local Development
+## 🚀 Running Locally
+
+From the root directory:
 
 ```bash
-# 1. Install dependencies
-npm install
+# Start local Next.js dev server
+npm run dev
 
-# 2. Run local development server
+# Or directly inside the frontend folder:
+cd frontend
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open [http://localhost:3000](http://localhost:3000) to view the site.
+
+---
+
+## 🌐 Deploying to Vercel
+
+When importing this repository into Vercel:
+1. In the **General Settings**, set **Root Directory** to `frontend`.
+2. Add your environment variables in Vercel **Project Settings → Environment Variables**:
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   - `SUPABASE_SERVICE_ROLE_KEY`
+   - `NEXT_PUBLIC_ENABLE_DEMO_AUTH` (optional: `true` for staging preview, `false` for production)

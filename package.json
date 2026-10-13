@@ -1,37 +1,15 @@
 {
-  "name": "bhramo-com",
+  "name": "bhramo-com-monorepo",
   "version": "1.0.0",
   "private": true,
-  "description": "bhramo.com - Coastal Hotel Booking Platform for Dapoli & Harnai, Maharashtra",
+  "description": "bhramo.com - Coastal Hotel Booking Platform for Dapoli & Harnai, Maharashtra (Monorepo)",
+  "workspaces": [
+    "frontend"
+  ],
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@supabase/supabase-js": "^2.49.1",
-    "browser-image-compression": "^2.0.2",
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
-    "date-fns": "^3.6.0",
-    "firebase": "^11.0.0",
-    "leaflet": "^1.9.4",
-    "lucide-react": "^0.475.0",
-    "next": "14.2.24",
-    "react": "^18.3.1",
-    "react-day-picker": "^8.10.1",
-    "react-dom": "^18.3.1",
-    "tailwind-merge": "^2.6.0"
-  },
-  "devDependencies": {
-    "@types/leaflet": "^1.9.16",
-    "@types/node": "^20.17.19",
-    "@types/react": "^18.3.18",
-    "@types/react-dom": "^18.3.5",
-    "autoprefixer": "^10.4.20",
-    "postcss": "^8.4.49",
-    "tailwindcss": "^3.4.17",
-    "typescript": "^5.6.3"
+    "dev": "npm run dev --prefix frontend",
+    "build": "npm run build --prefix frontend",
+    "start": "npm run start --prefix frontend",
+    "lint": "npm run lint --prefix frontend"
   }
 }
