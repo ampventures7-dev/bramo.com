@@ -1,0 +1,396 @@
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
+import { UserRole } from "@/types/supabase";
+import {
+  Waves,
+  User,
+  Phone,
+  Mail,
+  Lock,
+  ArrowRight,
+  Building2,
+  Compass,
+  AlertCircle,
+  CheckCircle2,
+  Clock,
+  ShieldCheck,
+  MessageSquare,
+  MapPin
+} from "lucide-react";
+
+export default function SignupPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectParam = searchParams.get("redirect");
+  const { signUpWithEmail } = useAuth();
+
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState<UserRole>("guest");
+
+  // Host / Hotel Owner specific fields
+  const [hotelName, setHotelName] = useState("");
+  const [hotelArea, setHotelArea] = useState<"Dapoli" | "Harnai">("Dapoli");
+
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  // Application Submitted state for Owner approval flow
+  const [submittedOwnerApp, setSubmittedOwnerApp] = useState<{
+    name: string;
+    email: string;
+    phone: string;
+    hotelName: string;
+    hotelArea: string;
+  } | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorMsg(null);
+    setLoading(true);
+
+    if (password.length < 6) {
+      setErrorMsg("Password must be at least 6 characters long.");
+      setLoading(false);
+      return;
+    }
+
+    if (role === "owner" && !hotelName.trim()) {
+      setErrorMsg("Please enter your Hotel / Homestay name for ownership verification.");
+      setLoading(false);
+      return;
+    }
+
+    // Rate limiting check
+    try {
+      const rateRes = await fetch("/api/auth/rate-limit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "signup" }),
+      });
+      if (!rateRes.ok) {
+        const rateData = await rateRes.json();
+        setErrorMsg(rateData.error || "Too many signup attempts. Please try again later.");
+        setLoading(false);
+        return;
+      }
+    } catch {
+      // Non-blocking
+    }
+
+    const res = await signUpWithEmail({
+      name,
+      phone,
+      email,
+      password,
+      role,
+      hotelName: role === "owner" ? hotelName.trim() : undefined,
+      hotelArea: role === "owner" ? hotelArea : undefined,
+    });
+
+    setLoading(false);
+
+    if (res.error) {
+      setErrorMsg(res.error);
+    } else {
+      if (res.role === "owner" || res.approvalStatus === "pending") {
+        // Show dedicated confirmation card instructing user on admin approval requirement
+        setSubmittedOwnerApp({
+          name,
+          email,
+          phone,
+          hotelName: hotelName.trim() || "Registered Konkan Stay",
+          hotelArea,
+        });
+      } else if (res.role === "admin") {
+        router.push("/admin/payments");
+      } else if (redirectParam && redirectParam.startsWith("/")) {
+        router.push(redirectParam);
+      } else {
+        router.push("/my-bookings");
+      }
+    }
+  };
+
+  // Dedicated Screen for Submitted Hotel Owner Application
+  if (submittedOwnerApp) {
+    return (
+      <div className="min-h-[85vh] flex items-center justify-center px-4 py-12">
+        <div className="w-full max-w-lg bg-white p-7 sm:p-9 rounded-3xl border border-konkan-sand-200 shadow-xl space-y-6 text-center">
+          <div className="w-16 h-16 bg-amber-100 text-amber-800 rounded-3xl flex items-center justify-center mx-auto shadow-inner border border-amber-200">
+            <Clock className="w-8 h-8 text-amber-700 animate-pulse" />
+          </div>
+
+          <div className="space-y-2">
+            <span className="inline-block px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-wider bg-amber-100 text-amber-900 border border-amber-300">
+              Host Verification In Progress
+            </span>
+            <h1 className="text-2xl font-black text-slate-900">
+              Application Submitted to Admin!
+            </h1>
+            <p className="text-xs text-slate-600 max-w-md mx-auto leading-relaxed">
+              Your application as hotel owner for <strong className="text-slate-900">{submittedOwnerApp.hotelName}</strong> ({submittedOwnerApp.hotelArea}) has been successfully submitted to the platform administrator.
+            </p>
+          </div>
+
+          <div className="bg-konkan-sand-50/80 p-5 rounded-2xl border border-konkan-sand-200 text-left space-y-3 text-xs">
+            <div className="font-bold text-slate-800 flex items-center gap-1.5">
+              <ShieldCheck className="w-4 h-4 text-konkan-teal-700" />
+              <span>Owner Verification Policy</span>
+            </div>
+            <p className="text-slate-600 text-[11px] leading-relaxed">
+              To safeguard guests and maintain trusted hospitality standards across Dapoli and Harnai, all hotel owners must be approved by the administrator before accessing the Owner Dashboard.
+            </p>
+            <div className="border-t border-konkan-sand-200 pt-2 text-[11px] text-slate-600 space-y-1">
+              <div>• <strong>Host Name:</strong> {submittedOwnerApp.name}</div>
+              <div>• <strong>Registered Email:</strong> {submittedOwnerApp.email}</div>
+              <div>• <strong>Property:</strong> {submittedOwnerApp.hotelName} ({submittedOwnerApp.hotelArea})</div>
+              <div>• <strong>Status:</strong> <span className="text-amber-700 font-bold">Pending Admin Approval</span></div>
+            </div>
+          </div>
+
+          <div className="space-y-2.5 pt-2">
+            <Link
+              href="/login"
+              className="w-full py-3.5 px-4 rounded-xl bg-konkan-teal-700 hover:bg-konkan-teal-800 text-white font-bold text-xs sm:text-sm transition-colors shadow-md flex items-center justify-center gap-2"
+            >
+              <span>Go to Login (After Approval)</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+
+            <a
+              href={`https://wa.me/919422388200?text=Hello%20Bhramo%20Admin%2C%20I%20have%20submitted%20my%20hotel%20owner%20registration%20for%20${encodeURIComponent(submittedOwnerApp.hotelName)}%20in%20${submittedOwnerApp.hotelArea}.%20Please%20verify%20and%20approve%20my%20account.`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full py-3 px-4 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 font-bold text-xs transition-colors flex items-center justify-center gap-2"
+            >
+              <MessageSquare className="w-4 h-4 text-emerald-600" />
+              <span>Fast-Track via WhatsApp (+91 94223 88200)</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-[85vh] flex items-center justify-center px-4 py-12">
+      <div className="w-full max-w-lg bg-white p-7 sm:p-9 rounded-3xl border border-konkan-sand-200 shadow-xl space-y-6">
+        {/* Header */}
+        <div className="text-center space-y-2">
+          <div className="w-12 h-12 bg-konkan-teal-700 text-white rounded-2xl flex items-center justify-center mx-auto shadow-md">
+            <Waves className="w-6 h-6 text-konkan-teal-200" />
+          </div>
+          <h1 className="text-2xl font-black text-slate-900 tracking-tight">
+            Create an Account on bhramo<span className="text-konkan-teal-600">.com</span>
+          </h1>
+          <p className="text-xs text-slate-500">
+            Join the coastal community for Dapoli and Harnai, Maharashtra
+          </p>
+        </div>
+
+        {errorMsg && (
+          <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2">
+            <AlertCircle className="w-4 h-4 shrink-0" />
+            <span>{errorMsg}</span>
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Role Choice */}
+          <div>
+            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-2">
+              Select Your Role *
+            </label>
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                type="button"
+                onClick={() => setRole("guest")}
+                className={`p-3 rounded-2xl border text-left flex flex-col gap-1 transition-all ${
+                  role === "guest"
+                    ? "border-konkan-teal-700 bg-konkan-teal-50/70 ring-2 ring-konkan-teal-700/30"
+                    : "border-konkan-sand-300 hover:bg-konkan-sand-50"
+                }`}
+              >
+                <div className="flex items-center gap-1.5 font-bold text-xs text-slate-900">
+                  <Compass className="w-4 h-4 text-konkan-teal-700" />
+                  <span>Guest / Traveler</span>
+                </div>
+                <span className="text-[11px] text-slate-500 leading-tight">
+                  Book rooms, manage my stays
+                </span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setRole("owner")}
+                className={`p-3 rounded-2xl border text-left flex flex-col gap-1 transition-all ${
+                  role === "owner"
+                    ? "border-konkan-teal-700 bg-konkan-teal-50/70 ring-2 ring-konkan-teal-700/30"
+                    : "border-konkan-sand-300 hover:bg-konkan-sand-50"
+                }`}
+              >
+                <div className="flex items-center gap-1.5 font-bold text-xs text-slate-900">
+                  <Building2 className="w-4 h-4 text-konkan-teal-700" />
+                  <span>Hotel / Host</span>
+                </div>
+                <span className="text-[11px] text-slate-500 leading-tight">
+                  Manage rooms, verify bookings
+                </span>
+              </button>
+            </div>
+          </div>
+
+          {/* Host / Hotel Owner Specific Inputs */}
+          {role === "owner" && (
+            <div className="p-4 rounded-2xl bg-amber-50/70 border border-amber-200 space-y-3.5">
+              <div className="flex items-center gap-1.5 text-xs font-bold text-amber-900">
+                <ShieldCheck className="w-4 h-4 text-amber-700" />
+                <span>Hotel Ownership Verification Details</span>
+              </div>
+
+              {/* Property Name */}
+              <div>
+                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1">
+                  Hotel / Homestay Property Name *
+                </label>
+                <div className="relative">
+                  <Building2 className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+                  <input
+                    type="text"
+                    required={role === "owner"}
+                    placeholder="e.g. Murud Beach Palms Cottages"
+                    value={hotelName}
+                    onChange={(e) => setHotelName(e.target.value)}
+                    className="w-full pl-9 pr-3 py-2.5 border border-amber-300 rounded-xl text-sm bg-white focus:outline-none focus:ring-1 focus:ring-amber-600"
+                  />
+                </div>
+              </div>
+
+              {/* Coastal Area */}
+              <div>
+                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1">
+                  Coastal Area Location *
+                </label>
+                <div className="relative">
+                  <MapPin className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+                  <select
+                    value={hotelArea}
+                    onChange={(e) => setHotelArea(e.target.value as "Dapoli" | "Harnai")}
+                    className="w-full pl-9 pr-3 py-2.5 border border-amber-300 rounded-xl text-sm bg-white focus:outline-none focus:ring-1 focus:ring-amber-600"
+                  >
+                    <option value="Dapoli">Dapoli (Murud, Karde, Ladghar)</option>
+                    <option value="Harnai">Harnai (Suvarnadurg, Palande)</option>
+                  </select>
+                </div>
+              </div>
+
+              <p className="text-[11px] text-amber-800 leading-tight">
+                🔒 <strong>Admin Approval Step:</strong> Your registration will be sent to the Bhramo Administrator for ownership verification. You will be able to log in to the Owner Dashboard once approved.
+              </p>
+            </div>
+          )}
+
+          {/* Full Name */}
+          <div>
+            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1">
+              Full Name *
+            </label>
+            <div className="relative">
+              <User className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+              <input
+                type="text"
+                required
+                placeholder="Rohan Patil"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full pl-9 pr-3 py-2.5 border border-konkan-sand-300 rounded-xl text-sm bg-konkan-sand-50/50 focus:outline-none focus:ring-1 focus:ring-konkan-teal-600"
+              />
+            </div>
+          </div>
+
+          {/* Phone */}
+          <div>
+            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1">
+              WhatsApp Mobile Number *
+            </label>
+            <div className="relative">
+              <Phone className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+              <input
+                type="tel"
+                required
+                placeholder="+91 98200 12345"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                className="w-full pl-9 pr-3 py-2.5 border border-konkan-sand-300 rounded-xl text-sm bg-konkan-sand-50/50 focus:outline-none focus:ring-1 focus:ring-konkan-teal-600"
+              />
+            </div>
+          </div>
+
+          {/* Email */}
+          <div>
+            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1">
+              Email Address *
+            </label>
+            <div className="relative">
+              <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+              <input
+                type="email"
+                required
+                placeholder="rohan@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full pl-9 pr-3 py-2.5 border border-konkan-sand-300 rounded-xl text-sm bg-konkan-sand-50/50 focus:outline-none focus:ring-1 focus:ring-konkan-teal-600"
+              />
+            </div>
+          </div>
+
+          {/* Password */}
+          <div>
+            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-1">
+              Create Password *
+            </label>
+            <div className="relative">
+              <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+              <input
+                type="password"
+                required
+                minLength={6}
+                placeholder="At least 6 characters"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full pl-9 pr-3 py-2.5 border border-konkan-sand-300 rounded-xl text-sm bg-konkan-sand-50/50 focus:outline-none focus:ring-1 focus:ring-konkan-teal-600"
+              />
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full py-3.5 px-4 rounded-xl bg-konkan-teal-700 hover:bg-konkan-teal-800 text-white font-bold text-xs sm:text-sm transition-colors shadow-md flex items-center justify-center gap-2 pt-3"
+          >
+            {loading
+              ? "Submitting Application..."
+              : role === "owner"
+              ? "Submit Application for Admin Approval"
+              : "Sign Up as Guest"}
+            <ArrowRight className="w-4 h-4" />
+          </button>
+        </form>
+
+        <div className="text-center pt-2 text-xs text-slate-600 border-t border-konkan-sand-100">
+          Already have an account?{" "}
+          <Link href="/login" className="font-bold text-konkan-teal-700 hover:underline">
+            Log in &rarr;
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
