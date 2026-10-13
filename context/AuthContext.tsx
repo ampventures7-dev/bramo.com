@@ -144,7 +144,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   // 1. Email & Password Login
-  const signInWithEmail = async (email: string, password: string) => {
+  const signInWithEmail = async (
+    email: string,
+    password: string
+  ): Promise<{ error?: string; role?: UserRole; approvalStatus?: OwnerApprovalStatus }> => {
     setIsLoading(true);
 
     if (isSupabaseConfigured) {
@@ -175,12 +178,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           if (approvalStatus === "pending") {
             return {
               error: "Your hotel owner application is pending approval by the Admin. You cannot access the Owner Portal until an administrator verifies and approves your hotel ownership.",
-              approvalStatus: "pending",
+              approvalStatus: "pending" as OwnerApprovalStatus,
             };
           } else {
             return {
               error: "Your hotel owner application was declined by the administrator. Please contact support@bhramo.com for assistance.",
-              approvalStatus: "rejected",
+              approvalStatus: "rejected" as OwnerApprovalStatus,
             };
           }
         }
@@ -234,12 +237,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         if (approvalStatus === "pending") {
           return {
             error: "Your hotel owner application is pending approval by the Admin. You cannot access the Owner Portal until an administrator verifies and approves your hotel ownership.",
-            approvalStatus: "pending",
+            approvalStatus: "pending" as OwnerApprovalStatus,
           };
         } else {
           return {
             error: "Your hotel owner application was declined by the administrator. Please contact support@bhramo.com for assistance.",
-            approvalStatus: "rejected",
+            approvalStatus: "rejected" as OwnerApprovalStatus,
           };
         }
       }
@@ -279,7 +282,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     role: UserRole;
     hotelName?: string;
     hotelArea?: string;
-  }) => {
+  }): Promise<{ error?: string; role?: UserRole; approvalStatus?: OwnerApprovalStatus }> => {
     setIsLoading(true);
 
     const cleanEmail = email.trim().toLowerCase();
@@ -576,17 +579,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
     }
 
-    // Mock Email OTP success
-    const determinedRole: UserRole = email.includes("owner")
-      ? "owner"
-      : email.includes("admin")
-      ? "admin"
-      : "guest";
+    // Mock Email OTP success: match against pre-registered user directory or default safely to 'guest'
+    const adminUsers = getAdminUsers();
+    const existing = adminUsers.find(
+      (u) => u.email.toLowerCase() === email.trim().toLowerCase()
+    );
+    const determinedRole: UserRole = existing ? existing.role : "guest";
 
     const mockProfile: Profile = {
-      id: `mock-email-${Date.now()}`,
-      name: email.split("@")[0],
-      phone: null,
+      id: existing ? existing.id : `mock-email-${Date.now()}`,
+      name: existing ? existing.name : email.split("@")[0],
+      phone: existing?.phone || null,
       role: determinedRole,
     };
 
@@ -618,8 +621,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     router.push("/");
   };
 
-  // 6. Demo fast-login (for instantaneous evaluation)
+  // 6. Demo fast-login (for instantaneous evaluation / staging)
   const demoLogin = (role: UserRole) => {
+    // Only allow demo login in non-production or if explicitly enabled by environment variable
+    const isDemoAllowed =
+      process.env.NODE_ENV !== "production" ||
+      process.env.NEXT_PUBLIC_ENABLE_DEMO_AUTH === "true";
+
+    if (!isDemoAllowed) {
+      console.warn("Demo login is disabled in production.");
+      return;
+    }
+
     const demoProfile: Profile = {
       id: role === "owner" ? "a1111111-1111-1111-1111-111111111111" : `demo-${role}-123`,
       name: role === "owner" ? "Suresh Kadam (Dapoli Host)" : role === "admin" ? "Bhramo Admin" : "Pooja Patil (Guest)",

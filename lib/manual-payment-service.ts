@@ -59,17 +59,22 @@ export async function updatePlatformSettings(
     default_booking_fee_percent: Number(newSettings.default_booking_fee_percent ?? current.default_booking_fee_percent),
   };
 
-  if (isSupabaseConfigured) {
-    try {
-      await supabase
-        .from("platform_settings")
-        .upsert({ ...updated, id: "default", updated_at: new Date().toISOString() });
-    } catch (e) {
-      console.warn("Error updating settings in Supabase:", e);
-    }
-  }
-
   if (typeof window !== "undefined") {
+    try {
+      const { data: sessionData } = await supabase.auth.getSession();
+      const token = sessionData?.session?.access_token;
+      await fetch("/api/admin/settings", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify(updated),
+      });
+    } catch (e) {
+      console.warn("Could not sync settings to server API:", e);
+    }
+
     localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(updated));
   }
 
