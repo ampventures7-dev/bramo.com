@@ -32,6 +32,7 @@ export default function LoginPage() {
     verifyPhoneOtp,
     signInWithEmailOtp,
     verifyEmailOtp,
+    signInWithGoogle,
     demoLogin,
     isFirebaseConfigured,
     isSupabaseConfigured,
@@ -60,6 +61,9 @@ export default function LoginPage() {
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
   const [pendingApprovalNotice, setPendingApprovalNotice] = useState(false);
 
+  // Lockout States for Rate Limiting (3 attempts for owners, 5 attempts for guests)
+  const [lockoutSeconds, setLockoutSeconds] = useState<number>(0);
+
   // Countdown timer for Phone OTP resend
   useEffect(() => {
     if (phoneTimer <= 0) return;
@@ -78,6 +82,77 @@ export default function LoginPage() {
     return () => clearInterval(interval);
   }, [emailTimer]);
 
+  // Countdown timer for Security Lockout
+  useEffect(() => {
+    if (lockoutSeconds <= 0) return;
+    const interval = setInterval(() => {
+      setLockoutSeconds((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [lockoutSeconds]);
+
+  const formatLockoutTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}m ${secs < 10 ? "0" : ""}${secs}s`;
+  };
+
+  // Check rate limit before an attempt
+  const checkRateLimitBeforeAttempt = async (identifier: string): Promise<boolean> => {
+    if (!identifier) return true;
+    try {
+      const res = await fetch("/api/auth/rate-limit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "check_login", identifier }),
+      });
+      const data = await res.json();
+      if (!res.ok && data.isLocked) {
+        setLockoutSeconds(data.resetSeconds || 3600);
+        setErrorMsg(data.error || "Account locked. Please wait 1 hour before trying again.");
+        return false;
+      }
+    } catch {
+      // Non-blocking fallback
+    }
+    return true;
+  };
+
+  // Record an authentication failure and check remaining attempts
+  const recordAuthFailure = async (identifier: string) => {
+    if (!identifier) return;
+    try {
+      const res = await fetch("/api/auth/rate-limit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "record_failure", identifier }),
+      });
+      const data = await res.json();
+      if (data.isLocked) {
+        setLockoutSeconds(data.resetSeconds || 3600);
+        setErrorMsg(data.error);
+      } else if (data.message) {
+        setErrorMsg(data.message);
+      }
+    } catch {
+      // Non-blocking fallback
+    }
+  };
+
+  // Reset rate limit on successful authentication
+  const resetAuthRateLimit = async (identifier: string) => {
+    if (!identifier) return;
+    try {
+      await fetch("/api/auth/rate-limit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "reset", identifier }),
+      });
+    } catch {
+      // Non-blocking
+    }
+  };
+
   const redirectByRole = (role?: string) => {
     if (role === "admin") {
       router.push("/admin/payments");
@@ -87,6 +162,28 @@ export default function LoginPage() {
       router.push(redirectParam);
     } else {
       router.push("/my-bookings");
+    }
+  };
+
+  // -------------------------------------------------------------
+  // 1-CLICK GOOGLE SIGN IN (100% Free Social Auth)
+  // -------------------------------------------------------------
+  const handleGoogleSignIn = async () => {
+    setErrorMsg(null);
+    setSuccessMsg(null);
+    setLoading(true);
+
+    try {
+      const res = await signInWithGoogle("guest");
+      setLoading(false);
+      if (res.error) {
+        setErrorMsg(res.error);
+      } else {
+        redirectByRole(res.role || "guest");
+      }
+    } catch (err: any) {
+      setLoading(false);
+      setErrorMsg(err.message || "Failed to sign in with Google.");
     }
   };
 
@@ -134,20 +231,29 @@ export default function LoginPage() {
   const handleVerifyPhoneOtp = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg(null);
-    setLoading(true);
 
-    if (phoneOtpToken.length !== 6) {
-      setErrorMsg("Please enter the 6-digit verification code.");
-      setLoading(false);
+    if (lockoutSeconds > 0) {
+      setErrorMsg(`Security lockout active: maximum failed attempts reached. Please wait ${formatLockoutTime(lockoutSeconds)} before retrying.`);
       return;
     }
 
+    if (phoneOtpToken.length !== 6) {
+      setErrorMsg("Please enter the 6-digit verification code.");
+      return;
+    }
+
+    const clean = phone.replace(/\D/g, "");
+    const isAllowed = await checkRateLimitBeforeAttempt(clean);
+    if (!isAllowed) return;
+
+    setLoading(true);
     const res = await verifyPhoneOtp(phone, phoneOtpToken);
     setLoading(false);
 
     if (res.error) {
-      setErrorMsg(res.error);
+      await recordAuthFailure(clean);
     } else {
+      await resetAuthRateLimit(clean);
       redirectByRole(res.role);
     }
   };
@@ -159,14 +265,18 @@ export default function LoginPage() {
     e.preventDefault();
     setErrorMsg(null);
     setSuccessMsg(null);
-    setLoading(true);
 
-    if (!emailForOtp || !emailForOtp.includes("@")) {
-      setErrorMsg("Please enter a valid email address.");
-      setLoading(false);
+    if (lockoutSeconds > 0) {
+      setErrorMsg(`Security lockout active: maximum failed attempts reached. Please wait ${formatLockoutTime(lockoutSeconds)}.`);
       return;
     }
 
+    if (!emailForOtp || !emailForOtp.includes("@")) {
+      setErrorMsg("Please enter a valid email address.");
+      return;
+    }
+
+    setLoading(true);
     try {
       const res = await signInWithEmailOtp(emailForOtp);
       setLoading(false);
@@ -195,20 +305,28 @@ export default function LoginPage() {
   const handleVerifyEmailOtp = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg(null);
-    setLoading(true);
 
-    if (emailOtpToken.length !== 6) {
-      setErrorMsg("Please enter the 6-digit verification code.");
-      setLoading(false);
+    if (lockoutSeconds > 0) {
+      setErrorMsg(`Security lockout active: maximum failed attempts reached. Please wait ${formatLockoutTime(lockoutSeconds)}.`);
       return;
     }
 
+    if (emailOtpToken.length !== 6) {
+      setErrorMsg("Please enter the 6-digit verification code.");
+      return;
+    }
+
+    const isAllowed = await checkRateLimitBeforeAttempt(emailForOtp);
+    if (!isAllowed) return;
+
+    setLoading(true);
     const res = await verifyEmailOtp(emailForOtp, emailOtpToken);
     setLoading(false);
 
     if (res.error) {
-      setErrorMsg(res.error);
+      await recordAuthFailure(emailForOtp);
     } else {
+      await resetAuthRateLimit(emailForOtp);
       redirectByRole(res.role);
     }
   };
@@ -220,8 +338,16 @@ export default function LoginPage() {
     e.preventDefault();
     setErrorMsg(null);
     setPendingApprovalNotice(false);
-    setLoading(true);
 
+    if (lockoutSeconds > 0) {
+      setErrorMsg(`Security lockout active: maximum failed attempts reached. Please wait ${formatLockoutTime(lockoutSeconds)}.`);
+      return;
+    }
+
+    const isAllowed = await checkRateLimitBeforeAttempt(passwordEmail);
+    if (!isAllowed) return;
+
+    setLoading(true);
     const res = await signInWithEmail(passwordEmail, password);
     setLoading(false);
 
@@ -229,8 +355,9 @@ export default function LoginPage() {
       setPendingApprovalNotice(true);
       setErrorMsg(res.error || "Your hotel owner application is pending approval by the Admin.");
     } else if (res.error) {
-      setErrorMsg(res.error);
+      await recordAuthFailure(passwordEmail);
     } else {
+      await resetAuthRateLimit(passwordEmail);
       redirectByRole(res.role);
     }
   };
@@ -266,6 +393,47 @@ export default function LoginPage() {
             </div>
           </div>
         )}
+
+        {/* 1-Click Google Sign In (100% Free Social Auth) */}
+        <div className="space-y-3">
+          <button
+            type="button"
+            disabled={loading}
+            onClick={handleGoogleSignIn}
+            className="w-full py-3 px-4 rounded-2xl bg-white hover:bg-slate-50 border border-slate-200 hover:border-slate-300 text-slate-800 font-bold text-xs transition-all shadow-xs hover:shadow flex items-center justify-center gap-3 active:scale-[0.99] disabled:opacity-50 cursor-pointer"
+          >
+            <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
+              <path
+                fill="#4285F4"
+                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+              />
+              <path
+                fill="#34A853"
+                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+              />
+              <path
+                fill="#FBBC05"
+                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
+              />
+              <path
+                fill="#EA4335"
+                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
+              />
+            </svg>
+            <span className="text-slate-800">Continue with Google</span>
+            <span className="ml-auto text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+              1-Click
+            </span>
+          </button>
+
+          <div className="relative flex items-center justify-center">
+            <div className="border-t border-slate-200 w-full" />
+            <span className="bg-white px-2.5 text-[10px] font-bold text-slate-400 uppercase tracking-widest shrink-0">
+              Or continue with OTP / Password
+            </span>
+            <div className="border-t border-slate-200 w-full" />
+          </div>
+        </div>
 
         {/* Authentication Mode Tabs: Phone OTP (1), Email OTP (4), Password */}
         <div className="grid grid-cols-3 gap-1 p-1 bg-konkan-sand-100 rounded-2xl border border-konkan-sand-200">
@@ -345,7 +513,25 @@ export default function LoginPage() {
           </div>
         )}
 
-        {errorMsg && !pendingApprovalNotice && (
+        {/* Security Lockout Banner with Live Countdown */}
+        {lockoutSeconds > 0 && (
+          <div className="p-4 rounded-2xl bg-rose-50 border-2 border-rose-300 text-rose-950 space-y-2 text-xs shadow-md">
+            <div className="flex items-center justify-between font-black text-rose-900">
+              <div className="flex items-center gap-2">
+                <Lock className="w-4 h-4 text-rose-600 animate-pulse shrink-0" />
+                <span>Security Lockout Active</span>
+              </div>
+              <span className="font-mono bg-rose-200 text-rose-900 px-2.5 py-1 rounded-lg text-xs font-bold">
+                {formatLockoutTime(lockoutSeconds)}
+              </span>
+            </div>
+            <p className="text-[11px] leading-relaxed text-rose-800">
+              Maximum failed attempts reached (3 for Hotel Owners, 5 for Guests). Authentication is locked for 1 hour to prevent brute-force attacks.
+            </p>
+          </div>
+        )}
+
+        {errorMsg && !pendingApprovalNotice && lockoutSeconds <= 0 && (
           <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2">
             <AlertCircle className="w-4 h-4 shrink-0" />
             <span>{errorMsg}</span>

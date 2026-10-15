@@ -22,7 +22,9 @@ import {
   PhoneCall,
   Calendar,
   ChevronRight,
-  Info
+  Info,
+  ArrowRight,
+  Anchor
 } from "lucide-react";
 
 interface KonkanService {
@@ -98,55 +100,54 @@ const KONKAN_SERVICES: KonkanService[] = [
     id: "srv-water-sports-ladghar",
     category: "watersports",
     title: "Ladghar Beach Water Sports Combo",
-    tagline: "Adrenaline rush along Ladghar's famous reddish-tinted shoreline",
-    area: "Ladghar Tamas Beach",
-    duration: "1.5 hours",
-    priceText: "₹1,200 per combo",
-    priceValue: 1200,
-    badge: "Adventure Pick",
+    tagline: "Banana ride, bumper tube, speed boat & jet ski on the red pebble bay",
+    area: "Ladghar Beach (Tamas Tirtha)",
+    duration: "30 - 45 mins",
+    priceText: "₹800 combo per person",
+    priceValue: 800,
+    badge: "Thrill Seekers",
     rating: 4.7,
-    reviewsCount: 215,
-    image: "https://images.unsplash.com/photo-1559827291-72ee739d0d9a?auto=format&fit=crop&w=800&q=80",
+    reviewsCount: 220,
+    image: "https://images.unsplash.com/photo-1517649763962-0c623266ddc0?auto=format&fit=crop&w=800&q=80",
     highlights: [
-      "Jet Ski ride with certified instructor",
-      "Banana boat wave rider & Bumper tube ride",
-      "Parasailing with boat winch & safe dips in the sea",
-      "Strict safety gear & certified rescue operators"
+      "Includes 4 activities: Jet Ski, Banana Tube, Bumper Ride & Speedboat",
+      "Certified water sports instructors with safety harness",
+      "High-speed action on the scenic Ladghar shoreline",
+      "Waterproof GoPro video capture available on request"
     ],
-    timing: "Daily: 9:00 AM – 6:00 PM (October to May)",
-    description: "Ladghar is famous for water sports thrill-seekers. Glide across Arabian sea waves with jet skis, get towed on banana rides, or soar high with beach parasailing.",
-    operator: "Ladghar Coastal Water Sports",
-    operatorPhone: "919820133445"
+    timing: "Daily: 9:00 AM – 6:00 PM (Weather permitting)",
+    description: "Ladghar is famous for its crimson sunset water and thrilling beach activities. Enjoy high-speed waves with top safety equipment and local sea pilots.",
+    operator: "Ladghar Watersports Adventure Club",
+    operatorPhone: "919422388200"
   },
   {
     id: "srv-harnai-fish-auction",
     category: "culture",
-    title: "Harnai Bunder Live Fish Auction & Port Walk",
-    tagline: "Experience Maharashtra's most vibrant coastal evening fishing spectacle",
-    area: "Harnai Port / Beach",
+    title: "Harnai Beach Evening Fish Auction & Harbor Walk",
+    tagline: "Experience one of Maharashtra's largest open-beach coastal fish markets",
+    area: "Harnai Bunder / Port Beach",
     duration: "1.5 hours",
-    priceText: "Free / ₹250 with local guide",
-    priceValue: 250,
-    badge: "Cultural Must-Do",
+    priceText: "Free (Local Experience)",
+    badge: "Authentic Culture",
     rating: 4.9,
-    reviewsCount: 280,
-    image: "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=800&q=80",
+    reviewsCount: 512,
+    image: "https://images.unsplash.com/photo-1534943441045-1c3e1e2d03b0?auto=format&fit=crop&w=800&q=80",
     highlights: [
-      "Watch hundreds of colorful fishing trawlers unload the evening catch",
-      "Fast-paced Marathi bidding for Surmai, Pomfret, Prawns & King Mackerel",
-      "Local homestay kitchens can cook your freshly bought catch for dinner",
-      "Incredible golden-hour photography opportunities"
+      "Witness over 100 colorful fishing trawlers returning with the evening tide",
+      "Lively high-energy open beach auction of Surmai, Pomfret, King Prawns, and Crabs",
+      "Purchase ocean-fresh seafood directly from fisherwomen at wholesale rates",
+      "Resort partner kitchens can cook your purchased fish for dinner"
     ],
-    timing: "Every Evening: 4:30 PM – 7:00 PM",
-    description: "Every afternoon, the sandy shore of Harnai turns into an electric open-air fish market. Wooden bullock carts carry fish crates directly through seawater from trawlers to buyers.",
-    operator: "bhramo.com Guided Local Walks",
+    timing: "Daily: 4:00 PM – 6:30 PM (Prompt timing recommended)",
+    description: "Every evening at 4 PM, Harnai beach comes alive as the harbor fishing fleet returns. The beach turns into an electric open-air market where baskets of fresh catch are auctioned on the sand.",
+    operator: "Harnai Koli Fisherfolk Community",
     operatorPhone: "919422388200"
   },
   {
-    id: "srv-hapus-mango-orchard",
+    id: "srv-agro-tourism-modak",
     category: "culture",
-    title: "Alphonso (Hapus) Mango & Cashew Wadi Agro-Tour",
-    tagline: "Walk through lush Konkan betel nut, spice and world-famous Alphonso mango plantations",
+    title: "Konkan Agro Farm Tour & Ukadiche Modak Workshop",
+    tagline: "Stroll through organic betel nut (wadi) plantations and learn modak making",
     area: "Dapoli Rural / Kelshi Road",
     duration: "2.5 hours",
     priceText: "₹450 per person",
@@ -193,7 +194,6 @@ const KONKAN_SERVICES: KonkanService[] = [
 
 export default function ServicesPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
-  const [inquiryService, setInquiryService] = useState<KonkanService | null>(null);
 
   const filteredServices = selectedCategory === "all"
     ? KONKAN_SERVICES
@@ -212,25 +212,29 @@ Hello! I would like to check availability and book this experience during my sta
   };
 
   return (
-    <div className="min-h-screen bg-konkan-sand-50/50 pb-20">
+    <div className="min-h-screen bg-[#faf8f5] pb-24 text-slate-900">
       {/* Hero Banner */}
-      <section className="relative bg-gradient-to-br from-konkan-teal-950 via-konkan-teal-900 to-slate-900 text-white py-16 sm:py-24 px-4 sm:px-6 overflow-hidden">
-        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]" />
-        <div className="relative max-w-5xl mx-auto text-center space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-konkan-teal-800/80 border border-konkan-teal-700/60 text-konkan-teal-200 text-xs font-bold tracking-wide">
-            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-            <span>Curated Dapoli & Harnai Experiences</span>
+      <section className="relative bg-gradient-to-br from-slate-950 via-konkan-teal-950 to-slate-900 text-white py-16 sm:py-24 px-4 sm:px-6 overflow-hidden">
+        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none" />
+
+        <div className="relative max-w-4xl mx-auto text-center space-y-4">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-emerald-300 text-xs font-bold tracking-wide shadow-md">
+            <Sparkles className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
+            <span>Curated Dapoli & Harnai Coastal Experiences</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white">
-            Beyond the Stay: <span className="text-konkan-sand-300">Konkan Coastal Adventures</span>
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.1]">
+            Beyond the Stay: <br />
+            <span className="bg-gradient-to-r from-white via-slate-100 to-konkan-teal-200 bg-clip-text text-transparent">
+              Konkan Coastal Adventures
+            </span>
           </h1>
 
           <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-300 leading-relaxed">
-            Dolphin safaris at sunrise, island fort boat rides, spicy fish market auctions, and authentic Alphonso wadi walks — curated with trusted local fishermen and verified hosts.
+            Dolphin safaris at sunrise, island fort boat rides, lively beach fish auctions, and authentic Alphonso wadi walks — curated with trusted local fishermen and verified hosts.
           </p>
 
-          <div className="pt-2 flex flex-wrap items-center justify-center gap-3 text-xs text-konkan-teal-200">
+          <div className="pt-2 flex flex-wrap items-center justify-center gap-3 text-xs text-konkan-teal-200 font-semibold">
             <span className="flex items-center gap-1.5">
               <ShieldCheck className="w-4 h-4 text-emerald-400" /> 100% Local Community Run
             </span>
@@ -249,22 +253,22 @@ Hello! I would like to check availability and book this experience during my sta
       {/* Main Container */}
       <main className="max-w-6xl mx-auto px-4 sm:px-6 mt-8 space-y-8">
         {/* Category Filters */}
-        <div className="flex flex-wrap items-center justify-center gap-2 bg-white p-2 rounded-2xl border border-konkan-sand-200 shadow-sm">
+        <div className="flex flex-wrap items-center justify-center gap-2 bg-white p-2.5 rounded-full border border-slate-200 shadow-sm max-w-2xl mx-auto">
           {[
             { id: "all", label: "All Experiences" },
             { id: "boat", label: "⛵ Boat Rides & Forts" },
             { id: "watersports", label: "🏄 Water Sports & Jet Ski" },
-            { id: "culture", label: "🥭 Agro & Fish Auctions" },
+            { id: "culture", label: "🥥 Agro & Fish Auctions" },
             { id: "transport", label: "🛵 Bike & Cab Rentals" },
           ].map((cat) => (
             <button
               key={cat.id}
               type="button"
               onClick={() => setSelectedCategory(cat.id)}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+              className={`px-4 py-2 rounded-full text-xs font-bold transition-all ${
                 selectedCategory === cat.id
-                  ? "bg-konkan-teal-800 text-white shadow-sm"
-                  : "bg-transparent text-slate-600 hover:bg-konkan-sand-100 hover:text-slate-900"
+                  ? "bg-slate-950 text-white shadow-md scale-105"
+                  : "bg-transparent text-slate-600 hover:bg-slate-100 hover:text-slate-900"
               }`}
             >
               {cat.label}
@@ -280,10 +284,10 @@ Hello! I would like to check availability and book this experience during my sta
             return (
               <div
                 key={service.id}
-                className="bg-white rounded-3xl border border-konkan-sand-200 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group"
+                className="bg-white rounded-3xl border border-slate-200 shadow-sm hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col group"
               >
                 {/* Image & Badge */}
-                <div className="relative h-48 w-full bg-slate-100 overflow-hidden">
+                <div className="relative aspect-[16/10] w-full bg-slate-950 overflow-hidden">
                   <Image
                     src={service.image}
                     alt={service.title}
@@ -291,45 +295,45 @@ Hello! I would like to check availability and book this experience during my sta
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
 
                   {service.badge && (
-                    <span className="absolute top-3 left-3 bg-amber-400 text-amber-950 font-black text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full shadow-sm">
+                    <span className="absolute top-3.5 left-3.5 bg-amber-400 text-amber-950 font-black text-[10px] uppercase tracking-wider px-3 py-1 rounded-full shadow-md">
                       {service.badge}
                     </span>
                   )}
 
-                  <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white text-xs">
-                    <span className="flex items-center gap-1 font-semibold text-emerald-300">
+                  <div className="absolute bottom-3.5 left-3.5 right-3.5 flex items-center justify-between text-white text-xs">
+                    <span className="flex items-center gap-1 font-bold text-amber-300">
                       <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
                       {service.rating} ({service.reviewsCount})
                     </span>
-                    <span className="bg-black/40 backdrop-blur-md px-2.5 py-0.5 rounded-full text-[11px] font-mono">
+                    <span className="bg-black/60 backdrop-blur-md px-3 py-0.5 rounded-full text-[11px] font-bold border border-white/20">
                       {service.duration}
                     </span>
                   </div>
                 </div>
 
                 {/* Content */}
-                <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
+                <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
                   <div className="space-y-2">
                     <div className="flex items-center gap-1.5 text-xs text-konkan-teal-700 font-bold">
                       <MapPin className="w-3.5 h-3.5 shrink-0" />
                       <span>{service.area}</span>
                     </div>
 
-                    <h2 className="text-base font-bold text-slate-900 group-hover:text-konkan-teal-800 transition-colors">
+                    <h2 className="text-lg font-black text-slate-900 group-hover:text-konkan-teal-800 transition-colors">
                       {service.title}
                     </h2>
 
-                    <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">
+                    <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed">
                       {service.description}
                     </p>
 
                     {/* Highlights bullets */}
                     <div className="pt-2 space-y-1.5 border-t border-slate-100">
                       {service.highlights.slice(0, 3).map((hl, i) => (
-                        <div key={i} className="flex items-start gap-1.5 text-[11px] text-slate-700">
+                        <div key={i} className="flex items-start gap-1.5 text-[11px] text-slate-700 font-medium">
                           <CheckCircle2 className="w-3 h-3 text-emerald-600 shrink-0 mt-0.5" />
                           <span>{hl}</span>
                         </div>
@@ -343,12 +347,12 @@ Hello! I would like to check availability and book this experience during my sta
                   </div>
 
                   {/* Pricing and Action */}
-                  <div className="pt-3 border-t border-konkan-sand-100 flex items-center justify-between gap-3">
+                  <div className="pt-3 border-t border-slate-100 flex items-center justify-between gap-3">
                     <div>
                       <span className="text-[10px] text-slate-400 uppercase font-bold block">
                         Estimated Tariff
                       </span>
-                      <strong className="text-sm font-black text-slate-900">
+                      <strong className="text-base font-black text-slate-900">
                         {service.priceText}
                       </strong>
                     </div>
@@ -357,7 +361,7 @@ Hello! I would like to check availability and book this experience during my sta
                       href={waLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-sm hover:shadow transition-all"
+                      className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md hover:scale-105 active:scale-95 transition-all"
                     >
                       <MessageSquare className="w-3.5 h-3.5" />
                       <span>Book on WhatsApp</span>
@@ -367,53 +371,6 @@ Hello! I would like to check availability and book this experience during my sta
               </div>
             );
           })}
-        </div>
-
-        {/* Local Tips & Guidelines Box */}
-        <section className="bg-white rounded-3xl border border-konkan-sand-200 p-6 sm:p-8 space-y-6 shadow-sm">
-          <div className="flex items-center gap-2 text-konkan-teal-900">
-            <Compass className="w-6 h-6 text-konkan-teal-700" />
-            <h3 className="text-lg font-bold">Important Konkan Traveler Tips</h3>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-xs text-slate-600">
-            <div className="p-4 rounded-2xl bg-konkan-sand-50/70 border border-konkan-sand-200 space-y-1.5">
-              <strong className="text-slate-900 font-bold block text-sm">🐬 Best Dolphin Timings</strong>
-              <p>
-                Dolphins come closest to shore between 7:00 AM and 9:00 AM when the waters are calm before high winds. Head to Murud beach early!
-              </p>
-            </div>
-
-            <div className="p-4 rounded-2xl bg-konkan-sand-50/70 border border-konkan-sand-200 space-y-1.5">
-              <strong className="text-slate-900 font-bold block text-sm">🏰 Suvarnadurg Tides</strong>
-              <p>
-                Boats cannot dock during high tide waves. Check with your hotel host or WhatsApp boat operator before heading to Harnai bunder.
-              </p>
-            </div>
-
-            <div className="p-4 rounded-2xl bg-konkan-sand-50/70 border border-konkan-sand-200 space-y-1.5">
-              <strong className="text-slate-900 font-bold block text-sm">🐟 Fresh Fish Homestay Cooking</strong>
-              <p>
-                Buy fresh Surmai or Pomfret at the Harnai evening fish auction and hand it over to your homestay host — most charge a nominal cooking fee for a delicious authentic feast.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Host your service CTA */}
-        <div className="bg-gradient-to-r from-konkan-teal-900 to-slate-900 text-white rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-md">
-          <div className="space-y-1.5 text-center sm:text-left">
-            <h4 className="text-lg font-bold">Are you a local boat owner, taxi driver or agro-host?</h4>
-            <p className="text-xs text-slate-300">
-              Partner with bhramo.com to showcase your service to thousands of coastal tourists visiting Dapoli and Harnai.
-            </p>
-          </div>
-          <Link
-            href="/contact"
-            className="shrink-0 px-5 py-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-amber-950 font-black text-xs transition-colors shadow-sm"
-          >
-            List Your Experience Free
-          </Link>
         </div>
       </main>
     </div>

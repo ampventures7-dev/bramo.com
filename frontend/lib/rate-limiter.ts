@@ -23,13 +23,110 @@ export interface RateLimitResult {
   limit: number;
   remaining: number;
   resetSeconds: number;
+  isLocked?: boolean;
 }
 
 /**
- * Check rate limit for an identifier (e.g. IP + Action)
- * @param key unique identifier (e.g. "login:127.0.0.1")
- * @param maxRequests maximum allowed requests within window
- * @param windowSeconds time window in seconds
+ * Check if a key is currently locked out WITHOUT incrementing the counter.
+ */
+export function checkRateLimitStatus(
+  key: string,
+  maxRequests: number
+): RateLimitResult {
+  const now = Date.now();
+  const existing = rateLimitMap.get(key);
+
+  if (!existing || now > existing.resetAt) {
+    return {
+      success: true,
+      limit: maxRequests,
+      remaining: maxRequests,
+      resetSeconds: 0,
+      isLocked: false,
+    };
+  }
+
+  if (existing.count >= maxRequests) {
+    const resetSeconds = Math.max(1, Math.ceil((existing.resetAt - now) / 1000));
+    return {
+      success: false,
+      limit: maxRequests,
+      remaining: 0,
+      resetSeconds,
+      isLocked: true,
+    };
+  }
+
+  const resetSeconds = Math.max(1, Math.ceil((existing.resetAt - now) / 1000));
+  return {
+    success: true,
+    limit: maxRequests,
+    remaining: Math.max(0, maxRequests - existing.count),
+    resetSeconds,
+    isLocked: false,
+  };
+}
+
+/**
+ * Record a failed authentication attempt.
+ * If failures reach maxRequests, the key is locked out for lockoutSeconds (e.g. 3600s = 1 hr).
+ */
+export function recordFailedAttempt(
+  key: string,
+  maxRequests: number,
+  lockoutSeconds: number = 3600
+): RateLimitResult {
+  const now = Date.now();
+  const lockoutMs = lockoutSeconds * 1000;
+  const existing = rateLimitMap.get(key);
+
+  if (!existing || now > existing.resetAt) {
+    // First failed attempt starts a 1-hour rolling window
+    rateLimitMap.set(key, {
+      count: 1,
+      resetAt: now + lockoutMs,
+    });
+    return {
+      success: true,
+      limit: maxRequests,
+      remaining: maxRequests - 1,
+      resetSeconds: lockoutSeconds,
+      isLocked: false,
+    };
+  }
+
+  existing.count += 1;
+  // If limit reached or exceeded, ensure full lockout duration is enforced
+  if (existing.count >= maxRequests) {
+    existing.resetAt = now + lockoutMs;
+    return {
+      success: false,
+      limit: maxRequests,
+      remaining: 0,
+      resetSeconds: lockoutSeconds,
+      isLocked: true,
+    };
+  }
+
+  const resetSeconds = Math.max(1, Math.ceil((existing.resetAt - now) / 1000));
+  return {
+    success: true,
+    limit: maxRequests,
+    remaining: Math.max(0, maxRequests - existing.count),
+    resetSeconds,
+    isLocked: false,
+  };
+}
+
+/**
+ * Reset rate limit counter upon successful authentication
+ */
+export function resetRateLimit(key: string): void {
+  rateLimitMap.delete(key);
+}
+
+/**
+ * General rate limit for single-request checkpoints (e.g. signup)
  */
 export function checkRateLimit(
   key: string,
@@ -41,7 +138,6 @@ export function checkRateLimit(
   const existing = rateLimitMap.get(key);
 
   if (!existing || now > existing.resetAt) {
-    // New window
     rateLimitMap.set(key, {
       count: 1,
       resetAt: now + windowMs,

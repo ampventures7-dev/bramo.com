@@ -12,6 +12,7 @@ const firebaseConfig = {
   storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
   messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
 // Check if actual Firebase credentials have been configured in .env.local
@@ -189,3 +190,53 @@ export async function sendFirebasePhoneOtp(
     };
   }
 }
+
+/**
+ * 1-Click Google Sign In via Firebase Popup (100% Free Social Auth)
+ */
+export async function signInWithFirebaseGoogle(): Promise<{
+  success: boolean;
+  user?: any;
+  error?: string;
+  isMock?: boolean;
+}> {
+  if (!isFirebaseConfigured) {
+    return {
+      success: true,
+      isMock: true,
+      user: {
+        uid: "google-mock-" + Date.now(),
+        displayName: "Google Traveler",
+        email: "traveler.konkan@gmail.com",
+      },
+    };
+  }
+
+  const auth = await getFirebaseAuth();
+  if (!auth) {
+    return {
+      success: false,
+      error: "Firebase Auth SDK could not be loaded.",
+    };
+  }
+
+  const fb = (window as any).firebase;
+  try {
+    const provider = new fb.auth.GoogleAuthProvider();
+    provider.addScope("profile");
+    provider.addScope("email");
+    const result = await auth.signInWithPopup(provider);
+    return {
+      success: true,
+      user: result.user,
+      isMock: false,
+    };
+  } catch (err: any) {
+    console.warn("Firebase Google popup error:", err);
+    return {
+      success: false,
+      error: err.message || "Google Sign-In was closed or cancelled.",
+    };
+  }
+}
+

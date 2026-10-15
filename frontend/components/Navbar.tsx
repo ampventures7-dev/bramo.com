@@ -16,7 +16,8 @@ import {
   Building2,
   ShieldAlert,
   ShieldCheck,
-  Globe
+  Globe,
+  Sparkles
 } from "lucide-react";
 
 export function Navbar() {
@@ -30,6 +31,11 @@ export function Navbar() {
     if (path !== "/" && pathname.startsWith(path)) return true;
     return false;
   };
+
+  // On the homepage, the full-screen hero provides its own immersive header
+  if (pathname === "/") {
+    return null;
+  }
 
   return (
     <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-konkan-sand-200">
@@ -83,6 +89,21 @@ export function Navbar() {
               }`}
             >
               {t("nav.experiences")}
+            </Link>
+
+            <Link
+              href="/plan-trip"
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-bold transition-all ${
+                isActive("/plan-trip")
+                  ? "bg-emerald-50 text-emerald-800 border border-emerald-300"
+                  : "text-emerald-700 hover:text-emerald-900 hover:bg-emerald-50/60"
+              }`}
+            >
+              <Sparkles className="w-3.5 h-3.5 text-emerald-600 animate-pulse" />
+              <span>AI Trip Planner</span>
+              <span className="text-[9px] uppercase tracking-wider font-extrabold bg-emerald-100 text-emerald-800 px-1.5 py-0.2 rounded-full border border-emerald-200">
+                New
+              </span>
             </Link>
 
             {/* Role-Specific Links */}
@@ -288,6 +309,19 @@ export function Navbar() {
             className="block px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-konkan-sand-50"
           >
             Experiences & Services
+          </Link>
+          <Link
+            href="/plan-trip"
+            onClick={() => setMobileMenuOpen(false)}
+            className="flex items-center justify-between px-3 py-2 rounded-lg text-sm font-bold text-emerald-800 bg-emerald-50/70 border border-emerald-200"
+          >
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-emerald-600 animate-pulse" />
+              <span>AI Trip Planner</span>
+            </div>
+            <span className="text-[10px] font-extrabold uppercase bg-emerald-200 text-emerald-900 px-1.5 py-0.5 rounded">
+              Free
+            </span>
           </Link>
 
           {profile?.role === "guest" && (
