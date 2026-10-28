@@ -111,7 +111,7 @@ export interface LedgerEntry {
 
 export interface Review {
   id: string;
-  booking_id: string | null;
+  booking_id?: string | null;
   hotel_id: string;
   guest_id: string;
   rating: number; // 1 to 5
