@@ -64,107 +64,8 @@ export interface GuestBookingItem {
   review?: BookingReviewItem | null;
 }
 
-// Initial realistic seed bookings covering all 3 core test states:
-// 1. Upcoming Confirmed (allows download voucher & cancellation >48h)
-// 2. Upcoming Pending Verification (manual UPI audit)
-// 3. Past Completed (ready for Review rating + comment)
-// 4. Past Completed (with existing review)
-const INITIAL_SEED_BOOKINGS: GuestBookingItem[] = [
-  {
-    id: "BK-DAP-901",
-    hotelId: "b1111111-1111-1111-1111-111111111111",
-    hotelName: "Murud Beach Palms Resort",
-    area: "Dapoli",
-    address: "Murud Beach Road, Dapoli 415713, Maharashtra",
-    roomName: "Deluxe Sea-Facing AC Cottage",
-    checkIn: "2026-10-18",
-    checkOut: "2026-10-20",
-    nights: 2,
-    guests: 2,
-    totalAmount: 5200,
-    advancePaid: 780, // 15% booking fee
-    balanceAmount: 4420,
-    paymentMethod: "upi_qr",
-    utr: "429184719283",
-    status: "confirmed",
-    image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=800&q=80",
-    ownerWhatsapp: "919422388200",
-    createdAt: "2026-10-09T14:30:00Z",
-  },
-  {
-    id: "BK-HAR-902",
-    hotelId: "b2222222-2222-2222-2222-222222222222",
-    hotelName: "Suvarnadurg Coastal Haven",
-    area: "Harnai",
-    address: "Harnai Port Road, Near Sea Fort, Harnai 415713",
-    roomName: "Suvarnadurg Sea Fort View AC Suite",
-    checkIn: "2026-11-02",
-    checkOut: "2026-11-04",
-    nights: 2,
-    guests: 2,
-    totalAmount: 4800,
-    advancePaid: 720,
-    balanceAmount: 4080,
-    paymentMethod: "upi_qr",
-    utr: "419827361829",
-    status: "pending_verification",
-    image: "https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=800&q=80",
-    ownerWhatsapp: "919823411001",
-    createdAt: "2026-10-10T11:00:00Z",
-  },
-  {
-    id: "BK-DAP-898",
-    hotelId: "b3333333-3333-3333-3333-333333333333",
-    hotelName: "Karde Golden Sands Cottages",
-    area: "Dapoli",
-    address: "Karde Beach Village, Post Murud, Taluka Dapoli 415712",
-    roomName: "Heritage Laterite AC Cottage",
-    checkIn: "2026-09-25",
-    checkOut: "2026-09-27",
-    nights: 2,
-    guests: 3,
-    totalAmount: 6400,
-    advancePaid: 960,
-    balanceAmount: 5440,
-    paymentMethod: "upi_qr",
-    utr: "389102847291",
-    status: "completed",
-    image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80",
-    ownerWhatsapp: "919422388200",
-    createdAt: "2026-09-20T10:00:00Z",
-    review: null, // Ready for test review submission!
-  },
-  {
-    id: "BK-DAP-899",
-    hotelId: "b1111111-1111-1111-1111-111111111111",
-    hotelName: "Murud Beach Palms Resort",
-    area: "Dapoli",
-    address: "Murud Beach Road, Dapoli 415713, Maharashtra",
-    roomName: "Family Coconut Grove Villa",
-    checkIn: "2026-09-10",
-    checkOut: "2026-09-12",
-    nights: 2,
-    guests: 4,
-    totalAmount: 7600,
-    advancePaid: 1140,
-    balanceAmount: 6460,
-    paymentMethod: "upi_qr",
-    utr: "318291039482",
-    status: "completed",
-    image: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=800&q=80",
-    ownerWhatsapp: "919422388200",
-    createdAt: "2026-09-05T12:00:00Z",
-    review: {
-      id: "rev-899",
-      booking_id: "BK-DAP-899",
-      hotel_id: "b1111111-1111-1111-1111-111111111111",
-      guest_id: "guest-test-1",
-      rating: 5,
-      comment: "Superb hospitality! Suresh-ji arranged early morning dolphin spotting at Murud beach and authentic Sol Kadhi. Highly recommend!",
-      created_at: "2026-09-13T10:00:00Z",
-    },
-  },
-];
+const INITIAL_SEED_BOOKINGS: GuestBookingItem[] = [];
+
 
 export default function MyBookingsPage() {
   const router = useRouter();
@@ -209,10 +110,8 @@ export default function MyBookingsPage() {
       let storedList: GuestBookingItem[] = [];
       if (rawUserBookings) {
         storedList = JSON.parse(rawUserBookings);
-      } else {
-        // Only seed test user with sample data
-        storedList = profile?.id === "guest-test-1" ? INITIAL_SEED_BOOKINGS : [];
       }
+
 
       // 2. Check active holds / pending bookings submitted during checkout
       const rawPending = localStorage.getItem("bhramo_active_booking_holds");

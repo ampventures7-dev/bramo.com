@@ -807,46 +807,6 @@ export default function LoginPage() {
           </form>
         )}
 
-        {/* Demo Fast Login Buttons (Quick Evaluation) */}
-        <div className="pt-2 border-t border-konkan-sand-200 space-y-2">
-          <div className="flex items-center gap-1.5 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-            <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-            <span>Instant Demo / Test Roles:</span>
-          </div>
-          <div className="grid grid-cols-3 gap-2">
-            <button
-              type="button"
-              onClick={() => {
-                demoLogin("guest");
-                if (redirectParam && redirectParam.startsWith("/")) {
-                  router.push(redirectParam);
-                }
-              }}
-              className="p-2 text-xs font-semibold rounded-xl border border-konkan-teal-300 bg-konkan-teal-50 text-konkan-teal-900 hover:bg-konkan-teal-100 transition-colors text-left"
-            >
-              <div className="font-bold">Guest</div>
-              <div className="text-[10px] text-slate-500">&rarr; Bookings</div>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => demoLogin("owner")}
-              className="p-2 text-xs font-semibold rounded-xl border border-amber-300 bg-amber-50 text-amber-900 hover:bg-amber-100 transition-colors text-left"
-            >
-              <div className="font-bold">Owner</div>
-              <div className="text-[10px] text-slate-500">&rarr; Host Panel</div>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => demoLogin("admin")}
-              className="p-2 text-xs font-semibold rounded-xl border border-purple-300 bg-purple-50 text-purple-900 hover:bg-purple-100 transition-colors text-left"
-            >
-              <div className="font-bold">Admin</div>
-              <div className="text-[10px] text-slate-500">&rarr; /admin/payments</div>
-            </button>
-          </div>
-        </div>
 
         {/* Link to Signup */}
         <div className="text-center pt-1 text-xs text-slate-600">

@@ -44,59 +44,8 @@ interface IncomingBooking {
   status: "requested" | "confirmed" | "cancelled" | "pending_verification";
 }
 
-const INITIAL_INCOMING_BOOKINGS: IncomingBooking[] = [
-  {
-    id: "bk-101",
-    guestName: "Anand Deshmukh",
-    guestPhone: "+91 98200 44551",
-    hotelName: "Murud Beach Palms Resort",
-    roomName: "Deluxe Coconut Garden AC Room",
-    checkIn: "18 Oct 2026",
-    checkOut: "20 Oct 2026",
-    nights: 2,
-    guests: 2,
-    totalAmount: 5200,
-    bookingFeeAmount: 780, // 15%
-    balanceAmount: 4420,
-    paymentMethod: "upi_qr",
-    upiRefNumber: "419823901248",
-    status: "confirmed",
-  },
-  {
-    id: "bk-102",
-    guestName: "Sneha Kulkarni",
-    guestPhone: "+91 97654 11223",
-    hotelName: "Murud Beach Palms Resort",
-    roomName: "Family Sea-Breeze Quad Suite",
-    checkIn: "24 Oct 2026",
-    checkOut: "26 Oct 2026",
-    nights: 2,
-    guests: 4,
-    totalAmount: 8400,
-    bookingFeeAmount: 1260, // 15%
-    balanceAmount: 7140,
-    paymentMethod: "upi_qr",
-    upiRefNumber: "420199128833",
-    status: "confirmed",
-  },
-  {
-    id: "bk-103",
-    guestName: "Vikram Rane",
-    guestPhone: "+91 98900 77665",
-    hotelName: "Murud Beach Palms Resort",
-    roomName: "Deluxe Coconut Garden AC Room",
-    checkIn: "01 Nov 2026",
-    checkOut: "03 Nov 2026",
-    nights: 2,
-    guests: 2,
-    totalAmount: 5200,
-    bookingFeeAmount: 780,
-    balanceAmount: 4420,
-    paymentMethod: "upi_qr",
-    upiRefNumber: "421099881122",
-    status: "pending_verification",
-  },
-];
+const INITIAL_INCOMING_BOOKINGS: IncomingBooking[] = [];
+
 
 export default function OwnerDashboardPage() {
   const router = useRouter();

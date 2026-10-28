@@ -64,6 +64,14 @@ const SLIDES: SlideItem[] = [
     tagline: "Tropical coconut groves kissing the glowing Arabian Sea",
     badge: "Tamas Tirtha Sunset",
     location: "Ladghar Beach"
+  },
+  {
+    id: 5,
+    src: "/hero/hero-5.png",
+    title: "Enchanting Coastal Twilight",
+    tagline: "Serene reflections and tranquil waves along the Konkan shoreline",
+    badge: "Golden Sunset Tide",
+    location: "Palande & Harnai Coast"
   }
 ];
 
@@ -242,7 +250,7 @@ export function HeroSlider() {
                     ? "/admin"
                     : profile.role === "owner"
                     ? "/owner/dashboard"
-                    : "/guest/bookings"
+                    : "/my-bookings"
                 }
                 className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-md border border-white/20 text-white text-xs font-semibold transition-all shadow-md"
               >
@@ -251,7 +259,7 @@ export function HeroSlider() {
               </Link>
             ) : (
               <Link
-                href="/auth/login"
+                href="/login"
                 className="hidden md:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-md border border-white/20 text-white text-xs font-semibold transition-all shadow-md"
               >
                 <span>Login</span>
@@ -347,7 +355,7 @@ export function HeroSlider() {
             <div className="pt-1">
               {profile ? (
                 <Link
-                  href="/guest/bookings"
+                  href="/my-bookings"
                   onClick={() => setMobileMenuOpen(false)}
                   className="w-full block py-2.5 rounded-xl bg-konkan-teal-700 text-center font-bold text-xs"
                 >
@@ -355,7 +363,7 @@ export function HeroSlider() {
                 </Link>
               ) : (
                 <Link
-                  href="/auth/login"
+                  href="/login"
                   onClick={() => setMobileMenuOpen(false)}
                   className="w-full block py-2.5 rounded-xl bg-white text-slate-950 text-center font-bold text-xs"
                 >
@@ -542,7 +550,7 @@ export function HeroSlider() {
                 />
               ))}
               <span className="text-[11px] text-white/90 font-mono ml-2 font-bold">
-                0{currentSlide + 1} / 04
+                0{currentSlide + 1} / 0{SLIDES.length}
               </span>
             </div>
 

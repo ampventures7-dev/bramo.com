@@ -8,20 +8,9 @@ export interface BookingReviewItem extends Review {
 
 const LOCAL_REVIEWS_KEY = "bhramo_reviews";
 
-// Default initial sample reviews for completed bookings
-const DEFAULT_LOCAL_REVIEWS: BookingReviewItem[] = [
-  {
-    id: "rev-sample-1",
-    booking_id: "bk-899",
-    hotel_id: "b1111111-1111-1111-1111-111111111111",
-    guest_id: "guest-test-1",
-    guest_name: "Pooja Patil",
-    hotel_name: "Murud Beach Palms Resort",
-    rating: 5,
-    comment: "Exceptional beachfront stay! Murud beach is just a 2-minute stroll away. The homemade Konkani Modak and sol kadhi were unforgettable.",
-    created_at: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString(),
-  },
-];
+// Default initial reviews for completed bookings (empty)
+const DEFAULT_LOCAL_REVIEWS: BookingReviewItem[] = [];
+
 
 export function getLocalReviews(): BookingReviewItem[] {
   if (typeof window === "undefined") return DEFAULT_LOCAL_REVIEWS;

@@ -203,29 +203,7 @@ export function getLedgerRecords(): LedgerEntry[] {
   try {
     const raw = localStorage.getItem(LEDGER_STORAGE_KEY);
     if (!raw) {
-      // Seed with initial entries for demonstration
-      const initial: LedgerEntry[] = [
-        {
-          id: "led-01",
-          booking_id: "bk-101",
-          type: "received",
-          amount: 780,
-          utr: "419823901248",
-          notes: "Booking fee received (15%) for Murud Beach Palms Resort",
-          created_at: new Date(Date.now() - 3600000).toISOString(),
-        },
-        {
-          id: "led-02",
-          booking_id: "bk-099",
-          type: "payout",
-          amount: 4420,
-          utr: "419800112233",
-          notes: "Host payout settled for Dapoli Host",
-          created_at: new Date(Date.now() - 86400000).toISOString(),
-        },
-      ];
-      localStorage.setItem(LEDGER_STORAGE_KEY, JSON.stringify(initial));
-      return initial;
+      return [];
     }
     return JSON.parse(raw);
   } catch {

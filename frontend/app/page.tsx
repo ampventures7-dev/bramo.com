@@ -3,7 +3,6 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { fetchAllHotels } from "@/lib/hotels-service";
 import { HeroSlider } from "@/components/HeroSlider";
-import { CoastalAudioToggle } from "@/components/CoastalAudioToggle";
 import { formatINR } from "@/lib/utils";
 import {
   Waves,
@@ -50,9 +49,6 @@ export default async function HomePage() {
       <section className="w-full">
         <HeroSlider />
       </section>
-
-      {/* Ambient Coastal Ocean Waves Sound Toggle */}
-      <CoastalAudioToggle />
 
       {/* ========================================================= */}
       {/* 2. THE SIGNATURE KONKAN BENTO GRID                        */}
@@ -396,77 +392,97 @@ export default async function HomePage() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {featuredHotels.map((hotel) => (
-            <Link
-              key={hotel.id}
-              href={`/hotels/${hotel.id}`}
-              className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl hover:border-konkan-teal-300 transition-all duration-300 flex flex-col group cursor-pointer"
-            >
-              {/* Hotel Photo */}
-              <div className="relative h-52 w-full bg-slate-100 overflow-hidden">
-                <Image
-                  src={hotel.images[0]}
-                  alt={hotel.name}
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute top-3 left-3 bg-konkan-teal-800 text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-sm">
-                  {hotel.area}
-                </div>
-                <div className="absolute bottom-3 right-3 bg-black/75 backdrop-blur-md px-2.5 py-1 rounded-full text-white text-xs font-semibold flex items-center gap-1 shadow-md">
-                  <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
-                  <span>{hotel.average_rating}</span>
-                  <span className="text-slate-300">({hotel.review_count})</span>
-                </div>
-              </div>
-
-              {/* Hotel Body */}
-              <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
-                <div className="space-y-2">
-                  <div className="flex items-center gap-1.5 text-xs text-konkan-teal-700 font-medium">
-                    <MapPin className="w-3.5 h-3.5 shrink-0" />
-                    <span className="truncate">{hotel.address}</span>
+        {featuredHotels.length === 0 ? (
+          <div className="bg-white rounded-3xl border border-slate-200 p-12 text-center space-y-4 max-w-xl mx-auto shadow-sm">
+            <div className="w-16 h-16 bg-konkan-teal-50 text-konkan-teal-800 rounded-full flex items-center justify-center mx-auto">
+              <Waves className="w-8 h-8" />
+            </div>
+            <h3 className="text-xl font-black text-slate-900">Real Coastal Properties Coming Soon</h3>
+            <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">
+              We are currently onboarding verified beachfront hotels, homestays, and cottages across Dapoli and Harnai. Are you a local resort or homestay owner?
+            </p>
+            <div className="pt-2">
+              <Link
+                href="/owner/dashboard"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-konkan-teal-800 hover:bg-konkan-teal-900 text-white font-bold text-xs shadow-md transition-all"
+              >
+                <span>List Your Property &rarr;</span>
+              </Link>
+            </div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {featuredHotels.map((hotel) => (
+              <Link
+                key={hotel.id}
+                href={`/hotels/${hotel.id}`}
+                className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl hover:border-konkan-teal-300 transition-all duration-300 flex flex-col group cursor-pointer"
+              >
+                {/* Hotel Photo */}
+                <div className="relative h-52 w-full bg-slate-100 overflow-hidden">
+                  <Image
+                    src={hotel.images[0] || "/hero/hero-1.jpg"}
+                    alt={hotel.name}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute top-3 left-3 bg-konkan-teal-800 text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-sm">
+                    {hotel.area}
                   </div>
-                  <h3 className="font-bold text-lg text-slate-900 group-hover:text-konkan-teal-800 transition-colors">
-                    {hotel.name}
-                  </h3>
-                  <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">
-                    {hotel.description}
-                  </p>
-
-                  <div className="flex flex-wrap gap-1.5 pt-1">
-                    {hotel.amenities.slice(0, 3).map((amenity, idx) => (
-                      <span
-                        key={idx}
-                        className="text-[10px] bg-slate-100 text-slate-700 font-medium px-2.5 py-1 rounded-full"
-                      >
-                        {amenity}
-                      </span>
-                    ))}
+                  <div className="absolute bottom-3 right-3 bg-black/75 backdrop-blur-md px-2.5 py-1 rounded-full text-white text-xs font-semibold flex items-center gap-1 shadow-md">
+                    <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+                    <span>{hotel.average_rating}</span>
+                    <span className="text-slate-300">({hotel.review_count})</span>
                   </div>
                 </div>
 
-                {/* Footer price & view button */}
-                <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
-                  <div>
-                    <span className="text-[11px] text-slate-400">Starting from</span>
-                    <div className="text-lg font-black text-konkan-teal-950">
-                      {formatINR(hotel.starting_price)}
-                      <span className="text-xs font-normal text-slate-500"> / night</span>
+                {/* Hotel Body */}
+                <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-1.5 text-xs text-konkan-teal-700 font-medium">
+                      <MapPin className="w-3.5 h-3.5 shrink-0" />
+                      <span className="truncate">{hotel.address}</span>
+                    </div>
+                    <h3 className="font-bold text-lg text-slate-900 group-hover:text-konkan-teal-800 transition-colors">
+                      {hotel.name}
+                    </h3>
+                    <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">
+                      {hotel.description}
+                    </p>
+
+                    <div className="flex flex-wrap gap-1.5 pt-1">
+                      {hotel.amenities.slice(0, 3).map((amenity, idx) => (
+                        <span
+                          key={idx}
+                          className="text-[10px] bg-slate-100 text-slate-700 font-medium px-2.5 py-1 rounded-full"
+                        >
+                          {amenity}
+                        </span>
+                      ))}
                     </div>
                   </div>
 
-                  <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-konkan-teal-700 group-hover:bg-konkan-teal-800 text-white text-xs font-bold transition-all shadow-sm">
-                    <span>View Rooms</span>
-                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-                  </span>
+                  {/* Footer price & view button */}
+                  <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
+                    <div>
+                      <span className="text-[11px] text-slate-400">Starting from</span>
+                      <div className="text-lg font-black text-konkan-teal-950">
+                        {formatINR(hotel.starting_price)}
+                        <span className="text-xs font-normal text-slate-500"> / night</span>
+                      </div>
+                    </div>
+
+                    <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-konkan-teal-700 group-hover:bg-konkan-teal-800 text-white text-xs font-bold transition-all shadow-sm">
+                      <span>View Rooms</span>
+                      <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </Link>
-          ))}
-        </div>
+              </Link>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* ========================================================= */}

@@ -60,41 +60,7 @@ interface PendingPaymentItem {
   verificationExpiresAt?: number;
 }
 
-const INITIAL_MOCK_PENDING: PendingPaymentItem[] = [
-  {
-    id: "bk-8801",
-    guestName: "Aditya Sawant",
-    guestPhone: "+91 98201 55667",
-    hotelName: "Murud Beach Palms Resort",
-    hotelArea: "Dapoli",
-    roomName: "Deluxe Coconut Garden AC Room",
-    checkIn: "22 Oct 2026",
-    checkOut: "24 Oct 2026",
-    totalAmount: 5200,
-    bookingFeeAmount: 780, // 15%
-    balanceAmount: 4420,
-    upiRefNumber: "419827361829",
-    screenshotUrl: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80",
-    status: "pending_verification",
-    verificationExpiresAt: Date.now() + 5 * 3600 * 1000,
-  },
-  {
-    id: "bk-8802",
-    guestName: "Pooja Kulkarni",
-    guestPhone: "+91 97654 33221",
-    hotelName: "Suvarnadurg Coastal Haven",
-    hotelArea: "Harnai",
-    roomName: "Suvarnadurg Sea Fort View AC Suite",
-    checkIn: "28 Oct 2026",
-    checkOut: "30 Oct 2026",
-    totalAmount: 4800,
-    bookingFeeAmount: 720, // 15%
-    balanceAmount: 4080,
-    upiRefNumber: "420199887711",
-    status: "pending_verification",
-    verificationExpiresAt: Date.now() + 4 * 3600 * 1000,
-  },
-];
+const INITIAL_MOCK_PENDING: PendingPaymentItem[] = [];
 
 export default function AdminPaymentsPage() {
   const router = useRouter();
@@ -115,32 +81,7 @@ export default function AdminPaymentsPage() {
   } | null>(null);
 
   // Abandoned / Expired Holds (Feature 8)
-  const [abandonedList, setAbandonedList] = useState<any[]>([
-    {
-      id: "bk-hold-901",
-      guestName: "Sanket Shirodkar",
-      guestPhone: "+91 98221 44550",
-      hotelName: "Murud Beach Palms Resort",
-      hotelArea: "Dapoli",
-      roomName: "Deluxe Coconut Garden AC Room",
-      checkIn: "24 Oct 2026",
-      checkOut: "26 Oct 2026",
-      totalAmount: 5200,
-      createdAt: "Today, 11:30 AM",
-    },
-    {
-      id: "bk-hold-899",
-      guestName: "Gauri Joshi",
-      guestPhone: "+91 94220 88992",
-      hotelName: "Ladghar Tamas Beach Cottages",
-      hotelArea: "Dapoli",
-      roomName: "Red Sand Sea-View Bamboo Cottage",
-      checkIn: "01 Nov 2026",
-      checkOut: "03 Nov 2026",
-      totalAmount: 6400,
-      createdAt: "Yesterday, 04:15 PM",
-    }
-  ]);
+  const [abandonedList, setAbandonedList] = useState<any[]>([]);
 
   // Settings state
   const [settings, setSettings] = useState<PlatformSettings>(DEFAULT_PLATFORM_SETTINGS);
