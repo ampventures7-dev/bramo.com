@@ -116,7 +116,7 @@ export function HeroSlider() {
     <div
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
-      className="relative w-full min-h-screen flex flex-col justify-between overflow-hidden bg-slate-950 select-none"
+      className="relative w-full min-h-[100dvh] flex flex-col justify-between overflow-x-hidden overflow-y-auto lg:overflow-hidden bg-slate-950 select-none"
     >
       {/* ========================================================= */}
       {/* 1. BACKGROUND FULL-SCREEN SLIDESHOW (2s Crossfade)       */}
@@ -200,13 +200,13 @@ export function HeroSlider() {
           {/* Center Brand Logo with refined cut-out pill */}
           <Link
             href="/"
-            className="bg-white/95 backdrop-blur-md px-4 sm:px-5 py-2 rounded-2xl shadow-xl border border-white/40 flex items-center gap-2.5 transition-transform hover:scale-105"
+            className="bg-white/95 backdrop-blur-md px-3 sm:px-5 py-1.5 sm:py-2 rounded-2xl shadow-xl border border-white/40 flex items-center gap-2 sm:gap-2.5 transition-transform hover:scale-105 shrink-0"
           >
             <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-konkan-teal-800 flex items-center justify-center text-white shadow-sm">
               <Waves className="w-4 h-4 text-konkan-teal-200" />
             </div>
             <div className="flex flex-col">
-              <span className="font-black text-lg sm:text-xl tracking-tight text-slate-950 leading-none">
+              <span className="font-black text-base sm:text-xl tracking-tight text-slate-950 leading-none">
                 bhramo<span className="text-konkan-teal-600">.com</span>
               </span>
               <span className="text-[9px] font-semibold text-slate-500 hidden sm:block tracking-wide">
@@ -216,19 +216,16 @@ export function HeroSlider() {
           </Link>
 
           {/* Right Action Items */}
-          <div className="flex items-center gap-2 sm:gap-2.5">
+          <div className="flex items-center gap-1.5 sm:gap-2.5">
             {/* Marathi / English Language Toggle */}
             <button
               type="button"
               onClick={toggleLanguage}
-              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-md border border-white/20 text-white text-xs font-semibold transition-all shadow-md"
+              className="inline-flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-md border border-white/20 text-white text-[11px] sm:text-xs font-semibold transition-all shadow-md"
               title="Toggle English / Marathi"
             >
-              <Globe className="w-3.5 h-3.5 text-konkan-teal-300" />
+              <Globe className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-konkan-teal-300" />
               <span className="font-bold">{language === "en" ? "EN" : "मराठी"}</span>
-              <span className="text-[10px] text-slate-300">
-                {language === "en" ? "मराठी" : "EN"}
-              </span>
             </button>
 
             {/* Direct WhatsApp Concierge */}
@@ -269,11 +266,11 @@ export function HeroSlider() {
             {/* Book Now Button */}
             <Link
               href="/hotels"
-              className="inline-flex items-center gap-1.5 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-white text-slate-950 hover:bg-slate-100 font-bold text-xs sm:text-sm transition-all shadow-lg group"
+              className="inline-flex items-center gap-1 sm:gap-1.5 px-3 sm:px-5 py-1.5 sm:py-2.5 rounded-full bg-white text-slate-950 hover:bg-slate-100 font-bold text-xs sm:text-sm transition-all shadow-lg group shrink-0"
             >
-              <span>Book Now</span>
-              <div className="w-5 h-5 rounded-full bg-konkan-teal-800 text-white flex items-center justify-center group-hover:rotate-45 transition-transform">
-                <ArrowUpRight className="w-3 h-3" />
+              <span>Explore</span>
+              <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-konkan-teal-800 text-white flex items-center justify-center group-hover:rotate-45 transition-transform">
+                <ArrowUpRight className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
               </div>
             </Link>
 
@@ -284,14 +281,14 @@ export function HeroSlider() {
               className="lg:hidden p-2 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-white"
               aria-label="Toggle menu"
             >
-              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {mobileMenuOpen ? <X className="w-4 h-4 sm:w-5 sm:h-5" /> : <Menu className="w-4 h-4 sm:w-5 sm:h-5" />}
             </button>
           </div>
         </div>
 
         {/* Mobile Dropdown Menu Overlay */}
         {mobileMenuOpen && (
-          <div className="lg:hidden mt-3 max-w-sm mx-auto bg-slate-900/95 backdrop-blur-xl border border-white/20 rounded-3xl p-5 shadow-2xl text-white space-y-3 animate-in fade-in slide-in-from-top-4 duration-200">
+          <div className="lg:hidden mt-3 max-w-sm mx-auto bg-slate-900/95 backdrop-blur-xl border border-white/20 rounded-3xl p-4 sm:p-5 shadow-2xl text-white space-y-3 animate-in fade-in slide-in-from-top-4 duration-200">
             <div className="grid grid-cols-2 gap-2 text-sm font-semibold">
               <Link
                 href="/"
@@ -354,13 +351,24 @@ export function HeroSlider() {
 
             <div className="pt-1">
               {profile ? (
-                <Link
-                  href="/my-bookings"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="w-full block py-2.5 rounded-xl bg-konkan-teal-700 text-center font-bold text-xs"
-                >
-                  My Account ({profile.name || "Profile"})
-                </Link>
+                <div className="space-y-1.5">
+                  {profile.role === "owner" && (
+                    <Link
+                      href="/owner/dashboard"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="w-full block py-2.5 rounded-xl bg-konkan-teal-700 text-center font-bold text-xs mb-1"
+                    >
+                      Host / Owner Dashboard
+                    </Link>
+                  )}
+                  <Link
+                    href="/my-bookings"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="w-full block py-2.5 rounded-xl bg-white/15 text-center font-bold text-xs"
+                  >
+                    My Account ({profile.name || "Profile"})
+                  </Link>
+                </div>
               ) : (
                 <Link
                   href="/login"
@@ -378,39 +386,39 @@ export function HeroSlider() {
       {/* ========================================================= */}
       {/* 3. CENTER HERO HEADINGS & FLOATING JOURNEY WIDGET         */}
       {/* ========================================================= */}
-      <div className="relative z-20 max-w-7xl mx-auto w-full px-6 sm:px-12 py-10 sm:py-14 flex flex-col lg:flex-row items-start lg:items-end justify-between gap-8">
+      <div className="relative z-20 max-w-7xl mx-auto w-full px-4 sm:px-8 lg:px-12 py-6 sm:py-10 lg:py-14 flex flex-col lg:flex-row items-start lg:items-end justify-between gap-6 sm:gap-8">
         {/* Left Heading & Copy */}
-        <div className="max-w-2xl space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/15 backdrop-blur-md border border-white/25 text-white text-xs font-semibold shadow-sm">
+        <div className="max-w-2xl space-y-3 sm:space-y-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-white/15 backdrop-blur-md border border-white/25 text-white text-[11px] sm:text-xs font-semibold shadow-sm">
             <Sparkles className="w-3.5 h-3.5 text-amber-300 animate-pulse" />
             <span>{SLIDES[currentSlide].badge}</span>
           </div>
 
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[1.08] drop-shadow-md">
-            Inspired Travels <br />
+          <h1 className="text-3xl sm:text-5xl lg:text-7xl font-black text-white tracking-tight leading-[1.12] drop-shadow-md">
+            Inspired Travels <br className="hidden sm:inline" />
             <span className="bg-gradient-to-r from-white via-slate-100 to-konkan-teal-200 bg-clip-text text-transparent">
               in Dapoli & Harnai
             </span>
           </h1>
 
-          <p className="text-sm sm:text-base text-slate-200 max-w-xl leading-relaxed font-normal drop-shadow-sm">
+          <p className="text-xs sm:text-sm lg:text-base text-slate-200 max-w-xl leading-relaxed font-normal drop-shadow-sm">
             Discover immersive eco-luxury beachfront stays where wild dolphins, golden beaches, and authentic Konkani hospitality come together.
           </p>
 
-          <div className="pt-2 flex flex-wrap items-center gap-3">
+          <div className="pt-2 flex flex-wrap items-center gap-2.5 sm:gap-3">
             <Link
               href="/hotels"
-              className="inline-flex items-center gap-2 px-6 sm:px-7 py-3.5 sm:py-4 rounded-full bg-white hover:bg-slate-100 text-slate-950 font-bold text-xs sm:text-sm shadow-2xl transition-all group hover:scale-[1.02]"
+              className="inline-flex items-center gap-2 px-5 sm:px-7 py-3 sm:py-4 rounded-full bg-white hover:bg-slate-100 text-slate-950 font-bold text-xs sm:text-sm shadow-2xl transition-all group hover:scale-[1.02]"
             >
               <span>Explore Stays</span>
-              <div className="w-6 h-6 rounded-full bg-konkan-teal-800 text-white flex items-center justify-center group-hover:rotate-45 transition-transform">
-                <ArrowUpRight className="w-3.5 h-3.5" />
+              <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-konkan-teal-800 text-white flex items-center justify-center group-hover:rotate-45 transition-transform">
+                <ArrowUpRight className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
               </div>
             </Link>
 
             <Link
               href="/plan-trip"
-              className="inline-flex items-center gap-2 px-6 py-3.5 sm:py-4 rounded-full bg-black/40 hover:bg-black/60 text-white font-bold text-xs sm:text-sm backdrop-blur-md border border-white/30 shadow-xl transition-all hover:scale-[1.02]"
+              className="inline-flex items-center gap-2 px-5 sm:px-6 py-3 sm:py-4 rounded-full bg-black/40 hover:bg-black/60 text-white font-bold text-xs sm:text-sm backdrop-blur-md border border-white/30 shadow-xl transition-all hover:scale-[1.02]"
             >
               <Sparkles className="w-4 h-4 text-emerald-400" />
               <span>AI Trip Planner</span>
@@ -443,15 +451,15 @@ export function HeroSlider() {
       {/* ========================================================= */}
       {/* 4. BOTTOM FLOATING SEARCH BAR & SLIDE PROGRESS            */}
       {/* ========================================================= */}
-      <div className="relative z-30 w-full px-4 sm:px-8 lg:px-12 pb-8 sm:pb-12">
-        <div className="max-w-5xl mx-auto space-y-4">
-          {/* Floating Search Form */}
+      <div className="relative z-30 w-full px-3 sm:px-8 lg:px-12 pb-6 sm:pb-10">
+        <div className="max-w-5xl mx-auto space-y-3 sm:space-y-4">
+          {/* Floating Search Form: 2 cols on mobile/tablet, 5 cols on desktop */}
           <form
             onSubmit={handleSearch}
-            className="bg-white/95 backdrop-blur-lg p-3 sm:p-4 rounded-3xl shadow-2xl border border-white/60 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 items-center"
+            className="bg-white/95 backdrop-blur-lg p-2.5 sm:p-4 rounded-2xl sm:rounded-3xl shadow-2xl border border-white/60 grid grid-cols-2 lg:grid-cols-5 gap-2 sm:gap-2.5 items-center"
           >
             {/* 1. Place */}
-            <div className="px-3.5 py-2.5 rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-konkan-teal-500 transition-colors">
+            <div className="px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-konkan-teal-500 transition-colors">
               <span className="block text-[10px] font-bold uppercase text-slate-400 tracking-wider">
                 Place
               </span>
@@ -460,39 +468,39 @@ export function HeroSlider() {
                 <select
                   value={place}
                   onChange={(e) => setPlace(e.target.value)}
-                  className="w-full bg-transparent text-xs sm:text-sm font-bold text-slate-900 focus:outline-none cursor-pointer truncate"
+                  className="w-full bg-transparent text-xs font-bold text-slate-900 focus:outline-none cursor-pointer truncate"
                 >
-                  <option value="all">All Konkan Coastline</option>
-                  <option value="Dapoli">Dapoli (Murud & Karde)</option>
-                  <option value="Harnai">Harnai (Fort & Port)</option>
+                  <option value="all">All Coast</option>
+                  <option value="Dapoli">Dapoli (Murud)</option>
+                  <option value="Harnai">Harnai Port</option>
                 </select>
               </div>
             </div>
 
             {/* 2. Hotel / Stay Type */}
-            <div className="px-3.5 py-2.5 rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-konkan-teal-500 transition-colors">
+            <div className="px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-konkan-teal-500 transition-colors">
               <span className="block text-[10px] font-bold uppercase text-slate-400 tracking-wider">
-                Hotel Type
+                Stay Type
               </span>
               <div className="flex items-center gap-1.5 mt-0.5">
                 <HotelIcon className="w-3.5 h-3.5 text-konkan-teal-700 shrink-0" />
                 <select
                   value={stayType}
                   onChange={(e) => setStayType(e.target.value)}
-                  className="w-full bg-transparent text-xs sm:text-sm font-bold text-slate-900 focus:outline-none cursor-pointer truncate"
+                  className="w-full bg-transparent text-xs font-bold text-slate-900 focus:outline-none cursor-pointer truncate"
                 >
-                  <option value="all">All Property Types</option>
-                  <option value="resort">Beachfront Resorts</option>
-                  <option value="cottage">Laterite Eco Cottages</option>
-                  <option value="homestay">Authentic Homestays</option>
+                  <option value="all">All Types</option>
+                  <option value="resort">Resorts</option>
+                  <option value="cottage">Cottages</option>
+                  <option value="homestay">Homestays</option>
                 </select>
               </div>
             </div>
 
             {/* 3. Date */}
-            <div className="px-3.5 py-2.5 rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-konkan-teal-500 transition-colors">
+            <div className="px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-konkan-teal-500 transition-colors">
               <span className="block text-[10px] font-bold uppercase text-slate-400 tracking-wider">
-                Date
+                Date Range
               </span>
               <div className="flex items-center gap-1.5 mt-0.5">
                 <Calendar className="w-3.5 h-3.5 text-konkan-teal-700 shrink-0" />
@@ -500,34 +508,35 @@ export function HeroSlider() {
                   type="text"
                   value={dateRange}
                   onChange={(e) => setDateRange(e.target.value)}
-                  className="w-full bg-transparent text-xs sm:text-sm font-bold text-slate-900 focus:outline-none cursor-pointer"
+                  className="w-full bg-transparent text-xs font-bold text-slate-900 focus:outline-none cursor-pointer truncate"
                 />
               </div>
             </div>
 
-            {/* 4. Room & Search Button */}
-            <div className="flex items-center gap-2">
-              <div className="flex-1 px-3.5 py-2.5 rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-konkan-teal-500 transition-colors">
-                <span className="block text-[10px] font-bold uppercase text-slate-400 tracking-wider">
-                  Room
-                </span>
-                <div className="flex items-center gap-1.5 mt-0.5">
-                  <Users className="w-3.5 h-3.5 text-konkan-teal-700 shrink-0" />
-                  <input
-                    type="text"
-                    value={guestsRoom}
-                    onChange={(e) => setGuestsRoom(e.target.value)}
-                    className="w-full bg-transparent text-xs sm:text-sm font-bold text-slate-900 focus:outline-none cursor-pointer truncate"
-                  />
-                </div>
+            {/* 4. Room / Guests */}
+            <div className="px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-200/80 hover:border-konkan-teal-500 transition-colors">
+              <span className="block text-[10px] font-bold uppercase text-slate-400 tracking-wider">
+                Guests
+              </span>
+              <div className="flex items-center gap-1.5 mt-0.5">
+                <Users className="w-3.5 h-3.5 text-konkan-teal-700 shrink-0" />
+                <input
+                  type="text"
+                  value={guestsRoom}
+                  onChange={(e) => setGuestsRoom(e.target.value)}
+                  className="w-full bg-transparent text-xs font-bold text-slate-900 focus:outline-none cursor-pointer truncate"
+                />
               </div>
+            </div>
 
+            {/* 5. Search Button */}
+            <div className="col-span-2 lg:col-span-1">
               <button
                 type="submit"
-                className="h-[52px] px-6 sm:px-7 rounded-2xl bg-konkan-teal-700 hover:bg-konkan-teal-800 text-white font-black text-xs sm:text-sm shadow-xl transition-all flex items-center justify-center gap-1.5 shrink-0 hover:scale-[1.02]"
+                className="w-full h-[46px] sm:h-[50px] px-6 rounded-xl sm:rounded-2xl bg-konkan-teal-700 hover:bg-konkan-teal-800 text-white font-black text-xs sm:text-sm shadow-xl transition-all flex items-center justify-center gap-2 hover:scale-[1.02]"
               >
                 <Search className="w-4 h-4" />
-                <span>Search</span>
+                <span>Search Stays</span>
               </button>
             </div>
           </form>

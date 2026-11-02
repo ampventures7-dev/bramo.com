@@ -51,12 +51,12 @@ export async function generateMetadata({
       hotel.area === "Dapoli" ? "Dapoli homestay" : "Harnai hotel",
     ],
     alternates: {
-      canonical: `https://bhramo.com/hotels/${hotel.id}`,
+      canonical: `https://www.bhramo.com/hotels/${hotel.id}`,
     },
     openGraph: {
       type: "website",
       locale: "en_IN",
-      url: `https://bhramo.com/hotels/${hotel.id}`,
+      url: `https://www.bhramo.com/hotels/${hotel.id}`,
       title,
       description,
       siteName: "bhramo.com",
@@ -90,21 +90,21 @@ export default async function HotelPage({ params }: { params: { id: string } }) 
       ? Math.max(...hotel.room_types.map((r) => r.weekend_price || r.base_price))
       : hotel.starting_price + 1500;
 
-  // 2. Comprehensive JSON-LD Schema (Hotel, LodgingBusiness, AggregateRating & Breadcrumbs)
+  // 2. Comprehensive JSON-LD Schema (Hotel, LodgingBusiness, AggregateRating, Breadcrumbs & FAQPage)
   const hotelJsonLd = {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": ["Hotel", "LodgingBusiness"],
-        "@id": `https://bhramo.com/hotels/${hotel.id}#hotel`,
+        "@id": `https://www.bhramo.com/hotels/${hotel.id}#hotel`,
         "name": hotel.name,
         "description": hotel.description,
-        "url": `https://bhramo.com/hotels/${hotel.id}`,
-        "telephone": `+${hotel.whatsapp_number || "919422388200"}`,
+        "url": `https://www.bhramo.com/hotels/${hotel.id}`,
+        "telephone": `+${hotel.whatsapp_number || "917447568595"}`,
         "priceRange": `₹${hotel.starting_price} - ₹${highestPrice}`,
         "image": hotel.images || [],
         "checkinTime": hotel.checkin_time || "12:00",
-        "checkoutTime": hotel.checkout_time || "10:00",
+        "checkoutTime": hotel.checkout_time || "10:30",
         "starRating": {
           "@type": "Rating",
           "ratingValue": hotel.average_rating || 4.8,
@@ -112,7 +112,7 @@ export default async function HotelPage({ params }: { params: { id: string } }) 
         "aggregateRating": {
           "@type": "AggregateRating",
           "ratingValue": hotel.average_rating || 4.8,
-          "reviewCount": hotel.review_count || 45,
+          "reviewCount": hotel.review_count || 30,
           "bestRating": "5",
           "worstRating": "1",
         },
@@ -121,7 +121,7 @@ export default async function HotelPage({ params }: { params: { id: string } }) 
           "streetAddress": hotel.address,
           "addressLocality": hotel.area,
           "addressRegion": "Maharashtra",
-          "postalCode": "415712",
+          "postalCode": "415713",
           "addressCountry": "IN",
         },
         "geo": {
@@ -151,31 +151,61 @@ export default async function HotelPage({ params }: { params: { id: string } }) 
       },
       {
         "@type": "BreadcrumbList",
-        "@id": `https://bhramo.com/hotels/${hotel.id}#breadcrumb`,
+        "@id": `https://www.bhramo.com/hotels/${hotel.id}#breadcrumb`,
         "itemListElement": [
           {
             "@type": "ListItem",
             "position": 1,
             "name": "Home",
-            "item": "https://bhramo.com",
+            "item": "https://www.bhramo.com",
           },
           {
             "@type": "ListItem",
             "position": 2,
             "name": "Hotels & Stays",
-            "item": "https://bhramo.com/hotels",
+            "item": "https://www.bhramo.com/hotels",
           },
           {
             "@type": "ListItem",
             "position": 3,
             "name": `Hotels in ${hotel.area}`,
-            "item": `https://bhramo.com/hotels/${hotel.area.toLowerCase()}`,
+            "item": `https://www.bhramo.com/hotels/${hotel.area.toLowerCase()}`,
           },
           {
             "@type": "ListItem",
             "position": 4,
             "name": hotel.name,
-            "item": `https://bhramo.com/hotels/${hotel.id}`,
+            "item": `https://www.bhramo.com/hotels/${hotel.id}`,
+          },
+        ],
+      },
+      {
+        "@type": "FAQPage",
+        "@id": `https://www.bhramo.com/hotels/${hotel.id}#faq`,
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": `What is the check-in and check-out time at ${hotel.name}?`,
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": `Check-in is at ${hotel.checkin_time || "12:00 PM"} and check-out is at ${hotel.checkout_time || "10:30 AM"}. Early check-in or late check-out is subject to room availability upon request.`,
+            },
+          },
+          {
+            "@type": "Question",
+            "name": `How can I book ${hotel.name} with 0% extra fees?`,
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": `You can book ${hotel.name} directly on bhramo.com using instant UPI QR payment or pay-at-hotel. There are 0% gateway charges, and your booking is confirmed directly with the property owner.`,
+            },
+          },
+          {
+            "@type": "Question",
+            "name": `Where is ${hotel.name} located and what are the nearby beaches?`,
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": `${hotel.name} is situated at ${hotel.address} in the scenic ${hotel.area} coastal belt of Dapoli, Maharashtra. Nearby coastal attractions include Palande Beach, Murud Beach, and Suvarnadurg Sea Fort.`,
+            },
           },
         ],
       },

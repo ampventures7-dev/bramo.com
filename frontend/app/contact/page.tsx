@@ -7,11 +7,14 @@ export const metadata: Metadata = {
   title: "Contact Us — Coastal Support & Host Inquiries | bhramo.com",
   description:
     "Get in touch with bhramo.com: Dedicated WhatsApp helpline, host onboarding support, and visitor assistance for Dapoli and Harnai, Maharashtra.",
+  alternates: {
+    canonical: "https://www.bhramo.com/contact",
+  },
 };
 
 export default function ContactPage() {
   const waHelpLink = getWhatsAppLink(
-    "919876543210",
+    "917447568595",
     "Hi bhramo.com team, I need assistance with a coastal hotel booking in Dapoli/Harnai."
   );
 

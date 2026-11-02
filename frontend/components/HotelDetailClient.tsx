@@ -23,6 +23,7 @@ import {
   Clock,
   ShieldCheck,
   ArrowLeft,
+  ChevronLeft,
   ChevronRight,
   ExternalLink,
   Sparkles,
@@ -44,9 +45,20 @@ export function HotelDetailClient({ hotel }: HotelDetailClientProps) {
 
   const images = hotel.images && hotel.images.length > 0 ? hotel.images : ["/hero/hero-1.jpg"];
   const [activeImage, setActiveImage] = useState<string>(images[0]);
+  const [mobilePhotoIdx, setMobilePhotoIdx] = useState<number>(0);
   const [selectedRoomId, setSelectedRoomId] = useState<string>(hotel.room_types[0]?.id || "");
   const [allReviews, setAllReviews] = useState(hotel.reviews || []);
   const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false);
+
+  const nextMobilePhoto = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setMobilePhotoIdx((prev) => (prev + 1) % images.length);
+  };
+
+  const prevMobilePhoto = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setMobilePhotoIdx((prev) => (prev - 1 + images.length) % images.length);
+  };
 
   // Synchronized travel dates for DualMonthCalendar and RoomBookingWidget
   const [checkIn, setCheckIn] = useState<Date | null>(startOfToday());
@@ -135,26 +147,67 @@ export function HotelDetailClient({ hotel }: HotelDetailClientProps) {
       {/* ========================================================= */}
       {/* 1. ASYMMETRIC 5-PHOTO LUXURY GALLERY GRID (Aman/Luxe Style) */}
       {/* ========================================================= */}
-      <div className="relative rounded-3xl overflow-hidden shadow-lg border border-slate-200/90 bg-slate-950">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-2 h-[340px] sm:h-[480px]">
+      <div className="relative rounded-3xl overflow-hidden shadow-lg border border-slate-200/90 bg-slate-950 select-none">
+        {/* Mobile View: Swipeable Carousel */}
+        <div className="md:hidden relative h-[280px] sm:h-[340px] w-full">
+          <Image
+            src={images[mobilePhotoIdx] || images[0]}
+            alt={`${hotel.name} showcase`}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/20" />
+
+          {/* Mobile Prev / Next Arrows */}
+          {images.length > 1 && (
+            <>
+              <button
+                type="button"
+                onClick={prevMobilePhoto}
+                className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 text-white flex items-center justify-center backdrop-blur-md border border-white/20 active:scale-95"
+                aria-label="Previous photo"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+              <button
+                type="button"
+                onClick={nextMobilePhoto}
+                className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 text-white flex items-center justify-center backdrop-blur-md border border-white/20 active:scale-95"
+                aria-label="Next photo"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+
+              {/* Photo Counter Pill on Mobile */}
+              <div className="absolute bottom-3 left-3 bg-black/70 backdrop-blur-md px-2.5 py-1 rounded-full text-white text-[11px] font-bold border border-white/10">
+                {mobilePhotoIdx + 1} / {images.length}
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* Desktop View: Multi-photo Asymmetric Grid */}
+        <div className="hidden md:grid grid-cols-4 gap-2 h-[480px]">
           {/* Main Large Hero Image (Spans 2 columns) */}
           <div
             onClick={() => setActiveImage(images[0])}
-            className="md:col-span-2 relative h-full cursor-pointer overflow-hidden group"
+            className="col-span-2 relative h-full cursor-pointer overflow-hidden group"
           >
             <Image
               src={images[0]}
               alt={`${hotel.name} main showcase`}
               fill
               priority
-              sizes="(max-width: 768px) 100vw, 50vw"
+              sizes="50vw"
               className="object-cover group-hover:scale-105 transition-transform duration-500"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
           </div>
 
           {/* Secondary 2x2 Grid on Desktop */}
-          <div className="hidden md:grid col-span-2 grid-cols-2 gap-2 h-full">
+          <div className="col-span-2 grid grid-cols-2 gap-2 h-full">
             {images.slice(1, 5).map((img, i) => (
               <div
                 key={i}
@@ -178,9 +231,9 @@ export function HotelDetailClient({ hotel }: HotelDetailClientProps) {
         <button
           type="button"
           onClick={() => setIsPhotoModalOpen(true)}
-          className="absolute bottom-4 right-4 z-10 px-4 py-2 rounded-full bg-white/90 hover:bg-white text-slate-900 text-xs font-bold backdrop-blur-md shadow-xl transition-all flex items-center gap-2 hover:scale-105"
+          className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 z-10 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full bg-white/95 hover:bg-white text-slate-900 text-xs font-bold backdrop-blur-md shadow-xl transition-all flex items-center gap-1.5 sm:gap-2 hover:scale-105"
         >
-          <Images className="w-4 h-4 text-konkan-teal-700" />
+          <Images className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-konkan-teal-700" />
           <span>View all {images.length} photos</span>
         </button>
       </div>
@@ -552,6 +605,49 @@ export function HotelDetailClient({ hotel }: HotelDetailClientProps) {
               </a>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* ========================================================= */}
+      {/* MOBILE STICKY BOTTOM BAR (Reserve Stay & WhatsApp)       */}
+      {/* ========================================================= */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 px-4 py-3 shadow-2xl flex items-center justify-between pb-safe">
+        <div>
+          <span className="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">
+            Direct Host Rate
+          </span>
+          <div className="flex items-baseline gap-1">
+            <span className="text-lg font-black text-konkan-teal-950">
+              {formatINR(hotel.starting_price)}
+            </span>
+            <span className="text-xs text-slate-500">/ night</span>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <a
+            href={waLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-2.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 transition-colors shadow-xs"
+            aria-label="Direct WhatsApp Concierge"
+          >
+            <Phone className="w-4 h-4" />
+          </a>
+
+          <button
+            type="button"
+            onClick={() => {
+              const widget = document.getElementById("booking-widget");
+              if (widget) {
+                widget.scrollIntoView({ behavior: "smooth" });
+              }
+            }}
+            className="px-5 py-2.5 rounded-full bg-konkan-teal-700 hover:bg-konkan-teal-800 text-white font-bold text-xs shadow-md flex items-center gap-1.5 transition-all active:scale-95"
+          >
+            <span>Reserve Stay</span>
+            <ChevronRight className="w-3.5 h-3.5" />
+          </button>
         </div>
       </div>
     </div>

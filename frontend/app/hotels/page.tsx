@@ -20,12 +20,12 @@ export const metadata: Metadata = {
     "Konkan hotel booking",
   ],
   alternates: {
-    canonical: "https://bhramo.com/hotels",
+    canonical: "https://www.bhramo.com/hotels",
   },
   openGraph: {
     type: "website",
     locale: "en_IN",
-    url: "https://bhramo.com/hotels",
+    url: "https://www.bhramo.com/hotels",
     title: "Explore Coastal Hotels & Beach Resorts in Dapoli & Harnai | bhramo.com",
     description:
       "Browse verified beachfront resorts, rustic cottages, and authentic homestays in Dapoli and Harnai, Maharashtra.",

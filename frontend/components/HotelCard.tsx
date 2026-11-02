@@ -107,7 +107,7 @@ export function HotelCard({ hotel: rawHotel }: HotelCardProps) {
             <button
               type="button"
               onClick={prevPhoto}
-              className="absolute left-2.5 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-black/60 hover:bg-black/85 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10"
+              className="absolute left-2.5 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-black/60 hover:bg-black/85 text-white flex items-center justify-center opacity-70 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity z-10"
               aria-label="Previous photo"
             >
               <ChevronLeft className="w-4 h-4" />
@@ -115,7 +115,7 @@ export function HotelCard({ hotel: rawHotel }: HotelCardProps) {
             <button
               type="button"
               onClick={nextPhoto}
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-black/60 hover:bg-black/85 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10"
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-black/60 hover:bg-black/85 text-white flex items-center justify-center opacity-70 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity z-10"
               aria-label="Next photo"
             >
               <ChevronRight className="w-4 h-4" />

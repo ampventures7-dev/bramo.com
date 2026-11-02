@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   title: "About Us — Preserving Authentic Konkan Hospitality | bhramo.com",
   description:
     "Learn about bhramo.com: Built to empower local homestay and cottage hosts across Dapoli and Harnai, Maharashtra with 0% gateway commission.",
+  alternates: {
+    canonical: "https://www.bhramo.com/about",
+  },
 };
 
 export default function AboutPage() {

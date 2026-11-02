@@ -334,24 +334,34 @@ export function Navbar() {
             </Link>
           )}
 
-            {profile?.role === "admin" && (
-              <>
-                <Link
-                  href="/admin"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="block px-3 py-2 rounded-lg text-sm font-semibold text-purple-900 bg-purple-50"
-                >
-                  Admin Portal
-                </Link>
-                <Link
-                  href="/admin/payments"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="block px-3 py-2 rounded-lg text-sm font-semibold text-amber-900 bg-amber-50"
-                >
-                  Payments & Ledger
-                </Link>
-              </>
-            )}
+          {profile?.role === "owner" && (
+            <Link
+              href="/owner/dashboard"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block px-3 py-2 rounded-lg text-sm font-bold text-konkan-teal-900 bg-konkan-teal-50 border border-konkan-teal-200"
+            >
+              Host / Owner Dashboard
+            </Link>
+          )}
+
+          {profile?.role === "admin" && (
+            <>
+              <Link
+                href="/admin"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block px-3 py-2 rounded-lg text-sm font-semibold text-purple-900 bg-purple-50"
+              >
+                Admin Portal
+              </Link>
+              <Link
+                href="/admin/payments"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block px-3 py-2 rounded-lg text-sm font-semibold text-amber-900 bg-amber-50"
+              >
+                Payments & Ledger
+              </Link>
+            </>
+          )}
 
           {!profile ? (
             <div className="pt-2 border-t border-konkan-sand-100 flex gap-2">

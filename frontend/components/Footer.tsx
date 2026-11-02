@@ -4,8 +4,8 @@ import { Waves, Heart, MapPin, Phone, MessageSquare } from "lucide-react";
 export function Footer() {
   return (
     <footer className="bg-konkan-sand-100 border-t border-konkan-sand-200 text-slate-700">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-10">
           {/* Brand Info */}
           <div className="md:col-span-1 space-y-3">
             <div className="flex items-center gap-2">

@@ -8,11 +8,34 @@
     --foreground: 222 47% 11%;
   }
 
+  html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
+  }
+
   body {
     background-color: #faf8f5;
     color: #1e293b;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
   }
+}
+
+/* Hide scrollbars for clean horizontal sliding chips while maintaining scrollability */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Safe area padding for mobile notches and bottom bars */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 1rem);
 }
 
 /* React Day Picker overrides for coastal teal styling */

@@ -34,12 +34,12 @@ export const metadata: Metadata = {
     "Konkan coast Harnai",
   ],
   alternates: {
-    canonical: "https://bhramo.com/hotels/harnai",
+    canonical: "https://www.bhramo.com/hotels/harnai",
   },
   openGraph: {
     type: "website",
     locale: "en_IN",
-    url: "https://bhramo.com/hotels/harnai",
+    url: "https://www.bhramo.com/hotels/harnai",
     title: "Hotels in Harnai — Sea Fort Stays & Coastal Resorts | bhramo.com",
     description:
       "Handpicked sea-facing hotels and heritage coastal homestays overlooking historic Suvarnadurg sea fort in Harnai, Maharashtra.",
@@ -92,43 +92,43 @@ export default async function HarnaiLandingPage() {
     "@graph": [
       {
         "@type": "CollectionPage",
-        "@id": "https://bhramo.com/hotels/harnai#webpage",
+        "@id": "https://www.bhramo.com/hotels/harnai#webpage",
         "name": "Hotels in Harnai — Beach Resorts & Sea Fort Stays",
         "description": "Curated list of verified sea-facing resorts and homestays in Harnai, Maharashtra.",
-        "url": "https://bhramo.com/hotels/harnai",
+        "url": "https://www.bhramo.com/hotels/harnai",
         "isPartOf": {
           "@type": "WebSite",
           "name": "bhramo.com",
-          "url": "https://bhramo.com",
+          "url": "https://www.bhramo.com",
         },
       },
       {
         "@type": "BreadcrumbList",
-        "@id": "https://bhramo.com/hotels/harnai#breadcrumb",
+        "@id": "https://www.bhramo.com/hotels/harnai#breadcrumb",
         "itemListElement": [
           {
             "@type": "ListItem",
             "position": 1,
             "name": "Home",
-            "item": "https://bhramo.com",
+            "item": "https://www.bhramo.com",
           },
           {
             "@type": "ListItem",
             "position": 2,
             "name": "Hotels",
-            "item": "https://bhramo.com/hotels",
+            "item": "https://www.bhramo.com/hotels",
           },
           {
             "@type": "ListItem",
             "position": 3,
             "name": "Hotels in Harnai",
-            "item": "https://bhramo.com/hotels/harnai",
+            "item": "https://www.bhramo.com/hotels/harnai",
           },
         ],
       },
       {
         "@type": "FAQPage",
-        "@id": "https://bhramo.com/hotels/harnai#faq",
+        "@id": "https://www.bhramo.com/hotels/harnai#faq",
         "mainEntity": HARNAI_FAQS.map((faq) => ({
           "@type": "Question",
           "name": faq.q,

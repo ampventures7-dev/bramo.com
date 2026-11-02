@@ -13,7 +13,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://bhramo.com"),
+  metadataBase: new URL("https://www.bhramo.com"),
   title: {
     default: "bhramo.com — Coastal Hotels, Beach Resorts & Homestays in Dapoli & Harnai",
     template: "%s | bhramo.com",
@@ -30,6 +30,8 @@ export const metadata: Metadata = {
     "Suvarnadurg sea fort stay",
     "Konkan homestays",
     "Konkan coastal tourism",
+    "Dolphin safari Dapoli",
+    "Tamas Teertha Ladghar stay",
     "bhramo.com",
   ],
   authors: [{ name: "bhramo.com Coastal Team" }],
@@ -41,12 +43,18 @@ export const metadata: Metadata = {
     telephone: true,
   },
   alternates: {
-    canonical: "https://bhramo.com",
+    canonical: "https://www.bhramo.com",
+  },
+  other: {
+    "geo.region": "IN-MH",
+    "geo.placename": "Dapoli, Harnai, Ratnagiri, Maharashtra, India",
+    "geo.position": "17.7562;73.1895",
+    "ICBM": "17.7562, 73.1895",
   },
   openGraph: {
     type: "website",
     locale: "en_IN",
-    url: "https://bhramo.com",
+    url: "https://www.bhramo.com",
     siteName: "bhramo.com",
     title: "bhramo.com — Coastal Hotels, Beach Resorts & Homestays in Dapoli & Harnai",
     description:
@@ -91,32 +99,59 @@ export default function RootLayout({
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "Organization",
-        "@id": "https://bhramo.com/#organization",
+        "@type": ["TravelAgency", "Organization"],
+        "@id": "https://www.bhramo.com/#organization",
         "name": "bhramo.com",
-        "url": "https://bhramo.com",
-        "logo": "https://bhramo.com/logo.png",
-        "description": "Authentic coastal hospitality, beach resorts, and homestays platform for Dapoli and Harnai, Maharashtra.",
-        "areaServed": {
-          "@type": "AdministrativeArea",
-          "name": "Konkan, Maharashtra, India",
-        },
+        "url": "https://www.bhramo.com",
+        "logo": "https://www.bhramo.com/logo.png",
+        "description": "Authentic coastal hospitality, beach resorts, dolphin safari stays, and homestays platform for Dapoli and Harnai, Konkan, Maharashtra.",
+        "areaServed": [
+          {
+            "@type": "AdministrativeArea",
+            "name": "Dapoli, Ratnagiri, Maharashtra, India",
+          },
+          {
+            "@type": "AdministrativeArea",
+            "name": "Harnai, Ratnagiri, Maharashtra, India",
+          },
+          {
+            "@type": "AdministrativeArea",
+            "name": "Konkan Coastline, Maharashtra, India",
+          },
+        ],
+        "knowsAbout": [
+          "Hotels in Dapoli",
+          "Beach Resorts in Harnai",
+          "Konkan Coastal Tourism",
+          "Dolphin Safari in Dapoli",
+          "Suvarnadurg Sea Fort Boat Rides",
+          "Ladghar Beach Resorts",
+          "Karde Beach Homestays",
+          "Murud Beach Water Sports",
+          "Konkani Cuisine and Seafood",
+        ],
+        "sameAs": [
+          "https://en.wikipedia.org/wiki/Dapoli",
+          "https://en.wikipedia.org/wiki/Harnai",
+          "https://en.wikipedia.org/wiki/Suvarnadurg",
+        ],
+        "priceRange": "₹1500 - ₹9000 INR",
         "contactPoint": {
           "@type": "ContactPoint",
-          "telephone": "+91-9876543210",
+          "telephone": "+91-7447568595",
           "contactType": "customer service",
           "availableLanguage": ["English", "Marathi", "Hindi"],
         },
       },
       {
         "@type": "WebSite",
-        "@id": "https://bhramo.com/#website",
-        "url": "https://bhramo.com",
+        "@id": "https://www.bhramo.com/#website",
+        "url": "https://www.bhramo.com",
         "name": "bhramo.com",
-        "publisher": { "@id": "https://bhramo.com/#organization" },
+        "publisher": { "@id": "https://www.bhramo.com/#organization" },
         "potentialAction": {
           "@type": "SearchAction",
-          "target": "https://bhramo.com/hotels?area={search_term_string}",
+          "target": "https://www.bhramo.com/hotels?area={search_term_string}",
           "query-input": "required name=search_term_string",
         },
       },
@@ -131,7 +166,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
         />
       </head>
-      <body className="min-h-screen flex flex-col bg-[#faf8f5] text-slate-800 antialiased">
+      <body className="min-h-screen flex flex-col bg-[#faf8f5] text-slate-800 antialiased overflow-x-hidden w-full selection:bg-konkan-teal-100 selection:text-konkan-teal-900">
         <AuthProvider>
           <LanguageProvider>
             <Navbar />

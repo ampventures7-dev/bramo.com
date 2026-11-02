@@ -28,9 +28,36 @@ export const metadata: Metadata = {
   description:
     "Discover verified beachfront cottages, luxury sea-facing resorts, and rustic Konkani homestays across Murud, Ladghar, Karde and Harnai. Direct UPI booking with 0% extra gateway fees.",
   alternates: {
-    canonical: "https://bhramo.com",
+    canonical: "https://www.bhramo.com",
   },
 };
+
+const HOME_FAQS = [
+  {
+    q: "What are the best beaches to stay near in Dapoli?",
+    a: "The top coastal stretches are Murud Beach (famous for watersports and dolphin boat rides), Ladghar Beach (known for its distinct red soil and scenic sunsets), Karde Beach (a peaceful white-sand stretch), and Harnai Port Beach (home to the historic Suvarnadurg Sea Fort).",
+  },
+  {
+    q: "How do I reach Dapoli and Harnai from Mumbai or Pune?",
+    a: "Dapoli is approximately 215 km from Mumbai via NH66 (Mumbai-Goa Highway) via Mangaon, and 185 km from Pune via Bhor Ghat or Tamhini Ghat. The nearest railway station is Khed (30 km away) on the Konkan Railway network.",
+  },
+  {
+    q: "When can I spot wild dolphins in Dapoli?",
+    a: "Wild dolphins are most active from October to May. Morning boat safaris depart daily from Murud Beach and Karde Beach between 6:30 AM and 9:00 AM, offering a 95% sighting rate in calm morning waters.",
+  },
+  {
+    q: "Why book directly on bhramo.com?",
+    a: "bhramo.com connects you directly with verified local Konkani property owners with 0% extra platform gateway fees. You get genuine phone & WhatsApp support, accurate distance to beaches, and local authentic hospitality.",
+  },
+  {
+    q: "Are beach resorts in Dapoli pet-friendly?",
+    a: "Several independent homestays and cottages in Palande, Karde, and Ladghar warmly welcome pets with prior notification to the property host.",
+  },
+  {
+    q: "What authentic Konkani dishes should visitors try?",
+    a: "Must-try authentic coastal delicacies include fresh Surmai (Kingfish) and Pomfret fry, Tisrya (clams) masala, freshly steamed Ukadiche Modak, Poha-based breakfast, and refreshing Solkadhi.",
+  },
+];
 
 export default async function HomePage() {
   const allHotels = await fetchAllHotels();
@@ -40,8 +67,65 @@ export default async function HomePage() {
   const dapoliCount = allHotels.filter((h) => h.area === "Dapoli").length;
   const harnaiCount = allHotels.filter((h) => h.area === "Harnai").length;
 
+  const homeJsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://www.bhramo.com/#webpage",
+        "url": "https://www.bhramo.com",
+        "name": "bhramo.com — Coastal Hotels, Beach Resorts & Homestays in Dapoli & Harnai",
+        "description": "Discover verified beachfront cottages, luxury sea-facing resorts, and rustic Konkani homestays across Murud, Ladghar, Karde and Harnai.",
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://www.bhramo.com/#faq",
+        "mainEntity": HOME_FAQS.map((faq) => ({
+          "@type": "Question",
+          "name": faq.q,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": faq.a,
+          },
+        })),
+      },
+      {
+        "@type": "HowTo",
+        "@id": "https://www.bhramo.com/#howto-book",
+        "name": "How to Book a Verified Coastal Stay on bhramo.com",
+        "description": "Step-by-step process for booking authentic beach resorts and Konkani cottages in Dapoli & Harnai with 0% extra gateway fees.",
+        "totalTime": "PT3M",
+        "step": [
+          {
+            "@type": "HowToStep",
+            "position": 1,
+            "name": "Select Your Coastal Destination",
+            "text": "Browse verified beachfront properties across Dapoli, Murud, Ladghar, Karde, or Harnai based on real photos and genuine guest reviews.",
+          },
+          {
+            "@type": "HowToStep",
+            "position": 2,
+            "name": "Choose Room & Dates",
+            "text": "Pick your travel dates, select from AC or Non-AC cottages, and review the exact distance to the beach.",
+          },
+          {
+            "@type": "HowToStep",
+            "position": 3,
+            "name": "Instant UPI Confirmation",
+            "text": "Pay securely using instant UPI QR scan with 0% platform charges, or choose Pay at Hotel with direct WhatsApp owner notification.",
+          },
+        ],
+      },
+    ],
+  };
+
   return (
-    <div className="space-y-20 pb-24 bg-[#faf8f5] text-slate-900">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(homeJsonLd) }}
+      />
+      <div className="space-y-20 pb-24 bg-[#faf8f5] text-slate-900">
       {/* ========================================================= */}
       {/* 1. HERO SLIDESHOW SECTION (Full-Screen Edge-to-Edge)      */}
       {/* (Left completely untouched as requested)                  */}
@@ -68,12 +152,12 @@ export default async function HomePage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
           {/* Tile 1: Large Featured Beachfront Villa (Spans 2 Columns, 2 Rows) */}
           {heroHotel && (
             <Link
               href={`/hotels/${heroHotel.id}`}
-              className="md:col-span-2 lg:col-span-2 relative rounded-3xl overflow-hidden shadow-lg border border-slate-200/80 group flex flex-col justify-between min-h-[360px] sm:min-h-[420px] bg-slate-950 text-white"
+              className="md:col-span-2 lg:col-span-2 relative rounded-3xl overflow-hidden shadow-lg border border-slate-200/80 group flex flex-col justify-between min-h-[320px] sm:min-h-[420px] bg-slate-950 text-white"
             >
               <Image
                 src={heroHotel.images[0] || "/hero/hero-1.jpg"}
@@ -85,23 +169,23 @@ export default async function HomePage() {
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent" />
 
               {/* Top Badges */}
-              <div className="relative z-10 p-5 flex items-center justify-between">
-                <span className="px-3 py-1 rounded-full text-xs font-bold bg-white text-slate-950 shadow-md">
+              <div className="relative z-10 p-4 sm:p-5 flex items-center justify-between">
+                <span className="px-3 py-1 rounded-full text-[11px] sm:text-xs font-bold bg-white text-slate-950 shadow-md">
                   ★ Editor's Sanctuary Choice
                 </span>
-                <span className="px-3 py-1 rounded-full text-xs font-bold bg-black/50 backdrop-blur-md text-white border border-white/20">
+                <span className="px-3 py-1 rounded-full text-[11px] sm:text-xs font-bold bg-black/50 backdrop-blur-md text-white border border-white/20">
                   {heroHotel.area} Coast
                 </span>
               </div>
 
               {/* Bottom Card Meta */}
-              <div className="relative z-10 p-6 space-y-3">
+              <div className="relative z-10 p-4 sm:p-6 space-y-2.5 sm:space-y-3">
                 <div className="flex items-center gap-1.5 text-xs text-konkan-teal-200 font-semibold">
-                  <MapPin className="w-3.5 h-3.5" />
+                  <MapPin className="w-3.5 h-3.5 shrink-0" />
                   <span className="truncate">{heroHotel.address}</span>
                 </div>
 
-                <h3 className="text-2xl sm:text-3xl font-black text-white leading-tight">
+                <h3 className="text-xl sm:text-3xl font-black text-white leading-tight">
                   {heroHotel.name}
                 </h3>
 
@@ -111,14 +195,14 @@ export default async function HomePage() {
 
                 <div className="pt-2 flex items-center justify-between border-t border-white/20">
                   <div>
-                    <span className="text-[11px] text-slate-300">Direct Host Rate</span>
-                    <div className="text-xl font-black text-white">
+                    <span className="text-[10px] sm:text-[11px] text-slate-300">Direct Host Rate</span>
+                    <div className="text-lg sm:text-xl font-black text-white">
                       {formatINR(heroHotel.starting_price)}
                       <span className="text-xs font-normal text-slate-300"> / night</span>
                     </div>
                   </div>
 
-                  <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white text-slate-950 font-bold text-xs group-hover:bg-slate-100 transition-colors shadow-md">
+                  <span className="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-full bg-white text-slate-950 font-bold text-xs group-hover:bg-slate-100 transition-colors shadow-md">
                     <span>Reserve Stay</span>
                     <ArrowUpRight className="w-3.5 h-3.5" />
                   </span>
@@ -486,7 +570,94 @@ export default async function HomePage() {
       </section>
 
       {/* ========================================================= */}
-      {/* 6. AEO & GEO FAQ SECTION                                  */}
+      {/* 4. GEO & AEO COASTAL COMPARISON TABLE (High Citability)   */}
+      {/* ========================================================= */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 space-y-6">
+        <div className="text-center max-w-2xl mx-auto space-y-2">
+          <span className="text-xs font-bold text-konkan-teal-700 uppercase tracking-widest">
+            Konkan Coastline Guide
+          </span>
+          <h2 className="text-2xl sm:text-3xl font-black text-slate-900">
+            Dapoli & Harnai Beach Comparison
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-600">
+            Choose the ideal coastline based on dolphin safaris, water sports, and beach vibe.
+          </p>
+        </div>
+
+        <div className="flex items-center justify-between text-[11px] text-slate-400 px-1 sm:hidden">
+          <span>← Swipe horizontally to view full comparison →</span>
+        </div>
+        <div className="overflow-x-auto rounded-3xl border border-slate-200 bg-white shadow-sm scrollbar-none">
+          <table className="w-full min-w-[620px] text-left text-xs sm:text-sm">
+            <thead className="bg-slate-50 border-b border-slate-200 text-slate-700 font-bold uppercase text-[11px] tracking-wider">
+              <tr>
+                <th className="py-4 px-5">Beach & Location</th>
+                <th className="py-4 px-4">Coastline Vibe</th>
+                <th className="py-4 px-4 text-center">Dolphin Safari</th>
+                <th className="py-4 px-4 text-center">Water Sports</th>
+                <th className="py-4 px-4">Distance from Dapoli</th>
+                <th className="py-4 px-5 text-right">Ideal For</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100 text-slate-700">
+              <tr className="hover:bg-slate-50/70 transition-colors">
+                <td className="py-3.5 px-5 font-bold text-slate-900">
+                  <span className="text-konkan-teal-800">Murud Beach</span>
+                </td>
+                <td className="py-3.5 px-4">Gentle slope, energetic, wide shore</td>
+                <td className="py-3.5 px-4 text-center text-emerald-600 font-bold">★ High (95%)</td>
+                <td className="py-3.5 px-4 text-center text-emerald-600 font-bold">Available</td>
+                <td className="py-3.5 px-4 font-mono text-xs">11 km (20 mins)</td>
+                <td className="py-3.5 px-5 text-right font-medium">Families & Water Sports</td>
+              </tr>
+              <tr className="hover:bg-slate-50/70 transition-colors">
+                <td className="py-3.5 px-5 font-bold text-slate-900">
+                  <span className="text-konkan-teal-800">Ladghar Beach</span>
+                </td>
+                <td className="py-3.5 px-4">Red tinted sand (Tamas Teertha), sunset views</td>
+                <td className="py-3.5 px-4 text-center text-emerald-600 font-bold">Moderate</td>
+                <td className="py-3.5 px-4 text-center text-emerald-600 font-bold">Available</td>
+                <td className="py-3.5 px-4 font-mono text-xs">12 km (25 mins)</td>
+                <td className="py-3.5 px-5 text-right font-medium">Couples & Sunset Chasers</td>
+              </tr>
+              <tr className="hover:bg-slate-50/70 transition-colors">
+                <td className="py-3.5 px-5 font-bold text-slate-900">
+                  <span className="text-konkan-teal-800">Karde Beach</span>
+                </td>
+                <td className="py-3.5 px-4">4 km unbroken white-sand shoreline, secluded</td>
+                <td className="py-3.5 px-4 text-center text-emerald-600 font-bold">★ High (90%)</td>
+                <td className="py-3.5 px-4 text-center text-amber-600 font-medium">Seasonal</td>
+                <td className="py-3.5 px-4 font-mono text-xs">13 km (25 mins)</td>
+                <td className="py-3.5 px-5 text-right font-medium">Peace, Nature & Dolphins</td>
+              </tr>
+              <tr className="hover:bg-slate-50/70 transition-colors">
+                <td className="py-3.5 px-5 font-bold text-slate-900">
+                  <span className="text-konkan-teal-800">Harnai Port & Bunder</span>
+                </td>
+                <td className="py-3.5 px-4">Historic sea fort Suvarnadurg, busy fish auction</td>
+                <td className="py-3.5 px-4 text-center text-slate-400">Low</td>
+                <td className="py-3.5 px-4 text-center text-slate-400">Boating to Fort</td>
+                <td className="py-3.5 px-4 font-mono text-xs">15 km (25 mins)</td>
+                <td className="py-3.5 px-5 text-right font-medium">History, Forts & Seafood</td>
+              </tr>
+              <tr className="hover:bg-slate-50/70 transition-colors">
+                <td className="py-3.5 px-5 font-bold text-slate-900">
+                  <span className="text-konkan-teal-800">Palande Beach</span>
+                </td>
+                <td className="py-3.5 px-4">Quiet cove between Murud and Harnai, lush palms</td>
+                <td className="py-3.5 px-4 text-center text-emerald-600 font-bold">Moderate</td>
+                <td className="py-3.5 px-4 text-center text-slate-400">No (Quiet)</td>
+                <td className="py-3.5 px-4 font-mono text-xs">14 km (22 mins)</td>
+                <td className="py-3.5 px-5 text-right font-medium">Beach Touch Homestays</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      {/* ========================================================= */}
+      {/* 5. AEO & GEO FAQ SECTION (Optimized for AI Overviews)     */}
       {/* ========================================================= */}
       <section className="max-w-5xl mx-auto px-4 sm:px-6 pt-4">
         <div className="bg-white rounded-3xl p-8 sm:p-12 border border-slate-200 shadow-sm space-y-8">
@@ -498,49 +669,21 @@ export default async function HomePage() {
               Frequently Asked Questions About Dapoli & Harnai
             </h2>
             <p className="text-xs sm:text-sm text-slate-600">
-              Everything you need to know about planning your Konkan coastal holiday.
+              Direct answers to frequently searched questions about planning your Konkan coastal trip.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
-            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2">
-              <h3 className="font-bold text-sm text-slate-900">
-                What are the best beaches to stay near in Dapoli?
-              </h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                The top coastal stretches are <strong>Murud Beach</strong> (famous for watersports and dolphin boat rides), <strong>Ladghar Beach</strong> (known for its distinct red soil and scenic sunsets), <strong>Karde Beach</strong> (a peaceful white-sand stretch), and <strong>Harnai Port Beach</strong> (home to the historic Suvarnadurg Sea Fort).
-              </p>
-            </div>
-
-            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2">
-              <h3 className="font-bold text-sm text-slate-900">
-                How do I reach Dapoli and Harnai from Mumbai or Pune?
-              </h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Dapoli is approximately 215 km from Mumbai via NH66 (Mumbai-Goa Highway) via Mangaon, and 185 km from Pune via Bhor Ghat or Tamhini Ghat. The nearest railway station is <strong>Khed (30 km away)</strong> on the Konkan Railway network.
-              </p>
-            </div>
-
-            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2">
-              <h3 className="font-bold text-sm text-slate-900">
-                When can I spot wild dolphins in Dapoli?
-              </h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Wild dolphins are most active from <strong>October to May</strong>. Morning boat safaris depart daily from Murud Beach and Karde Beach between <strong>6:30 AM and 9:00 AM</strong>, offering a 95% sighting rate in calm morning waters.
-              </p>
-            </div>
-
-            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2">
-              <h3 className="font-bold text-sm text-slate-900">
-                Why book directly on bhramo.com?
-              </h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                bhramo.com connects you directly with verified local Konkani property owners with <strong>0% extra platform gateway fees</strong>. You get genuine phone & WhatsApp support, accurate distance to beaches, and local authentic hospitality.
-              </p>
-            </div>
+            {HOME_FAQS.map((faq, idx) => (
+              <div key={idx} className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2">
+                <h3 className="font-bold text-sm text-slate-900">{faq.q}</h3>
+                <p className="text-xs text-slate-600 leading-relaxed aeo-faq-answer">{faq.a}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
     </div>
+    </>
   );
 }

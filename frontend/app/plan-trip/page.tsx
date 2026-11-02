@@ -259,7 +259,7 @@ export default function TripPlannerPage() {
                 <Calendar className="w-4 h-4 text-konkan-teal-700" />
                 <span>1. How long is your trip?</span>
               </label>
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3">
                 {[
                   { id: "2_days", label: "2 Days / 1 Night", sub: "Weekend Escape" },
                   { id: "3_days", label: "3 Days / 2 Nights", sub: "Most Popular", popular: true },
@@ -354,7 +354,7 @@ export default function TripPlannerPage() {
                 <Wallet className="w-4 h-4 text-konkan-teal-700" />
                 <span>4. Comfort & Budget Tier</span>
               </label>
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3">
                 {[
                   { id: "budget", label: "Homestays", sub: "₹1,500 - ₹2,500 / night" },
                   { id: "mid", label: "Eco Cottages & Beach Stays", sub: "₹2,500 - ₹4,000 / night", popular: true },

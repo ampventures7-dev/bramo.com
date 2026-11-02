@@ -52,6 +52,14 @@ export function HotelsExplorer({ initialHotels }: HotelsExplorerProps) {
   const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [activeChip, setActiveChip] = useState<string>("all");
+  const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState<boolean>(false);
+
+  const activeFilterCount =
+    (selectedArea !== "all" ? 1 : 0) +
+    (acFilter !== "all" ? 1 : 0) +
+    (maxPrice < 5000 ? 1 : 0) +
+    selectedAmenities.length +
+    (searchQuery.trim() ? 1 : 0);
 
   const toggleAmenity = (amenity: string) => {
     setSelectedAmenities((prev) =>
@@ -179,12 +187,44 @@ export function HotelsExplorer({ initialHotels }: HotelsExplorerProps) {
         })}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+      {/* Mobile Filter Toggle Bar */}
+      <div className="lg:hidden flex items-center justify-between bg-white p-3.5 rounded-2xl border border-slate-200 shadow-sm">
+        <button
+          type="button"
+          onClick={() => setIsMobileFiltersOpen(!isMobileFiltersOpen)}
+          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-konkan-teal-700 hover:bg-konkan-teal-800 text-white font-bold text-xs shadow-sm transition-all"
+        >
+          <SlidersHorizontal className="w-3.5 h-3.5" />
+          <span>{isMobileFiltersOpen ? "Hide Filters" : "Filter & Refine"}</span>
+          {activeFilterCount > 0 && (
+            <span className="w-5 h-5 rounded-full bg-white text-konkan-teal-900 text-[10px] font-black flex items-center justify-center">
+              {activeFilterCount}
+            </span>
+          )}
+        </button>
+
+        <div className="flex items-center gap-2.5 text-xs">
+          <span className="text-slate-500 font-medium">
+            {filteredHotels.length} {filteredHotels.length === 1 ? "stay" : "stays"}
+          </span>
+          {activeFilterCount > 0 && (
+            <button
+              type="button"
+              onClick={resetFilters}
+              className="text-konkan-teal-700 font-bold hover:underline"
+            >
+              Reset
+            </button>
+          )}
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 sm:gap-8">
         {/* ========================================================= */}
         {/* FILTERS SIDEBAR */}
         {/* ========================================================= */}
-        <div className="space-y-6">
-          <div className="bg-white p-6 rounded-3xl border border-slate-200/90 shadow-sm space-y-6">
+        <div className={`${isMobileFiltersOpen ? "block" : "hidden"} lg:block space-y-6`}>
+          <div className="bg-white p-5 sm:p-6 rounded-3xl border border-slate-200/90 shadow-sm space-y-6">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <div className="flex items-center gap-2 font-black text-sm text-slate-900">
                 <SlidersHorizontal className="w-4 h-4 text-konkan-teal-700" />
@@ -312,6 +352,17 @@ export function HotelsExplorer({ initialHotels }: HotelsExplorerProps) {
                   );
                 })}
               </div>
+            </div>
+
+            {/* Mobile Apply Button */}
+            <div className="lg:hidden pt-2 border-t border-slate-100">
+              <button
+                type="button"
+                onClick={() => setIsMobileFiltersOpen(false)}
+                className="w-full py-3 rounded-2xl bg-konkan-teal-700 text-white font-bold text-xs shadow-md"
+              >
+                Show {filteredHotels.length} {filteredHotels.length === 1 ? "Property" : "Properties"}
+              </button>
             </div>
           </div>
         </div>
