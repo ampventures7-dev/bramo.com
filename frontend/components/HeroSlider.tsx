@@ -35,7 +35,7 @@ interface SlideItem {
 const SLIDES: SlideItem[] = [
   {
     id: 1,
-    src: "/hero/hero-1.jpg",
+    src: "/hero/hero-dolphin.jpg",
     title: "Morning Dolphin Boat Safari",
     tagline: "Watch wild Indo-Pacific dolphins leaping in sunrise waters",
     badge: "Murud & Karde Beach",
@@ -43,35 +43,51 @@ const SLIDES: SlideItem[] = [
   },
   {
     id: 2,
-    src: "/hotels/appas-beach-resort/beach-touch-sunset-trail.jpg",
-    title: "Direct Beach-Touch Cottages",
-    tagline: "Step straight from your cottage onto golden Palande sands",
-    badge: "Beachfront Access",
-    location: "Palande Beach, Harnai"
+    src: "/hero/hero-suvarnadurg.jpg",
+    title: "Historic Suvarnadurg Sea Fort",
+    tagline: "17th-century island sea fortress surrounded by Arabian Sea waves",
+    badge: "Suvarnadurg Fort",
+    location: "Harnai, Dapoli"
   },
   {
     id: 3,
-    src: "/hero/hero-3.jpg",
-    title: "Vast Untouched Shorelines",
-    tagline: "Miles of peaceful golden sand lined by lush betel-nut wadis",
-    badge: "Murud & Karde Coast",
-    location: "Dapoli Coast"
+    src: "/hero/hero-cottages.jpg",
+    title: "Direct Beach-Touch Cottages",
+    tagline: "Step straight from your Konkani cottage onto golden sands beneath palm canopies",
+    badge: "Beachfront Access",
+    location: "Palande & Karde Beach"
   },
   {
     id: 4,
-    src: "/hero/hero-4.jpg",
-    title: "Fiery Crimson Sunsets",
-    tagline: "Red-tinted sands and tranquil waves at Tamas Tirtha",
-    badge: "Ladghar Beach",
-    location: "Ladghar, Dapoli"
+    src: "/hero/hero-harnai-port.jpg",
+    title: "Vibrant Harnai Fishing Port",
+    tagline: "Legendary fish auctions and colorful traditional boats in the surf",
+    badge: "Harnai Bandar",
+    location: "Harnai Port"
   },
   {
     id: 5,
-    src: "/hotels/isshan-resort/beach-canopy-ocean-view.jpg",
-    title: "Authentic Coastal Homestays",
-    tagline: "Enjoy sea breeze with fresh home-cooked Surmai and hot Ukdiche Modak",
+    src: "/hero/hero-beach-path.jpg",
+    title: "Sunlit Coastal Pathways",
+    tagline: "Private wooden walkways leading through lush greenery to the ocean",
     badge: "Gharghuti Hospitality",
-    location: "Harnai & Murud"
+    location: "Palande & Murud"
+  },
+  {
+    id: 6,
+    src: "/hero/hero-azure-waves.jpg",
+    title: "Untouched Golden Shorelines",
+    tagline: "Miles of peaceful golden sand and gentle turquoise tides",
+    badge: "Konkan Coastline",
+    location: "Dapoli Coast"
+  },
+  {
+    id: 7,
+    src: "/hero/hero-sunset-tide.png",
+    title: "Golden Sunset Tide",
+    tagline: "Crimson-amber dusk reflecting on tidal rocks and tranquil Arabian Sea waves",
+    badge: "Tamas Tirtha",
+    location: "Ladghar Beach"
   }
 ];
 
@@ -425,6 +441,19 @@ export function HeroSlider() {
 
         {/* Right Quick Location Badges */}
         <div className="hidden sm:flex flex-col items-end gap-3 self-end">
+          {/* Active Scene Spotlight */}
+          <div className="bg-black/50 backdrop-blur-md px-4 py-2.5 rounded-2xl border border-white/20 text-right max-w-xs shadow-xl transition-all duration-500">
+            <span className="text-[10px] uppercase font-bold tracking-wider text-konkan-sand-300 block">
+              {SLIDES[currentSlide].location}
+            </span>
+            <span className="text-xs font-bold text-white block mt-0.5">
+              {SLIDES[currentSlide].title}
+            </span>
+            <span className="text-[11px] text-slate-300 block leading-snug mt-1">
+              {SLIDES[currentSlide].tagline}
+            </span>
+          </div>
+
           {/* Quick Location Pills */}
           <div className="flex items-center gap-2">
             <Link
@@ -556,12 +585,12 @@ export function HeroSlider() {
                 />
               ))}
               <span className="text-[11px] text-white/90 font-mono ml-2 font-bold">
-                0{currentSlide + 1} / 0{SLIDES.length}
+                {String(currentSlide + 1).padStart(2, "0")} / {String(SLIDES.length).padStart(2, "0")}
               </span>
             </div>
 
             <span className="hidden sm:inline-block text-[11px] text-white/70 font-medium">
-              Auto-cycling every 2 seconds • Hover to pause
+              Auto-cycling every 4.5 seconds • Hover to pause
             </span>
           </div>
         </div>
