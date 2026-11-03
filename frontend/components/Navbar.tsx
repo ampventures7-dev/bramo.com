@@ -226,7 +226,7 @@ export function Navbar() {
               </div>
             ) : (
               <a
-                href="https://wa.me/919876543210?text=Hi%20bhramo.com,%20I%20need%20help%20finding%20a%20hotel%20in%20Dapoli%20or%20Harnai"
+                href="https://wa.me/917447568595?text=Hi%20bhramo.com,%20I%20need%20help%20finding%20a%20hotel%20in%20Dapoli%20or%20Harnai"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hidden sm:inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 transition-colors"

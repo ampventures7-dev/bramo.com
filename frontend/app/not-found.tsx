@@ -43,7 +43,7 @@ export default function NotFound() {
 
         <div className="pt-3 border-t border-konkan-sand-100 text-[11px] text-slate-400">
           Need immediate help? Reach our Konkan desk on WhatsApp at{" "}
-          <strong className="text-slate-600">+91 98765 43210</strong>
+          <strong className="text-slate-600">+91 74475 68595</strong>
         </div>
       </div>
     </div>

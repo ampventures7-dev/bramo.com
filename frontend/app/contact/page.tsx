@@ -54,7 +54,7 @@ export default function ContactPage() {
               Fastest response for urgent booking confirmations, dolphin safari boat queries, or local road directions to Dapoli and Harnai.
             </p>
             <div className="font-mono text-sm font-bold text-emerald-900 pt-1">
-              +91 98765 43210
+              +91 74475 68595
             </div>
           </div>
 

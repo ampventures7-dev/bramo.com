@@ -17,7 +17,7 @@ export function Footer() {
               </span>
             </div>
             <p className="text-xs text-slate-600 leading-relaxed">
-              Curated homestays, sea-facing resorts, and rustic cottages nestled along the pristine beaches of Dapoli and Harnai in Maharashtra, India.
+              Verified beach resorts, cottages, and family homestays across Murud, Ladghar, Karde, and Harnai in Ratnagiri, Maharashtra.
             </p>
             <div className="pt-1 text-xs text-konkan-sand-800 font-medium">
               🌿 Konkan Coastal Hospitality
@@ -101,7 +101,7 @@ export function Footer() {
               Reserve with 0% extra commissions. Pay on arrival at hotel or directly to the owner via verified UPI QR.
             </p>
             <a
-              href="https://wa.me/919876543210?text=Hi%20bhramo.com%20team,%20I%20have%20an%20inquiry%20regarding%20hotel%20booking"
+              href="https://wa.me/917447568595?text=Hi%20bhramo.com%20team,%20I%20have%20an%20inquiry%20regarding%20hotel%20booking"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-3.5 py-2 bg-emerald-600 text-white rounded-xl text-xs font-bold hover:bg-emerald-700 transition-colors shadow-sm"

@@ -32,8 +32,8 @@ export default function AboutPage() {
       {/* Hero Visual Card */}
       <div className="relative h-64 sm:h-80 rounded-3xl overflow-hidden shadow-md border border-konkan-sand-200">
         <Image
-          src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80"
-          alt="Dapoli Coastal Beauty"
+          src="/hotels/appas-beach-resort/beach-touch-sunset-trail.jpg"
+          alt="Palande and Dapoli Coastal Shoreline"
           fill
           priority
           sizes="(max-width: 768px) 100vw, 896px"

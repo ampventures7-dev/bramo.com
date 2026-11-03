@@ -107,7 +107,7 @@ export const KONKAN_SPOTS: KonkanSpot[] = [
   {
     id: "asud-keshavraj-trek",
     title: "Keshavraj Temple Ancient Betel-Nut Jungle Trail",
-    tagline: "A mystical 1000-year-old Vishnu temple nestled in a dense canopy of coconut palms",
+    tagline: "An ancient 1000-year-old stone Vishnu temple located inside a dense coconut and betel-nut grove",
     cluster: "murud_karde",
     category: "heritage",
     idealPeriod: "morning",

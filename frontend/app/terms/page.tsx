@@ -75,7 +75,7 @@ export default function TermsPage() {
         <section className="space-y-2">
           <h2 className="text-base sm:text-lg font-bold text-slate-900">6. Contact for Legal Inquiries</h2>
           <p>
-            For any inquiries regarding these terms, please contact our support desk via email at <span className="font-semibold text-konkan-teal-800">support@bhramo.com</span> or on WhatsApp at <span className="font-semibold text-konkan-teal-800">+91 98765 43210</span>.
+            For any inquiries regarding these terms, please contact our support desk via email at <span className="font-semibold text-konkan-teal-800">support@bhramo.com</span> or on WhatsApp at <span className="font-semibold text-konkan-teal-800">+91 74475 68595</span>.
           </p>
         </section>
       </div>

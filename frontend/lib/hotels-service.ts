@@ -24,7 +24,7 @@ const SEED_HOTELS_DATA: HotelWithDetails[] = [
     address: "Palande Beach Road, Near Murud-Harnai Coastal Stretch, Taluka Dapoli 415713",
     lat: 17.7960,
     lng: 73.1040,
-    description: "Nestled right along pristine Palande Beach with direct beach touch through a serene canopy of coastal trees and lush greenery. Experience true Konkan homestay warmth with peaceful coastal vibes. In-house restaurant with fresh home-style Konkani thalis and fresh seafood prepared on demand (no breakfast included in homestay).",
+    description: "Located directly on Palande Beach (<50m walk to the sand through shaded palm trees). A family-run coastal cottage stay with clean AC and non-AC rooms, on-site parking, and home-style Konkani thalis (fresh Surmai and Pomfret prepared fresh on order; note breakfast is not included).",
     amenities: [
       "Palande Beach Touch (<50m)",
       "Lush Coastal Greenery",
@@ -105,7 +105,7 @@ const SEED_HOTELS_DATA: HotelWithDetails[] = [
     address: "Near Murud Coastal Road, Dapoli, Maharashtra 415713",
     lat: 17.7820,
     lng: 73.1180,
-    description: "Welcome to Baliraj Home Stay, a peaceful Konkan retreat surrounded by lush green hills and tranquil coastal nature. Features well-appointed air-conditioned and non-AC rooms with private balconies, scenic hill views, and genuine Konkani homestay hospitality with fresh home-style meals prepared on request.",
+    description: "A quiet Konkan homestay surrounded by green hills, 1.5 km from Murud Beach. Features clean air-conditioned and non-AC rooms with private balconies, hill views, and home-cooked Konkani meals prepared on advance request.",
     amenities: [
       "Scenic Hill & Greenery View",
       "Private Balcony Windows",
@@ -181,7 +181,7 @@ const SEED_HOTELS_DATA: HotelWithDetails[] = [
     address: "Direct Beach Touch Coastline Road, Murud-Karde Stretch, Dapoli 415713",
     lat: 17.7880,
     lng: 73.1110,
-    description: "Experience magical coastal living right on the beachfront at Isshan Resort. Step straight from your cottage garden onto the sandy shore of the Arabian Sea. Enjoy evening tea under fairy-lit coastal trees, outdoor courtyard dining with warm rope lamps, fresh authentic Konkani seafood, and comfortable AC cottages.",
+    description: "Located right on the Murud-Karde beachfront (<30m walk to the waves). Step straight from the courtyard lawn onto the beach. Features air-conditioned cottages, an outdoor evening dining courtyard with rope lighting, and fresh local seafood meals on demand.",
     amenities: [
       "Direct Beach Touch (<30m)",
       "Open Beach Garden & Lawn",
@@ -261,7 +261,7 @@ const SEED_HOTELS_DATA: HotelWithDetails[] = [
     address: "Coastal Road, Taluka Dapoli, District Ratnagiri, Maharashtra 415713",
     lat: 17.7780,
     lng: 73.1250,
-    description: "Welcome to Sachi Sanskruti (साची संस्कृती), an expansive Konkani homestay surrounded by betel nut wadis, coconut palms, and peaceful green hills. Featuring a wide stone-paved private courtyard with abundant parking, comfortable family suites, balcony views of coastal hills, and heartwarming home-cooked meals.",
+    description: "A spacious family homestay located in a betel-nut and coconut wadi in Dapoli. Offers large AC family suites, a wide stone courtyard with private parking for multiple cars and buses, balcony hill views, and home-cooked Konkani meals.",
     amenities: [
       "Spacious Stone Courtyard & Garden",
       "Expansive Free Car & Bus Parking",
@@ -354,7 +354,7 @@ const SEED_HOTELS_DATA: HotelWithDetails[] = [
     address: "Palande-Harnai Beachfront Stretch, Dapoli, Maharashtra 415713",
     lat: 17.7920,
     lng: 73.1080,
-    description: "Nestled right along the coastline, Ishan Laukik offers direct beach access through a serene coconut and palm grove. Wake up to direct sea views right from your bed through sliding glass doors, enjoy refreshing outdoor garden dining in the covered gazebo, and experience genuine Konkan seaside hospitality.",
+    description: "Situated 40 meters from the Palande-Harnai shore with sliding glass doors opening towards the ocean. Features air-conditioned rooms with private bathrooms, a covered garden gazebo for meals, and home-cooked Konkani seafood.",
     amenities: [
       "Direct Beach Touch (<40m)",
       "Sliding Glass Beach View Rooms",
@@ -432,7 +432,7 @@ const SEED_HOTELS_DATA: HotelWithDetails[] = [
     address: "Palande-Murud Coastal Road, Dapoli, Maharashtra 415713",
     lat: 17.7860,
     lng: 73.1140,
-    description: "Perched gracefully where coastal hills meet the Arabian Sea, Hill Sea Home Stay offers a serene Konkan getaway. Features a spacious pillared viewing veranda overlooking mango groves and village cottages, air-conditioned wooden-bed rooms with natural laterite stone accents, and authentic Konkani warmth with home-cooked meals.",
+    description: "Built on the hillside road between Palande and Murud, overlooking mango groves and village cottages. Offers wooden-bed AC rooms with natural laterite stone walls, a long nature-viewing veranda, and local home-style meals.",
     amenities: [
       "Pillared Long Nature Viewing Veranda",
       "Panoramic Mango Grove & Village Views",
