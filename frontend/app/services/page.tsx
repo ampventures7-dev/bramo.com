@@ -18,7 +18,6 @@ import {
   Star,
   CheckCircle2,
   MessageSquare,
-  Sparkles,
   PhoneCall,
   Calendar,
   ChevronRight,
@@ -218,8 +217,8 @@ Hello! I would like to check availability and book this experience during my sta
         <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none" />
 
         <div className="relative max-w-4xl mx-auto text-center space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-emerald-300 text-xs font-bold tracking-wide shadow-md">
-            <Sparkles className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-konkan-sand-300 text-xs font-bold tracking-wide shadow-md">
+            <Compass className="w-3.5 h-3.5 text-konkan-sand-300" />
             <span>Curated Dapoli & Harnai Coastal Experiences</span>
           </div>
 
@@ -265,11 +264,10 @@ Hello! I would like to check availability and book this experience during my sta
               key={cat.id}
               type="button"
               onClick={() => setSelectedCategory(cat.id)}
-              className={`px-4 py-2 rounded-full text-xs font-bold transition-all shrink-0 ${
-                selectedCategory === cat.id
-                  ? "bg-slate-950 text-white shadow-md scale-105"
-                  : "bg-transparent text-slate-600 hover:bg-slate-100 hover:text-slate-900"
-              }`}
+              className={`px-4 py-2 rounded-full text-xs font-bold transition-all shrink-0 ${selectedCategory === cat.id
+                ? "bg-slate-950 text-white shadow-md scale-105"
+                : "bg-transparent text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                }`}
             >
               {cat.label}
             </button>

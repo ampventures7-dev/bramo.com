@@ -12,7 +12,7 @@ import {
   Users,
   Search,
   ArrowUpRight,
-  Sparkles,
+  Compass,
   Waves,
   Hotel as HotelIcon,
   PhoneCall,
@@ -43,35 +43,35 @@ const SLIDES: SlideItem[] = [
   },
   {
     id: 2,
-    src: "/hero/hero-2.png",
-    title: "Leaping Arabian Dolphins",
-    tagline: "Crystal blue waves and pristine coastal marine sanctuary",
-    badge: "Konkan Marine Safari",
-    location: "Harnai Port"
+    src: "/hotels/appas-beach-resort/beach-touch-sunset-trail.jpg",
+    title: "Direct Beach-Touch Cottages",
+    tagline: "Step straight from your cottage onto golden Palande sands",
+    badge: "Beachfront Access",
+    location: "Palande Beach, Harnai"
   },
   {
     id: 3,
     src: "/hero/hero-3.jpg",
     title: "Vast Untouched Shorelines",
-    tagline: "Miles of golden and silver sand lined by betel-nut wadis",
-    badge: "Aerial Coastal Panorama",
+    tagline: "Miles of peaceful golden sand lined by lush betel-nut wadis",
+    badge: "Murud & Karde Coast",
     location: "Dapoli Coast"
   },
   {
     id: 4,
     src: "/hero/hero-4.jpg",
     title: "Fiery Crimson Sunsets",
-    tagline: "Tropical coconut groves kissing the glowing Arabian Sea",
-    badge: "Tamas Tirtha Sunset",
-    location: "Ladghar Beach"
+    tagline: "Red-tinted sands and tranquil waves at Tamas Tirtha",
+    badge: "Ladghar Beach",
+    location: "Ladghar, Dapoli"
   },
   {
     id: 5,
-    src: "/hero/hero-5.png",
-    title: "Enchanting Coastal Twilight",
-    tagline: "Serene reflections and tranquil waves along the Konkan shoreline",
-    badge: "Golden Sunset Tide",
-    location: "Palande & Harnai Coast"
+    src: "/hotels/isshan-resort/beach-canopy-ocean-view.jpg",
+    title: "Authentic Coastal Homestays",
+    tagline: "Enjoy sea breeze with fresh home-cooked Surmai and hot Ukdiche Modak",
+    badge: "Gharghuti Hospitality",
+    location: "Harnai & Murud"
   }
 ];
 
@@ -90,13 +90,13 @@ export function HeroSlider() {
   const [dateRange, setDateRange] = useState<string>("Fri, Oct 16 - Sun, Oct 18");
   const [guestsRoom, setGuestsRoom] = useState<string>("2 Adults, 1 Room");
 
-  // Auto-slide every 2 seconds (2000ms) as requested
+  // Auto-slide every 4.5 seconds (4500ms) for comfortable reading pace
   useEffect(() => {
     if (isPaused) return;
 
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % SLIDES.length);
-    }, 2000);
+    }, 4500);
 
     return () => clearInterval(timer);
   }, [isPaused]);
@@ -171,11 +171,8 @@ export function HeroSlider() {
               href="/plan-trip"
               className="px-3 py-1.5 rounded-full text-slate-200 hover:text-white hover:bg-white/15 transition-all flex items-center gap-1.5"
             >
-              <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
-              <span>AI Trip Planner</span>
-              <span className="text-[9px] bg-emerald-500/30 text-emerald-300 font-bold px-1.5 py-0.5 rounded-full uppercase tracking-wider">
-                New
-              </span>
+              <Compass className="w-3.5 h-3.5 text-konkan-sand-300" />
+              <span>Trip Planner</span>
             </Link>
             <Link
               href="/services"
@@ -307,10 +304,10 @@ export function HeroSlider() {
               <Link
                 href="/plan-trip"
                 onClick={() => setMobileMenuOpen(false)}
-                className="col-span-2 p-2.5 rounded-xl bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30 flex items-center justify-center gap-2 text-center"
+                className="col-span-2 p-2.5 rounded-xl bg-konkan-teal-900/60 text-konkan-sand-200 font-bold border border-konkan-teal-500/30 flex items-center justify-center gap-2 text-center"
               >
-                <Sparkles className="w-4 h-4" />
-                <span>AI Trip Planner</span>
+                <Compass className="w-4 h-4 text-konkan-sand-300" />
+                <span>Custom Trip Planner</span>
               </Link>
               <Link
                 href="/services"
@@ -390,19 +387,19 @@ export function HeroSlider() {
         {/* Left Heading & Copy */}
         <div className="max-w-2xl space-y-3 sm:space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-white/15 backdrop-blur-md border border-white/25 text-white text-[11px] sm:text-xs font-semibold shadow-sm">
-            <Sparkles className="w-3.5 h-3.5 text-amber-300 animate-pulse" />
+            <MapPin className="w-3.5 h-3.5 text-konkan-sand-300" />
             <span>{SLIDES[currentSlide].badge}</span>
           </div>
 
           <h1 className="text-3xl sm:text-5xl lg:text-7xl font-black text-white tracking-tight leading-[1.12] drop-shadow-md">
-            Inspired Travels <br className="hidden sm:inline" />
-            <span className="bg-gradient-to-r from-white via-slate-100 to-konkan-teal-200 bg-clip-text text-transparent">
-              in Dapoli & Harnai
+            Beachfront Stays & <br className="hidden sm:inline" />
+            <span className="bg-gradient-to-r from-white via-amber-100 to-konkan-sand-200 bg-clip-text text-transparent">
+              Authentic Homestays
             </span>
           </h1>
 
           <p className="text-xs sm:text-sm lg:text-base text-slate-200 max-w-xl leading-relaxed font-normal drop-shadow-sm">
-            Discover immersive eco-luxury beachfront stays where wild dolphins, golden beaches, and authentic Konkani hospitality come together.
+            Book verified coastal cottages directly with local Konkani hosts in Dapoli & Harnai. Direct host WhatsApp, 0% platform commission, and fresh home-cooked Konkani meals.
           </p>
 
           <div className="pt-2 flex flex-wrap items-center gap-2.5 sm:gap-3">
@@ -420,8 +417,8 @@ export function HeroSlider() {
               href="/plan-trip"
               className="inline-flex items-center gap-2 px-5 sm:px-6 py-3 sm:py-4 rounded-full bg-black/40 hover:bg-black/60 text-white font-bold text-xs sm:text-sm backdrop-blur-md border border-white/30 shadow-xl transition-all hover:scale-[1.02]"
             >
-              <Sparkles className="w-4 h-4 text-emerald-400" />
-              <span>AI Trip Planner</span>
+              <Compass className="w-4 h-4 text-konkan-sand-300" />
+              <span>Custom Itinerary</span>
             </Link>
           </div>
         </div>

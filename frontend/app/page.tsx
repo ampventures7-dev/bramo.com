@@ -14,7 +14,6 @@ import {
   Fish,
   Sunset,
   Anchor,
-  Sparkles,
   CheckCircle2,
   PhoneCall,
   Clock,
@@ -135,195 +134,223 @@ export default async function HomePage() {
       </section>
 
       {/* ========================================================= */}
-      {/* 2. THE SIGNATURE KONKAN BENTO GRID                        */}
+      {/* 2. AUTHENTIC KONKAN TRAVEL COLLECTIONS                    */}
       {/* ========================================================= */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
           <div>
             <span className="text-xs font-bold text-konkan-teal-700 uppercase tracking-widest">
-              Curated Coastal Living
+              Authentic Coastal Collections
             </span>
             <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight mt-1">
-              Experience the True Essence of Konkan
+              Curated Stays in Dapoli & Harnai
             </h2>
           </div>
           <p className="text-xs sm:text-sm text-slate-500 max-w-sm">
-            Handpicked beachfront sanctuaries, sunrise marine safaris, and pure coastal hospitality.
+            Handpicked beachfront cottages, peaceful betel-nut wadis, and genuine family homestays.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
-          {/* Tile 1: Large Featured Beachfront Villa (Spans 2 Columns, 2 Rows) */}
-          {heroHotel && (
-            <Link
-              href={`/hotels/${heroHotel.id}`}
-              className="md:col-span-2 lg:col-span-2 relative rounded-3xl overflow-hidden shadow-lg border border-slate-200/80 group flex flex-col justify-between min-h-[320px] sm:min-h-[420px] bg-slate-950 text-white"
-            >
+        {/* 4 Themed Travel Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+          {/* Card 1: Direct Beach-Touch Stays */}
+          <Link
+            href="/hotels"
+            className="group relative rounded-3xl overflow-hidden border border-slate-200/90 bg-white shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
+          >
+            <div className="relative h-48 sm:h-52 w-full overflow-hidden bg-slate-900">
               <Image
-                src={heroHotel.images[0] || "/hero/hero-1.jpg"}
-                alt={heroHotel.name}
+                src="/hotels/appas-beach-resort/beach-touch-sunset-trail.jpg"
+                alt="Direct Beach-Touch Cottages in Palande Dapoli"
                 fill
-                sizes="(max-width: 768px) 100vw, 50vw"
-                className="object-cover group-hover:scale-105 transition-transform duration-700"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent" />
-
-              {/* Top Badges */}
-              <div className="relative z-10 p-4 sm:p-5 flex items-center justify-between">
-                <span className="px-3 py-1 rounded-full text-[11px] sm:text-xs font-bold bg-white text-slate-950 shadow-md">
-                  ★ Editor's Sanctuary Choice
-                </span>
-                <span className="px-3 py-1 rounded-full text-[11px] sm:text-xs font-bold bg-black/50 backdrop-blur-md text-white border border-white/20">
-                  {heroHotel.area} Coast
-                </span>
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
+              <div className="absolute top-3 left-3 bg-white/95 backdrop-blur-md text-konkan-teal-900 text-[11px] font-bold px-3 py-1 rounded-full shadow-sm">
+                &lt; 50m to Waves
               </div>
-
-              {/* Bottom Card Meta */}
-              <div className="relative z-10 p-4 sm:p-6 space-y-2.5 sm:space-y-3">
-                <div className="flex items-center gap-1.5 text-xs text-konkan-teal-200 font-semibold">
-                  <MapPin className="w-3.5 h-3.5 shrink-0" />
-                  <span className="truncate">{heroHotel.address}</span>
-                </div>
-
-                <h3 className="text-xl sm:text-3xl font-black text-white leading-tight">
-                  {heroHotel.name}
+            </div>
+            <div className="p-5 flex-1 flex flex-col justify-between space-y-3">
+              <div className="space-y-1.5">
+                <span className="text-[11px] font-bold text-konkan-teal-700 uppercase tracking-wider block">
+                  Palande & Murud
+                </span>
+                <h3 className="text-base font-bold text-slate-900 group-hover:text-konkan-teal-800 transition-colors">
+                  Direct Beach-Touch Stays
                 </h3>
-
-                <p className="text-xs sm:text-sm text-slate-200 line-clamp-2 leading-relaxed">
-                  {heroHotel.description}
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  Step straight out onto soft sand without crossing roads. Perfect for sunrise strolls and tranquil sunset waves.
                 </p>
-
-                <div className="pt-2 flex items-center justify-between border-t border-white/20">
-                  <div>
-                    <span className="text-[10px] sm:text-[11px] text-slate-300">Direct Host Rate</span>
-                    <div className="text-lg sm:text-xl font-black text-white">
-                      {formatINR(heroHotel.starting_price)}
-                      <span className="text-xs font-normal text-slate-300"> / night</span>
-                    </div>
-                  </div>
-
-                  <span className="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-2 rounded-full bg-white text-slate-950 font-bold text-xs group-hover:bg-slate-100 transition-colors shadow-md">
-                    <span>Reserve Stay</span>
-                    <ArrowUpRight className="w-3.5 h-3.5" />
-                  </span>
-                </div>
               </div>
-            </Link>
-          )}
-
-          {/* Tile 2: Live Dolphin Safari Radar */}
-          <Link
-            href="/services"
-            className="rounded-3xl p-6 bg-gradient-to-br from-konkan-teal-900 to-slate-950 text-white shadow-lg border border-konkan-teal-700/40 flex flex-col justify-between group hover:border-konkan-teal-400 transition-all"
-          >
-            <div className="space-y-3">
-              <div className="w-10 h-10 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-emerald-300">
-                <Fish className="w-5 h-5" />
-              </div>
-
-              <div className="space-y-1">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-300">
-                  Live Coastal Radar
-                </span>
-                <h3 className="text-lg font-black text-white">
-                  Morning Dolphin Safaris
-                </h3>
-              </div>
-
-              <p className="text-xs text-slate-300 leading-relaxed">
-                Resident Indo-Pacific dolphin pods active daily right off Murud & Karde shores.
-              </p>
-            </div>
-
-            <div className="pt-4 border-t border-white/10 space-y-2">
-              <div className="flex items-center justify-between text-xs font-semibold">
-                <span className="text-slate-400">Prime Timing:</span>
-                <span className="text-emerald-300 font-bold">6:30 AM – 8:30 AM</span>
-              </div>
-              <div className="flex items-center justify-between text-xs font-semibold">
-                <span className="text-slate-400">Sighting Rate:</span>
-                <span className="text-white font-bold">95% Success</span>
+              <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-konkan-teal-700">
+                <span>View Beach Stays</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </div>
             </div>
           </Link>
 
-          {/* Tile 3: Authentic Konkan Culinary Heritage */}
-          <div className="rounded-3xl p-6 bg-white border border-slate-200/90 shadow-md flex flex-col justify-between hover:shadow-xl transition-all">
-            <div className="space-y-3">
-              <div className="w-10 h-10 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-700 font-bold text-lg">
-                🥥
-              </div>
-
-              <div className="space-y-1">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-amber-800">
-                  Konkani Flavors
-                </span>
-                <h3 className="text-lg font-black text-slate-900">
-                  Ukadiche Modak & Surmai Thali
-                </h3>
-              </div>
-
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Steamed rice-flour dumplings filled with fresh grated coconut & jaggery, accompanied by fresh harbor fish curries.
-              </p>
-            </div>
-
-            <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-konkan-teal-800">
-              <span>Authentic Wadi Kitchens</span>
-              <span className="text-amber-600">Pure Local</span>
-            </div>
-          </div>
-
-          {/* Tile 4: 0% Gateway Fee & Verified Direct UPI Guarantee (Spans full on mobile) */}
-          <div className="md:col-span-3 lg:col-span-2 rounded-3xl p-6 sm:p-7 bg-white border border-slate-200/90 shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 hover:shadow-xl transition-all">
-            <div className="space-y-2 max-w-md">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-bold">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-                <span>Zero Gateway Surcharge Policy</span>
-              </div>
-              <h3 className="text-xl font-black text-slate-900 leading-tight">
-                Direct Host Booking with 0% Middleman Cut
-              </h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Pay directly to certified local Konkani resort hosts via instant UPI QR or Pay at Hotel upon check-in.
-              </p>
-            </div>
-
-            <div className="flex sm:flex-col items-center sm:items-end justify-between w-full sm:w-auto shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100">
-              <div className="text-left sm:text-right">
-                <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">
-                  Hidden Fees
-                </span>
-                <div className="text-2xl font-black text-emerald-600">₹0 Extra</div>
-              </div>
-              <span className="text-[11px] font-semibold text-slate-500">
-                Direct Host Verified
-              </span>
-            </div>
-          </div>
-
-          {/* Tile 5: Suvarnadurg Heritage Sea-Fort Ferry */}
+          {/* Card 2: Gharghuti Homestays & Seafood */}
           <Link
-            href="/services"
-            className="md:col-span-3 lg:col-span-2 rounded-3xl p-6 sm:p-7 bg-gradient-to-r from-slate-900 to-konkan-teal-950 text-white shadow-md border border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 group hover:border-konkan-teal-400 transition-all"
+            href="/hotels"
+            className="group relative rounded-3xl overflow-hidden border border-slate-200/90 bg-white shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
           >
-            <div className="space-y-2">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-200 border border-cyan-500/30 text-xs font-bold">
-                <Anchor className="w-3.5 h-3.5 text-cyan-300" />
-                <span>Historic Sea Fortress</span>
+            <div className="relative h-48 sm:h-52 w-full overflow-hidden bg-slate-900">
+              <Image
+                src="/hotels/isshan-resort/night-courtyard-dining.jpg"
+                alt="Gharghuti Konkani Homestays with home-cooked seafood"
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
+              <div className="absolute top-3 left-3 bg-amber-500 text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-sm">
+                Gharghuti Jevan
               </div>
-              <h3 className="text-xl font-black text-white">
-                Suvarnadurg Island Fort Ferry
-              </h3>
-              <p className="text-xs text-slate-300 max-w-md leading-relaxed">
-                Take traditional harbor fishing boats across the waves to explore Chhatrapati Shivaji Maharaj's coastal marine fortress in Harnai.
-              </p>
             </div>
-
-            <div className="w-10 h-10 rounded-full bg-white text-slate-950 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform shadow-lg">
-              <ArrowRight className="w-4 h-4" />
+            <div className="p-5 flex-1 flex flex-col justify-between space-y-3">
+              <div className="space-y-1.5">
+                <span className="text-[11px] font-bold text-amber-700 uppercase tracking-wider block">
+                  Warm Hospitality
+                </span>
+                <h3 className="text-base font-bold text-slate-900 group-hover:text-amber-800 transition-colors">
+                  Family Homestays & Food
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  Warm host families serving authentic fresh Surmai and Pomfret thalis, Solkadhi, and steamed Ukdiche Modak.
+                </p>
+              </div>
+              <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-amber-700">
+                <span>Explore Homestays</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </div>
             </div>
           </Link>
+
+          {/* Card 3: Betel-Nut Wadi Cottages */}
+          <Link
+            href="/hotels"
+            className="group relative rounded-3xl overflow-hidden border border-slate-200/90 bg-white shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
+          >
+            <div className="relative h-48 sm:h-52 w-full overflow-hidden bg-slate-900">
+              <Image
+                src="/hotels/sachi-sanskruti/courtyard-palm-gardens.jpg"
+                alt="Peaceful Cottages in Betel Nut Wadis Dapoli"
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
+              <div className="absolute top-3 left-3 bg-emerald-700 text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-sm">
+                Lush Plantation Stays
+              </div>
+            </div>
+            <div className="p-5 flex-1 flex flex-col justify-between space-y-3">
+              <div className="space-y-1.5">
+                <span className="text-[11px] font-bold text-emerald-700 uppercase tracking-wider block">
+                  Nature & Seclusion
+                </span>
+                <h3 className="text-base font-bold text-slate-900 group-hover:text-emerald-800 transition-colors">
+                  Betel-Nut Wadi Retreats
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  Surrounded by tall coconut and areca nut palms. Cool natural shade, chirping birds, and tranquil verandahs.
+                </p>
+              </div>
+              <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-emerald-700">
+                <span>View Wadi Cottages</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </div>
+            </div>
+          </Link>
+
+          {/* Card 4: Dolphin Safari & Marine Adventures */}
+          <Link
+            href="/services"
+            className="group relative rounded-3xl overflow-hidden border border-slate-200/90 bg-white shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
+          >
+            <div className="relative h-48 sm:h-52 w-full overflow-hidden bg-slate-900">
+              <Image
+                src="/hero/hero-1.jpg"
+                alt="Morning Dolphin Boat Safari Dapoli Murud"
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
+              <div className="absolute top-3 left-3 bg-sky-700 text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-sm">
+                6:30 AM Sunrise Boats
+              </div>
+            </div>
+            <div className="p-5 flex-1 flex flex-col justify-between space-y-3">
+              <div className="space-y-1.5">
+                <span className="text-[11px] font-bold text-sky-700 uppercase tracking-wider block">
+                  Murud & Harnai
+                </span>
+                <h3 className="text-base font-bold text-slate-900 group-hover:text-sky-800 transition-colors">
+                  Dolphin Safaris & Forts
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  Spot wild Indo-Pacific dolphins in calm morning waters, then ride traditional ferry boats to historic Suvarnadurg fort.
+                </p>
+              </div>
+              <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-sky-700">
+                <span>View Experiences</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Human Trust & Direct Host Booking Banner */}
+        <div className="rounded-3xl p-6 sm:p-8 bg-white border border-slate-200 shadow-sm grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="flex items-start gap-3.5">
+            <div className="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center shrink-0 border border-emerald-100">
+              <ShieldCheck className="w-5 h-5" />
+            </div>
+            <div>
+              <h4 className="text-sm font-bold text-slate-900">0% Booking Surcharge</h4>
+              <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">
+                Direct host rates. No hidden service charges or middleman platform commission.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-start gap-3.5">
+            <div className="w-10 h-10 rounded-2xl bg-konkan-teal-50 text-konkan-teal-700 flex items-center justify-center shrink-0 border border-konkan-teal-100">
+              <PhoneCall className="w-5 h-5" />
+            </div>
+            <div>
+              <h4 className="text-sm font-bold text-slate-900">Direct Host WhatsApp</h4>
+              <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">
+                Coordinate check-in, special food requests, and directions straight with the host family.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-start gap-3.5">
+            <div className="w-10 h-10 rounded-2xl bg-amber-50 text-amber-700 flex items-center justify-center shrink-0 border border-amber-100">
+              <MapPin className="w-5 h-5" />
+            </div>
+            <div>
+              <h4 className="text-sm font-bold text-slate-900">Verified Beach Proximity</h4>
+              <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">
+                Real walking distances to the shore, checked and confirmed with authentic photos.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-start gap-3.5">
+            <div className="w-10 h-10 rounded-2xl bg-cyan-50 text-cyan-700 flex items-center justify-center shrink-0 border border-cyan-100">
+              <Fish className="w-5 h-5" />
+            </div>
+            <div>
+              <h4 className="text-sm font-bold text-slate-900">Fresh Seafood on Demand</h4>
+              <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">
+                Hosts arrange fresh daily catch straight from Harnai harbor fish auctions.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -333,10 +360,10 @@ export default async function HomePage() {
       <section className="max-w-6xl mx-auto px-4 sm:px-6 space-y-6">
         <div className="text-center space-y-1.5 max-w-2xl mx-auto">
           <span className="text-xs font-bold text-konkan-teal-700 uppercase tracking-widest">
-            Coastal Havens
+            Coastal Destinations
           </span>
           <h2 className="text-2xl sm:text-3xl font-black text-slate-900">
-            Choose Your Konkan Sanctuary
+            Explore by Coastal Region
           </h2>
           <p className="text-xs sm:text-sm text-slate-600">
             Each coastal haven offers unique beaches, rich heritage, and authentic coastal living.
@@ -351,7 +378,7 @@ export default async function HomePage() {
           >
             <div className="relative w-full sm:w-1/2 h-48 sm:h-full shrink-0 overflow-hidden">
               <Image
-                src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1000&q=80"
+                src="/hotels/appas-beach-resort/beach-touch-sunset-trail.jpg"
                 alt="Dapoli Beaches"
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
@@ -388,7 +415,7 @@ export default async function HomePage() {
           >
             <div className="relative w-full sm:w-1/2 h-48 sm:h-full shrink-0 overflow-hidden">
               <Image
-                src="https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=1000&q=80"
+                src="/hotels/ishan-laukik/garden-gazebo-beach-trail.jpg"
                 alt="Harnai Port & Fort"
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
@@ -421,19 +448,19 @@ export default async function HomePage() {
       </section>
 
       {/* ========================================================= */}
-      {/* 4. AI TRIP PLANNER SPOTLIGHT BANNER                       */}
+      {/* 4. TRIP PLANNER SPOTLIGHT BANNER                          */}
       {/* ========================================================= */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-konkan-teal-950 via-slate-950 to-emerald-950 text-white p-7 sm:p-10 shadow-2xl border border-white/10">
-          <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none" />
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-konkan-teal-950 via-slate-950 to-slate-900 text-white p-7 sm:p-10 shadow-2xl border border-white/10">
+          <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 rounded-full bg-konkan-teal-500/10 blur-3xl pointer-events-none" />
           <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
             <div className="space-y-3 max-w-xl">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-400/20 text-emerald-200 border border-emerald-400/30 text-xs font-bold">
-                <Sparkles className="w-3.5 h-3.5 text-emerald-300 animate-pulse" />
-                <span>AI Coastal Travel Architect</span>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-konkan-sand-300 border border-white/20 text-xs font-bold">
+                <Compass className="w-3.5 h-3.5 text-konkan-sand-300" />
+                <span>Custom Itinerary Planner</span>
               </div>
               <h3 className="text-2xl sm:text-3xl font-black text-white leading-tight">
-                Not sure what to explore first? Let AI plan your Dapoli & Harnai holiday!
+                Plan Your Perfect Dapoli & Harnai Holiday
               </h3>
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
                 Get an instant hour-by-hour itinerary customized for couples, families, or friend groups—timed with dolphin sunrise boats, 4 PM fish auctions, and direct verified hotel bookings.
@@ -442,9 +469,9 @@ export default async function HomePage() {
 
             <Link
               href="/plan-trip"
-              className="inline-flex items-center gap-2.5 px-6 py-4 rounded-full bg-white hover:bg-slate-100 text-slate-950 font-black text-xs sm:text-sm transition-all shadow-xl hover:scale-105 active:scale-95 shrink-0"
+              className="inline-flex items-center gap-2.5 px-6 py-4 rounded-full bg-white hover:bg-slate-100 text-slate-950 font-bold text-xs sm:text-sm transition-all shadow-xl hover:scale-105 active:scale-95 shrink-0"
             >
-              <span>Try AI Trip Planner Free</span>
+              <span>Plan Your Trip Free</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>

@@ -559,10 +559,7 @@ export function RoomBookingWidget({
 
               {priceData.weekendNights > 0 && (
                 <div className="flex justify-between text-amber-800 font-medium">
-                  <span className="flex items-center gap-1">
-                    <span>Weekend Fri/Sat ({priceData.weekendNights} nt)</span>
-                    <Sparkles className="w-3 h-3 text-amber-500" />
-                  </span>
+                  <span>Weekend Fri/Sat ({priceData.weekendNights} nt)</span>
                   <span>{formatINR(priceData.totalWeekendCost)}</span>
                 </div>
               )}

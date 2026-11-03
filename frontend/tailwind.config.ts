@@ -8,6 +8,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ["var(--font-sans)", "Plus Jakarta Sans", "sans-serif"],
+      },
       colors: {
         // Coastal Konkan Palette
         konkan: {

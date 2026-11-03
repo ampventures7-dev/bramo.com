@@ -1,9 +1,16 @@
 import type { Metadata, Viewport } from "next";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { AuthProvider } from "@/context/AuthContext";
 import { LanguageProvider } from "@/context/LanguageContext";
+
+const jakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-sans",
+});
 
 export const viewport: Viewport = {
   themeColor: "#0f766e",
@@ -166,7 +173,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
         />
       </head>
-      <body className="min-h-screen flex flex-col bg-[#faf8f5] text-slate-800 antialiased overflow-x-hidden w-full selection:bg-konkan-teal-100 selection:text-konkan-teal-900">
+      <body className={`${jakarta.variable} ${jakarta.className} min-h-screen flex flex-col bg-[#faf8f5] text-slate-800 antialiased overflow-x-hidden w-full selection:bg-konkan-teal-100 selection:text-konkan-teal-900`}>
         <AuthProvider>
           <LanguageProvider>
             <Navbar />

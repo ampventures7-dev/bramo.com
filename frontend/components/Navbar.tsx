@@ -17,7 +17,7 @@ import {
   ShieldAlert,
   ShieldCheck,
   Globe,
-  Sparkles
+  Compass
 } from "lucide-react";
 
 export function Navbar() {
@@ -60,61 +60,53 @@ export function Navbar() {
           <nav className="hidden md:flex items-center gap-1">
             <Link
               href="/"
-              className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
-                isActive("/")
+              className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${isActive("/")
                   ? "bg-konkan-teal-50 text-konkan-teal-800 border border-konkan-teal-200/60"
                   : "text-slate-600 hover:text-konkan-teal-800 hover:bg-konkan-sand-50"
-              }`}
+                }`}
             >
               {t("nav.home")}
             </Link>
 
             <Link
               href="/hotels"
-              className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
-                isActive("/hotels")
+              className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${isActive("/hotels")
                   ? "bg-konkan-teal-50 text-konkan-teal-800 border border-konkan-teal-200/60"
                   : "text-slate-600 hover:text-konkan-teal-800 hover:bg-konkan-sand-50"
-              }`}
+                }`}
             >
               {t("nav.hotels")}
             </Link>
 
             <Link
               href="/services"
-              className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
-                isActive("/services")
+              className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${isActive("/services")
                   ? "bg-konkan-teal-50 text-konkan-teal-800 border border-konkan-teal-200/60"
                   : "text-slate-600 hover:text-konkan-teal-800 hover:bg-konkan-sand-50"
-              }`}
+                }`}
             >
               {t("nav.experiences")}
             </Link>
 
             <Link
               href="/plan-trip"
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-bold transition-all ${
-                isActive("/plan-trip")
-                  ? "bg-emerald-50 text-emerald-800 border border-emerald-300"
-                  : "text-emerald-700 hover:text-emerald-900 hover:bg-emerald-50/60"
-              }`}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-semibold transition-all ${isActive("/plan-trip")
+                  ? "bg-konkan-teal-50 text-konkan-teal-800 border border-konkan-teal-200/60"
+                  : "text-slate-600 hover:text-konkan-teal-800 hover:bg-konkan-sand-50"
+                }`}
             >
-              <Sparkles className="w-3.5 h-3.5 text-emerald-600 animate-pulse" />
-              <span>AI Trip Planner</span>
-              <span className="text-[9px] uppercase tracking-wider font-extrabold bg-emerald-100 text-emerald-800 px-1.5 py-0.2 rounded-full border border-emerald-200">
-                New
-              </span>
+              <Compass className="w-3.5 h-3.5 text-konkan-teal-700" />
+              <span>Trip Planner</span>
             </Link>
 
             {/* Role-Specific Links */}
             {profile?.role === "guest" && (
               <Link
                 href="/my-bookings"
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
-                  isActive("/my-bookings")
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${isActive("/my-bookings")
                     ? "bg-konkan-teal-50 text-konkan-teal-800 border border-konkan-teal-200/60"
                     : "text-slate-600 hover:text-konkan-teal-800 hover:bg-konkan-sand-50"
-                }`}
+                  }`}
               >
                 <CalendarCheck className="w-4 h-4 text-konkan-teal-600" />
                 <span>{t("nav.my_bookings")}</span>
@@ -124,11 +116,10 @@ export function Navbar() {
             {(profile?.role === "owner" || profile?.role === "admin") && (
               <Link
                 href="/owner/dashboard"
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
-                  isActive("/owner/dashboard")
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${isActive("/owner/dashboard")
                     ? "bg-konkan-teal-50 text-konkan-teal-800 border border-konkan-teal-200/60"
                     : "text-slate-600 hover:text-konkan-teal-800 hover:bg-konkan-sand-50"
-                }`}
+                  }`}
               >
                 <Building2 className="w-4 h-4 text-konkan-teal-600" />
                 <span>{t("nav.owner_dashboard")}</span>
@@ -139,11 +130,10 @@ export function Navbar() {
               <>
                 <Link
                   href="/admin"
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
-                    isActive("/admin") && !isActive("/admin/payments")
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${isActive("/admin") && !isActive("/admin/payments")
                       ? "bg-purple-50 text-purple-900 border border-purple-300 font-bold"
                       : "text-slate-600 hover:text-purple-800 hover:bg-purple-50"
-                  }`}
+                    }`}
                 >
                   <ShieldCheck className="w-4 h-4 text-purple-600" />
                   <span>{t("nav.admin_portal")}</span>
@@ -151,11 +141,10 @@ export function Navbar() {
 
                 <Link
                   href="/admin/payments"
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
-                    isActive("/admin/payments")
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${isActive("/admin/payments")
                       ? "bg-amber-50 text-amber-900 border border-amber-300 font-bold"
                       : "text-slate-600 hover:text-amber-800 hover:bg-amber-50"
-                  }`}
+                    }`}
                 >
                   <ShieldAlert className="w-4 h-4 text-amber-600" />
                   <span>Payments</span>
@@ -167,11 +156,10 @@ export function Navbar() {
               <>
                 <Link
                   href="/login"
-                  className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
-                    isActive("/login")
+                  className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${isActive("/login")
                       ? "bg-konkan-teal-50 text-konkan-teal-800 border border-konkan-teal-200/60"
                       : "text-slate-600 hover:text-konkan-teal-800 hover:bg-konkan-sand-50"
-                  }`}
+                    }`}
                 >
                   {t("nav.login")}
                 </Link>
@@ -192,11 +180,10 @@ export function Navbar() {
               <button
                 type="button"
                 onClick={() => setLanguage("en")}
-                className={`px-2 py-0.5 rounded-full font-bold transition-all ${
-                  language === "en"
+                className={`px-2 py-0.5 rounded-full font-bold transition-all ${language === "en"
                     ? "bg-konkan-teal-700 text-white shadow-xs"
                     : "text-slate-600 hover:text-slate-900"
-                }`}
+                  }`}
                 title="English"
               >
                 EN
@@ -204,11 +191,10 @@ export function Navbar() {
               <button
                 type="button"
                 onClick={() => setLanguage("mr")}
-                className={`px-2 py-0.5 rounded-full font-bold transition-all ${
-                  language === "mr"
+                className={`px-2 py-0.5 rounded-full font-bold transition-all ${language === "mr"
                     ? "bg-konkan-teal-700 text-white shadow-xs"
                     : "text-slate-600 hover:text-slate-900"
-                }`}
+                  }`}
                 title="मराठी (Marathi)"
               >
                 मराठी
@@ -313,14 +299,14 @@ export function Navbar() {
           <Link
             href="/plan-trip"
             onClick={() => setMobileMenuOpen(false)}
-            className="flex items-center justify-between px-3 py-2 rounded-lg text-sm font-bold text-emerald-800 bg-emerald-50/70 border border-emerald-200"
+            className="flex items-center justify-between px-3 py-2 rounded-lg text-sm font-semibold text-slate-800 hover:bg-konkan-sand-50"
           >
             <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-emerald-600 animate-pulse" />
-              <span>AI Trip Planner</span>
+              <Compass className="w-4 h-4 text-konkan-teal-700" />
+              <span>Trip Planner</span>
             </div>
-            <span className="text-[10px] font-extrabold uppercase bg-emerald-200 text-emerald-900 px-1.5 py-0.5 rounded">
-              Free
+            <span className="text-[10px] font-bold uppercase bg-konkan-sand-200 text-slate-700 px-1.5 py-0.5 rounded">
+              Dapoli & Harnai
             </span>
           </Link>
 

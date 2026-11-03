@@ -15,7 +15,6 @@ import {
   Fish,
   Anchor,
   HelpCircle,
-  Sparkles,
   CalendarCheck
 } from "lucide-react";
 

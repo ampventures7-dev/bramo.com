@@ -419,11 +419,10 @@ export function HotelDetailClient({ hotel }: HotelDetailClientProps) {
                   <div
                     key={room.id}
                     onClick={() => setSelectedRoomId(room.id)}
-                    className={`p-5 rounded-2xl border-2 transition-all cursor-pointer flex flex-col justify-between space-y-4 ${
-                      isSelected
-                        ? "border-konkan-teal-700 bg-konkan-teal-50/40 shadow-sm"
-                        : "border-slate-200 hover:border-slate-300 bg-white"
-                    }`}
+                    className={`p-5 rounded-2xl border-2 transition-all cursor-pointer flex flex-col justify-between space-y-4 ${isSelected
+                      ? "border-konkan-teal-700 bg-konkan-teal-50/40 shadow-sm"
+                      : "border-slate-200 hover:border-slate-300 bg-white"
+                      }`}
                   >
                     <div className="space-y-2">
                       <div className="flex items-center justify-between">
@@ -456,11 +455,10 @@ export function HotelDetailClient({ hotel }: HotelDetailClientProps) {
                         e.stopPropagation();
                         handleSelectRoomToBook(room);
                       }}
-                      className={`w-full py-2.5 px-3 rounded-full text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
-                        isSelected
-                          ? "bg-konkan-teal-800 text-white shadow-sm"
-                          : "bg-slate-100 hover:bg-slate-200 text-slate-800"
-                      }`}
+                      className={`w-full py-2.5 px-3 rounded-full text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${isSelected
+                        ? "bg-konkan-teal-800 text-white shadow-sm"
+                        : "bg-slate-100 hover:bg-slate-200 text-slate-800"
+                        }`}
                     >
                       <span>{isSelected ? "Selected for Booking" : "Select this Room"}</span>
                       <ChevronRight className="w-3.5 h-3.5" />
@@ -542,11 +540,10 @@ export function HotelDetailClient({ hotel }: HotelDetailClientProps) {
                         {[1, 2, 3, 4, 5].map((s) => (
                           <Star
                             key={s}
-                            className={`w-3.5 h-3.5 ${
-                              s <= rev.rating
-                                ? "text-amber-400 fill-amber-400"
-                                : "text-slate-300"
-                            }`}
+                            className={`w-3.5 h-3.5 ${s <= rev.rating
+                              ? "text-amber-400 fill-amber-400"
+                              : "text-slate-300"
+                              }`}
                           />
                         ))}
                       </div>

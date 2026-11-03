@@ -13,7 +13,6 @@ import {
   Fish,
   Waves,
   HelpCircle,
-  Sparkles,
   MapPin
 } from "lucide-react";
 

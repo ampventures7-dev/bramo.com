@@ -14,7 +14,7 @@ import {
   ShieldCheck,
   ChevronLeft,
   ChevronRight,
-  Sparkles
+  Waves
 } from "lucide-react";
 
 interface HotelCardProps {
@@ -88,7 +88,7 @@ export function HotelCard({ hotel: rawHotel }: HotelCardProps) {
           </span>
           {hotel.featured && (
             <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-500 text-white shadow-sm flex items-center gap-1">
-              <Sparkles className="w-3 h-3 fill-white" />
+              <Waves className="w-3 h-3" />
               <span>Beachfront</span>
             </span>
           )}
