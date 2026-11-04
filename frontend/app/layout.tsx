@@ -44,6 +44,13 @@ export const metadata: Metadata = {
   authors: [{ name: "bhramo.com Coastal Team" }],
   creator: "bhramo.com",
   publisher: "bhramo.com",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/logo-icon.png", type: "image/png" },
+    ],
+    apple: "/logo-icon.png",
+  },
   formatDetection: {
     email: false,
     address: true,

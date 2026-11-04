@@ -215,9 +215,14 @@ export function HeroSlider() {
             href="/"
             className="bg-white/95 backdrop-blur-md px-3 sm:px-5 py-1.5 sm:py-2 rounded-2xl shadow-xl border border-white/40 flex items-center gap-2 sm:gap-2.5 transition-transform hover:scale-105 shrink-0"
           >
-            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-konkan-teal-800 flex items-center justify-center text-white shadow-sm">
-              <Waves className="w-4 h-4 text-konkan-teal-200" />
-            </div>
+            <Image
+              src="/logo-icon.png"
+              alt="bhramo.com logo"
+              width={36}
+              height={36}
+              className="w-7 h-7 sm:w-8 sm:h-8 object-contain shrink-0"
+              priority
+            />
             <div className="flex flex-col">
               <span className="font-black text-base sm:text-xl tracking-tight text-slate-950 leading-none">
                 bhramo<span className="text-konkan-teal-600">.com</span>

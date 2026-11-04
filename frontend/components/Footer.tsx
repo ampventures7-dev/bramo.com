@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Waves, Heart, MapPin, Phone, MessageSquare } from "lucide-react";
 
@@ -9,9 +10,13 @@ export function Footer() {
           {/* Brand Info */}
           <div className="md:col-span-1 space-y-3">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-konkan-teal-700 flex items-center justify-center text-white">
-                <Waves className="w-4 h-4 text-konkan-teal-200" />
-              </div>
+              <Image
+                src="/logo-icon.png"
+                alt="bhramo.com logo"
+                width={32}
+                height={32}
+                className="w-8 h-8 object-contain"
+              />
               <span className="font-bold text-lg text-konkan-teal-950">
                 bhramo<span className="text-konkan-teal-600">.com</span>
               </span>

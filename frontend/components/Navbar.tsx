@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -42,15 +43,20 @@ export function Navbar() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-16">
           {/* Logo / Brand */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-9 h-9 rounded-lg bg-konkan-teal-700 flex items-center justify-center text-white shadow-sm transition-transform group-hover:scale-105">
-              <Waves className="w-5 h-5 text-konkan-teal-200" />
-            </div>
+          <Link href="/" className="flex items-center gap-2.5 group">
+            <Image
+              src="/logo-icon.png"
+              alt="bhramo.com"
+              width={40}
+              height={40}
+              className="w-9 h-9 object-contain transition-transform group-hover:scale-105 drop-shadow-xs"
+              priority
+            />
             <div className="flex flex-col">
-              <span className="font-bold text-xl tracking-tight text-konkan-teal-950 flex items-center gap-1">
+              <span className="font-bold text-xl tracking-tight text-konkan-teal-950 flex items-center leading-none">
                 bhramo<span className="text-konkan-teal-600">.com</span>
               </span>
-              <span className="text-[10px] text-konkan-sand-700 font-medium tracking-wide">
+              <span className="text-[10px] text-konkan-sand-700 font-semibold tracking-wide mt-0.5">
                 {t("nav.subtitle")}
               </span>
             </div>
