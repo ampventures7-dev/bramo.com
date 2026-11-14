@@ -139,14 +139,14 @@ export function CoastalTideTimetable({
 
         {/* Local Concierge Tide Verification Pill */}
         <a
-          href={`https://wa.me/${conciergePhone}?text=${encodeURIComponent("Hi! Can you tell me today's high tide / low tide times and dolphin safari conditions in Dapoli?")}`}
+          href={`https://wa.me/${conciergePhone}?text=${encodeURIComponent("Hi Prachii! Can you tell me today's high tide / low tide times and dolphin safari conditions in Dapoli?")}`}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-emerald-50 text-emerald-800 hover:bg-emerald-100 border border-emerald-300 text-xs font-bold transition-all shadow-xs shrink-0 self-start sm:self-auto"
         >
           <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
           <Phone className="w-3.5 h-3.5 text-emerald-600" />
-          <span>Ask Concierge Today&apos;s Tides</span>
+          <span>Ask Prachii (Dapoli Co-Founder) Today&apos;s Tides</span>
         </a>
       </div>
 
@@ -240,3 +240,4 @@ export function CoastalTideTimetable({
     </div>
   );
 }
+

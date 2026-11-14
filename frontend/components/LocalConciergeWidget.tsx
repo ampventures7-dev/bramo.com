@@ -18,8 +18,8 @@ export function LocalConciergeWidget({
   if (isDismissed) return null;
 
   const prefilledMessage = defaultHotelName
-    ? `Hi! I am inquiring about *${defaultHotelName}* on bhramo.com. Can you assist me with availability, meals, and booking?`
-    : `Hi! I am planning a trip to Dapoli / Harnai and would love local guidance on verified beachfront stays, homemade seafood, and road conditions.`;
+    ? `Hi Prachii! I am inquiring about *${defaultHotelName}* on bhramo.com. Can you assist me with availability, meals, and booking?`
+    : `Hi Prachii! I am planning a trip to Dapoli / Harnai and would love local guidance on verified beachfront stays, homemade seafood, and road conditions.`;
 
   const waUrl = `https://wa.me/${customPhone.replace(/\D/g, "")}?text=${encodeURIComponent(prefilledMessage)}`;
 
@@ -31,19 +31,19 @@ export function LocalConciergeWidget({
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-2.5">
               <div className="relative">
-                <div className="w-10 h-10 rounded-2xl bg-emerald-700 text-white flex items-center justify-center font-bold text-sm shadow-md">
-                  <span>D</span>
+                <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-700 text-white flex items-center justify-center font-black text-sm shadow-md ring-2 ring-emerald-100">
+                  <span>PP</span>
                 </div>
                 <span className="absolute -top-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-500 border-2 border-white animate-pulse" />
               </div>
               <div>
                 <div className="flex items-center gap-1.5">
-                  <h4 className="font-extrabold text-sm text-slate-900">Dapoli Local Concierge</h4>
+                  <h4 className="font-extrabold text-sm text-slate-900">Prachii Pawar</h4>
                   <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded-full border border-emerald-200">
                     Live
                   </span>
                 </div>
-                <p className="text-[11px] text-slate-500 font-medium">Native Dapoli Resident & Guide</p>
+                <p className="text-[11px] text-slate-500 font-semibold">Co-Founder & Dapoli Local Host</p>
               </div>
             </div>
 
@@ -60,14 +60,14 @@ export function LocalConciergeWidget({
           <div className="p-3 bg-emerald-50/70 border border-emerald-200 rounded-2xl text-xs text-emerald-950 space-y-1.5">
             <div className="flex items-center gap-1.5 font-bold text-[11px] text-emerald-900">
               <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
-              <span>Ask Our Local Co-Founder Anything</span>
+              <span>Direct Local Guidance</span>
             </div>
-            <p className="text-[11px] text-emerald-800/90 leading-relaxed">
-              &quot;Namaskar! I am a Dapoli native. Ask me about road conditions, authentic seafood thalis, pet-friendly cottages, or tide timings.&quot;
+            <p className="text-[11px] text-emerald-800/90 leading-relaxed font-medium">
+              &quot;Namaskar! I live right here in Dapoli. Message me if you need road updates via Tamhini or Mangaon, authentic seafood thalis, dolphin safari boat timings, or stay availability.&quot;
             </p>
           </div>
 
-          <div className="space-y-1 text-[11px] text-slate-500">
+          <div className="space-y-1 text-[11px] text-slate-500 font-medium">
             <div className="flex items-center gap-1.5">
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
               <span>0% Platform Commission · Direct Host Rates</span>
@@ -83,10 +83,10 @@ export function LocalConciergeWidget({
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => setIsOpen(false)}
-            className="w-full py-3 px-4 rounded-2xl bg-emerald-600 hover:bg-emerald-700 active:scale-[0.98] text-white font-black text-xs flex items-center justify-center gap-2 shadow-lg transition-all"
+            className="w-full py-3 px-4 rounded-2xl bg-emerald-700 hover:bg-emerald-800 active:scale-[0.98] text-white font-black text-xs flex items-center justify-center gap-2 shadow-lg transition-all"
           >
             <Phone className="w-4 h-4" />
-            <span>Chat on WhatsApp (+91 74475 68595)</span>
+            <span>Chat with Prachii (+91 74475 68595)</span>
           </a>
         </div>
       )}
@@ -99,7 +99,7 @@ export function LocalConciergeWidget({
             className="hidden sm:flex items-center gap-2 px-3.5 py-2 rounded-full bg-white/95 backdrop-blur-md border border-slate-200 shadow-lg text-xs font-bold text-slate-800 cursor-pointer hover:border-emerald-400 hover:bg-emerald-50/50 transition-all hover:scale-105"
           >
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span>Dapoli Local Concierge</span>
+            <span>Ask Prachii (Dapoli Co-Founder)</span>
           </div>
         )}
 

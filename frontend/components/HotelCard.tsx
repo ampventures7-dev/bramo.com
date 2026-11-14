@@ -65,7 +65,7 @@ export function HotelCard({ hotel: rawHotel }: HotelCardProps) {
     setPhotoIndex((prev) => (prev - 1 + images.length) % images.length);
   };
 
-  const quickWaMsg = `Hi! I am inquiring about staying at *${hotel.name}* in ${hotel.location} via bhramo.com. Could you please help me with availability, meals, and direct booking?`;
+  const quickWaMsg = `Hi Prachii! I am inquiring about staying at *${hotel.name}* in ${hotel.location} via bhramo.com. Could you please help me with availability, meals, and direct booking?`;
   const waLink = `https://wa.me/917447568595?text=${encodeURIComponent(quickWaMsg)}`;
 
   return (
@@ -223,10 +223,10 @@ export function HotelCard({ hotel: rawHotel }: HotelCardProps) {
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
               className="inline-flex items-center justify-center gap-1.5 py-2 px-3 rounded-full border border-emerald-300 text-emerald-800 bg-emerald-50/80 hover:bg-emerald-100 text-xs font-bold transition-colors shadow-xs"
-              title="Chat with our Dapoli Local Concierge (+91 74475 68595)"
+              title="Chat with our Dapoli Co-Founder Prachii Pawar (+91 74475 68595)"
             >
               <Phone className="w-3.5 h-3.5 text-emerald-600" />
-              <span>Ask Concierge</span>
+              <span>Ask Prachii</span>
             </a>
 
             <span className="inline-flex items-center justify-center gap-1 py-2 px-3 rounded-full bg-konkan-teal-700 group-hover:bg-konkan-teal-800 text-white text-xs font-bold transition-colors shadow-sm">

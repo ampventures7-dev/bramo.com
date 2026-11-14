@@ -232,14 +232,14 @@ export function Navbar() {
               </div>
             ) : (
               <a
-                href="https://wa.me/917447568595?text=Hi%20bhramo.com,%20I%20need%20local%20guidance%20for%20staying%20in%20Dapoli%20or%20Harnai"
+                href="https://wa.me/917447568595?text=Hi%20Prachii,%20I%20need%20local%20guidance%20for%20staying%20in%20Dapoli%20or%20Harnai"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hidden sm:inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-300 hover:bg-emerald-100 transition-colors shadow-xs"
-                title="Chat directly with our Local Dapoli Co-Founder (+91 74475 68595)"
+                title="Chat directly with our Local Dapoli Co-Founder Prachii Pawar (+91 74475 68595)"
               >
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span>Dapoli Concierge</span>
+                <span>Ask Prachii (Dapoli Local)</span>
               </a>
             )}
 

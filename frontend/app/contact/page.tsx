@@ -46,15 +46,15 @@ export default function ContactPage() {
         {/* WhatsApp Card */}
         <div className="bg-emerald-50 border border-emerald-200 p-6 rounded-3xl space-y-4 shadow-sm flex flex-col justify-between">
           <div className="space-y-2">
-            <div className="w-10 h-10 rounded-2xl bg-emerald-600 text-white flex items-center justify-center">
-              <MessageSquare className="w-5 h-5" />
+            <div className="w-10 h-10 rounded-2xl bg-emerald-600 text-white flex items-center justify-center font-bold text-sm">
+              PP
             </div>
-            <h2 className="text-lg font-bold text-slate-900">Instant WhatsApp Support</h2>
+            <h2 className="text-lg font-bold text-slate-900">Direct WhatsApp with Prachii Pawar</h2>
             <p className="text-xs text-slate-600 leading-relaxed">
-              Fastest response for urgent booking confirmations, dolphin safari boat queries, or local road directions to Dapoli and Harnai.
+              Fastest response directly from our Dapoli local co-founder for urgent booking confirmations, dolphin safari boat queries, fresh fish thalis, or local road directions to Dapoli and Harnai.
             </p>
             <div className="font-mono text-sm font-bold text-emerald-900 pt-1">
-              +91 74475 68595
+              +91 74475 68595 (Co-Founder & Dapoli Native)
             </div>
           </div>
 
@@ -62,10 +62,10 @@ export default function ContactPage() {
             href={waHelpLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-colors flex items-center justify-center gap-2 shadow-sm"
+            className="w-full py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold transition-colors flex items-center justify-center gap-2 shadow-sm"
           >
             <MessageSquare className="w-4 h-4" />
-            <span>Chat on WhatsApp</span>
+            <span>Chat with Prachii on WhatsApp</span>
           </a>
         </div>
 

@@ -85,6 +85,37 @@ export default function AboutPage() {
             <p className="text-[11px] text-slate-500">Immediate travel coordination</p>
           </div>
         </section>
+
+        {/* Local Founder Spotlight */}
+        <section className="pt-6 border-t border-konkan-sand-100 space-y-4">
+          <h2 className="text-lg font-bold text-slate-900">Our Local Leadership</h2>
+          <div className="p-5 rounded-2xl bg-emerald-50/60 border border-emerald-200/80 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-700 text-white flex items-center justify-center font-black text-lg shadow-md shrink-0">
+              PP
+            </div>
+            <div className="space-y-1 flex-1">
+              <div className="flex items-center gap-2">
+                <h3 className="font-bold text-base text-slate-900">Prachii Pawar</h3>
+                <span className="text-[10px] font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-full">
+                  Co-Founder & Dapoli Native
+                </span>
+              </div>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Born and living right here in Dapoli, Prachii leads on-the-ground host relations, verified property inspections, and direct guest concierge assistance. Her mission is to preserve genuine Konkani hospitality while protecting local homestay families from hefty corporate commissions.
+              </p>
+              <div className="pt-1.5 flex items-center gap-3 text-xs font-bold text-emerald-800">
+                <a
+                  href="https://wa.me/917447568595?text=Hello%20Prachii,%20I%20am%20inquiring%20about%20bhramo.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:underline flex items-center gap-1"
+                >
+                  WhatsApp: +91 74475 68595
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   );

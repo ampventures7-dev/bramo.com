@@ -106,13 +106,13 @@ export function Footer() {
               Reserve with 0% extra commissions. Pay on arrival at hotel or directly to the owner via verified UPI QR.
             </p>
             <a
-              href="https://wa.me/917447568595?text=Hi%20bhramo.com%20team,%20I%20have%20an%20inquiry%20regarding%20hotel%20booking"
+              href="https://wa.me/917447568595?text=Hi%20Prachii,%20I%20have%20an%20inquiry%20regarding%20booking%20a%20stay%20in%20Dapoli/Harnai"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-3.5 py-2 bg-emerald-600 text-white rounded-xl text-xs font-bold hover:bg-emerald-700 transition-colors shadow-sm"
+              className="inline-flex items-center gap-2 px-3.5 py-2 bg-emerald-700 text-white rounded-xl text-xs font-bold hover:bg-emerald-800 transition-colors shadow-sm"
             >
               <MessageSquare className="w-3.5 h-3.5" />
-              <span>Connect on WhatsApp</span>
+              <span>WhatsApp Prachii (Co-Founder)</span>
             </a>
           </div>
         </div>

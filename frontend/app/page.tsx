@@ -150,14 +150,14 @@ export default async function HomePage() {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
           <div>
             <span className="text-xs font-bold text-konkan-teal-700 uppercase tracking-widest">
-              Authentic Coastal Collections
+              Direct Stays & Real Homestays
             </span>
             <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight mt-1">
-              Curated Stays in Dapoli & Harnai
+              Stay on the Beach in Dapoli & Harnai
             </h2>
           </div>
-          <p className="text-xs sm:text-sm text-slate-500 max-w-sm">
-            Handpicked beachfront cottages, peaceful betel-nut wadis, and genuine family homestays.
+          <p className="text-xs sm:text-sm text-slate-600 max-w-sm">
+            Cottages right on the sand, coconut & betel-nut wadis (सुपारीची वाडी), and real family homestays. 0% middleman markup.
           </p>
         </div>
 
@@ -184,17 +184,17 @@ export default async function HomePage() {
             <div className="p-5 flex-1 flex flex-col justify-between space-y-3">
               <div className="space-y-1.5">
                 <span className="text-[11px] font-bold text-konkan-teal-700 uppercase tracking-wider block">
-                  Palande & Murud
+                  Palande & Murud Beach
                 </span>
                 <h3 className="text-base font-bold text-slate-900 group-hover:text-konkan-teal-800 transition-colors">
-                  Direct Beach-Touch Stays
+                  Direct Beach-Touch Cottages
                 </h3>
                 <p className="text-xs text-slate-600 leading-relaxed">
-                  Step straight out onto soft sand without crossing roads. Perfect for sunrise strolls and tranquil sunset waves.
+                  Step right out onto soft sand without crossing busy roads. Listen to the waves at night and watch the sunrise from your porch.
                 </p>
               </div>
               <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-konkan-teal-700">
-                <span>View Beach Stays</span>
+                <span>See Beach Stays</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </div>
             </div>
@@ -214,20 +214,20 @@ export default async function HomePage() {
                 className="object-cover group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
-              <div className="absolute top-3 left-3 bg-amber-500 text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-sm">
-                Gharghuti Jevan
+              <div className="absolute top-3 left-3 bg-amber-600 text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-sm">
+                घरगुती जेवण · Home-Cooked
               </div>
             </div>
             <div className="p-5 flex-1 flex flex-col justify-between space-y-3">
               <div className="space-y-1.5">
                 <span className="text-[11px] font-bold text-amber-700 uppercase tracking-wider block">
-                  Warm Hospitality
+                  Konkani Hospitality
                 </span>
                 <h3 className="text-base font-bold text-slate-900 group-hover:text-amber-800 transition-colors">
-                  Family Homestays & Food
+                  Family Homestays & Fresh Seafood
                 </h3>
                 <p className="text-xs text-slate-600 leading-relaxed">
-                  Warm host families serving authentic fresh Surmai and Pomfret thalis, Solkadhi, and steamed Ukdiche Modak.
+                  Stay with local host families. Enjoy fresh Surmai and Pomfret thalis, chilled Solkadhi, and freshly steamed Ukadiche Modak.
                 </p>
               </div>
               <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-amber-700">
@@ -252,23 +252,23 @@ export default async function HomePage() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
               <div className="absolute top-3 left-3 bg-emerald-700 text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-sm">
-                Lush Plantation Stays
+                सुपारीची वाडी · Plantation Stays
               </div>
             </div>
             <div className="p-5 flex-1 flex flex-col justify-between space-y-3">
               <div className="space-y-1.5">
                 <span className="text-[11px] font-bold text-emerald-700 uppercase tracking-wider block">
-                  Nature & Seclusion
+                  Nature & Village Peace
                 </span>
                 <h3 className="text-base font-bold text-slate-900 group-hover:text-emerald-800 transition-colors">
-                  Betel-Nut Wadi Retreats
+                  Betel-Nut & Coconut Wadi Cottages
                 </h3>
                 <p className="text-xs text-slate-600 leading-relaxed">
-                  Surrounded by tall coconut and areca nut palms. Cool natural shade, chirping birds, and tranquil verandahs.
+                  Nestled under tall areca nut and coconut palms. Cool natural shade throughout the day, birdsong, and quiet village verandahs.
                 </p>
               </div>
               <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-emerald-700">
-                <span>View Wadi Cottages</span>
+                <span>See Wadi Cottages</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </div>
             </div>
@@ -289,23 +289,23 @@ export default async function HomePage() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
               <div className="absolute top-3 left-3 bg-sky-700 text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-sm">
-                6:30 AM Sunrise Boats
+                ६:३० AM Sunrise Boats
               </div>
             </div>
             <div className="p-5 flex-1 flex flex-col justify-between space-y-3">
               <div className="space-y-1.5">
                 <span className="text-[11px] font-bold text-sky-700 uppercase tracking-wider block">
-                  Murud & Harnai
+                  Murud, Karde & Harnai
                 </span>
                 <h3 className="text-base font-bold text-slate-900 group-hover:text-sky-800 transition-colors">
-                  Dolphin Safaris & Forts
+                  Dolphin Safaris & Suvarnadurg Fort
                 </h3>
                 <p className="text-xs text-slate-600 leading-relaxed">
-                  Spot wild Indo-Pacific dolphins in calm morning waters, then ride traditional ferry boats to historic Suvarnadurg fort.
+                  Spot wild Indo-Pacific dolphins in calm morning waters, then ride traditional local harbor boats to Shivaji Maharaj's Suvarnadurg island fort.
                 </p>
               </div>
               <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-sky-700">
-                <span>View Experiences</span>
+                <span>Explore Activities</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </div>
             </div>
@@ -319,9 +319,9 @@ export default async function HomePage() {
               <ShieldCheck className="w-5 h-5" />
             </div>
             <div>
-              <h4 className="text-sm font-bold text-slate-900">0% Booking Surcharge</h4>
+              <h4 className="text-sm font-bold text-slate-900">0% Commission, Direct Rates</h4>
               <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">
-                Direct host rates. No hidden service charges or middleman platform commission.
+                You pay the exact rate the homestay sets. No 18% OTA markup, no hidden convenience charges.
               </p>
             </div>
           </div>
@@ -331,9 +331,9 @@ export default async function HomePage() {
               <PhoneCall className="w-5 h-5" />
             </div>
             <div>
-              <h4 className="text-sm font-bold text-slate-900">Direct Host WhatsApp</h4>
+              <h4 className="text-sm font-bold text-slate-900">Direct Co-Founder Line</h4>
               <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">
-                Coordinate check-in, special food requests, and directions straight with the host family.
+                Chat with our Dapoli co-founder Prachii Pawar on WhatsApp (+91 74475 68595) for instant road & stay help.
               </p>
             </div>
           </div>
@@ -343,9 +343,9 @@ export default async function HomePage() {
               <MapPin className="w-5 h-5" />
             </div>
             <div>
-              <h4 className="text-sm font-bold text-slate-900">Verified Beach Proximity</h4>
+              <h4 className="text-sm font-bold text-slate-900">Verified Beach Distance</h4>
               <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">
-                Real walking distances to the shore, checked and confirmed with authentic photos.
+                Real walking distance to the sand, inspected in person. No misleading &quot;beach view&quot; claims.
               </p>
             </div>
           </div>
@@ -355,9 +355,9 @@ export default async function HomePage() {
               <Fish className="w-5 h-5" />
             </div>
             <div>
-              <h4 className="text-sm font-bold text-slate-900">Fresh Seafood on Demand</h4>
+              <h4 className="text-sm font-bold text-slate-900">Fresh Catch on Demand</h4>
               <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">
-                Hosts arrange fresh daily catch straight from Harnai harbor fish auctions.
+                Hosts cook fresh daily catch sourced directly from the 4 PM Harnai harbor fish auctions.
               </p>
             </div>
           </div>
@@ -454,6 +454,74 @@ export default async function HomePage() {
               </div>
             </div>
           </Link>
+        </div>
+      </section>
+
+      {/* ========================================================= */}
+      {/* 3.5. LOCAL DAPOLI CO-FOUNDER CONCIERGE SPOTLIGHT          */}
+      {/* ========================================================= */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-900 via-teal-950 to-slate-950 text-white p-7 sm:p-10 shadow-xl border border-emerald-500/20">
+          <div className="absolute top-0 right-0 -mr-16 -mt-16 w-72 h-72 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none" />
+          
+          <div className="relative z-10 flex flex-col lg:flex-row items-center gap-7 lg:gap-10">
+            {/* Avatar Pill */}
+            <div className="relative shrink-0 text-center">
+              <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl bg-gradient-to-tr from-emerald-500 to-teal-400 p-1 shadow-2xl mx-auto">
+                <div className="w-full h-full bg-slate-950 rounded-[22px] flex flex-col items-center justify-center text-white">
+                  <span className="text-3xl sm:text-4xl font-black tracking-tight text-emerald-400">PP</span>
+                  <span className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest mt-0.5">Dapoli</span>
+                </div>
+              </div>
+              <div className="mt-2.5 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[11px] font-bold">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span>On-Ground Local Host</span>
+              </div>
+            </div>
+
+            {/* Content & Quote */}
+            <div className="space-y-3 flex-1 text-center lg:text-left">
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2">
+                <h3 className="text-xl sm:text-2xl font-black text-white">
+                  Prachii Pawar
+                </h3>
+                <span className="text-xs font-bold text-emerald-300 bg-white/10 px-2.5 py-0.5 rounded-full border border-white/15">
+                  Co-Founder & Dapoli Native
+                </span>
+              </div>
+
+              <p className="text-xs sm:text-sm text-slate-200 leading-relaxed max-w-2xl">
+                &ldquo;Namaskar! I live right here in Dapoli. We built bhramo.com to connect travelers directly with our local Konkan homestay families without paying 18% to 22% commissions to corporate apps. 
+                Whether you need advice on the best driving route via Tamhini or Mangaon, want to know which homestay is serving fresh Surmai fish thali tonight, or want morning dolphin boat tickets arranged, message or call me directly.&rdquo;
+              </p>
+
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 pt-1 text-[11px] font-semibold text-emerald-200">
+                <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10">📍 Born & Living in Dapoli</span>
+                <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10">⚡ Direct WhatsApp Assistance</span>
+                <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10">🐬 Dolphin Safari & Tide Guides</span>
+                <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10">🐟 Fish Auction Advice</span>
+              </div>
+            </div>
+
+            {/* Direct Action Buttons */}
+            <div className="flex flex-col sm:flex-row lg:flex-col gap-3 shrink-0 w-full sm:w-auto">
+              <a
+                href="https://wa.me/917447568595?text=Hello%20Prachii,%20I%20am%20planning%20a%20trip%20to%20Dapoli/Harnai%20and%20had%20a%20few%20questions"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs sm:text-sm transition-all shadow-xl hover:scale-105 active:scale-95"
+              >
+                <PhoneCall className="w-4 h-4" />
+                <span>WhatsApp Prachii Directly</span>
+              </a>
+              <a
+                href="tel:+917447568595"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-2xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs transition-all border border-white/15"
+              >
+                <span>Call +91 74475 68595</span>
+              </a>
+            </div>
+          </div>
         </div>
       </section>
 
