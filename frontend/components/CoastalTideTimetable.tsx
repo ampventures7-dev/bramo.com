@@ -150,13 +150,13 @@ export function CoastalTideTimetable({
         </a>
       </div>
 
-      {/* Tabs */}
+      {/* Tabs with smooth horizontal swipe on mobile */}
       {!compact && (
-        <div className="flex items-center gap-2 border-b border-slate-100 pb-3">
+        <div className="flex items-center gap-2 border-b border-slate-100 pb-3 overflow-x-auto scrollbar-none no-scrollbar">
           <button
             type="button"
             onClick={() => setActiveTab("all")}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
+            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 whitespace-nowrap ${
               activeTab === "all"
                 ? "bg-slate-900 text-white shadow-sm"
                 : "text-slate-600 hover:bg-slate-100"
@@ -167,7 +167,7 @@ export function CoastalTideTimetable({
           <button
             type="button"
             onClick={() => setActiveTab("dapoli")}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
+            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 whitespace-nowrap ${
               activeTab === "dapoli"
                 ? "bg-slate-900 text-white shadow-sm"
                 : "text-slate-600 hover:bg-slate-100"
@@ -178,7 +178,7 @@ export function CoastalTideTimetable({
           <button
             type="button"
             onClick={() => setActiveTab("harnai")}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
+            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 whitespace-nowrap ${
               activeTab === "harnai"
                 ? "bg-slate-900 text-white shadow-sm"
                 : "text-slate-600 hover:bg-slate-100"

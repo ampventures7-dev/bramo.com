@@ -356,6 +356,23 @@ export function Navbar() {
             </>
           )}
 
+          {/* Direct WhatsApp Concierge in Mobile Drawer */}
+          <a
+            href="https://wa.me/917447568595?text=Hi%20Prachii,%20I%20need%20local%20guidance%20for%20staying%20in%20Dapoli%20or%20Harnai"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setMobileMenuOpen(false)}
+            className="flex items-center justify-between p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs font-bold"
+          >
+            <div className="flex items-center gap-2">
+              <PhoneCall className="w-4 h-4 text-emerald-700" />
+              <span>Ask Prachii (Dapoli Local)</span>
+            </div>
+            <span className="text-[10px] bg-emerald-700 text-white px-2 py-0.5 rounded-full font-black">
+              WhatsApp
+            </span>
+          </a>
+
           {!profile ? (
             <div className="pt-2 border-t border-konkan-sand-100 flex gap-2">
               <Link

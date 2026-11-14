@@ -321,14 +321,23 @@ export default function BookingSummaryPage() {
 
             <div className="flex flex-col sm:flex-row items-center gap-6 p-4 bg-konkan-sand-50/70 rounded-2xl border border-konkan-sand-200">
               {/* Dummy QR Code Image */}
-              <div className="p-3 bg-white rounded-2xl border border-konkan-sand-300 shadow-sm shrink-0 text-center">
+              <div className="p-3 bg-white rounded-2xl border border-konkan-sand-300 shadow-sm shrink-0 text-center w-full sm:w-auto">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={qrCodeUrl}
                   alt="Platform UPI QR Code"
                   className="w-44 h-44 object-contain mx-auto"
                 />
-                <span className="text-[10px] text-slate-400 block mt-1">Scan with any UPI App</span>
+                <span className="text-[10px] text-slate-400 block mt-1">Scan or tap below on phone</span>
+
+                {/* 1-Tap UPI Intent for Mobile Phones */}
+                <a
+                  href={dynamicUpiDeepLink}
+                  className="sm:hidden mt-2.5 w-full py-2.5 px-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl flex items-center justify-center gap-1.5 shadow-sm"
+                >
+                  <Lock className="w-3.5 h-3.5" />
+                  <span>Tap to Pay with UPI App</span>
+                </a>
               </div>
 
               {/* UPI & Booking Note Details */}

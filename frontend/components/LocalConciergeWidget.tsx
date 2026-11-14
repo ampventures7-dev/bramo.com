@@ -24,10 +24,10 @@ export function LocalConciergeWidget({
   const waUrl = `https://wa.me/${customPhone.replace(/\D/g, "")}?text=${encodeURIComponent(prefilledMessage)}`;
 
   return (
-    <div className="fixed bottom-5 right-5 z-50 flex flex-col items-end select-none">
+    <div className="fixed bottom-20 lg:bottom-5 right-4 sm:right-5 z-50 flex flex-col items-end select-none">
       {/* Expanded Concierge Popover Card */}
       {isOpen && (
-        <div className="mb-3 w-80 sm:w-88 rounded-3xl bg-white border border-slate-200/90 shadow-2xl p-5 text-slate-900 space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-300">
+        <div className="mb-3 w-[calc(100vw-2rem)] max-w-sm sm:w-88 rounded-3xl bg-white border border-slate-200/90 shadow-2xl p-5 text-slate-900 space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-300">
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-2.5">
               <div className="relative">
