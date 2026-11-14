@@ -12,6 +12,7 @@ import { formatINR, getWhatsAppLink } from "@/lib/utils";
 import { getLocalReviews } from "@/lib/review-service";
 import { TravelRouteGuide } from "@/components/TravelRouteGuide";
 import { CoastalTideTimetable } from "@/components/CoastalTideTimetable";
+import { FaqAccordion } from "@/components/FaqAccordion";
 import { useAuth } from "@/context/AuthContext";
 import {
   MapPin,
@@ -570,6 +571,43 @@ export function HotelDetailClient({ hotel }: HotelDetailClientProps) {
 
           {/* Live Coastal Tide, Dolphin & Auction Timetable */}
           <CoastalTideTimetable hotelArea={hotel.area} />
+
+          {/* Stay & Host Specific FAQ Accordion */}
+          <div className="pt-6 border-t border-slate-200 space-y-4">
+            <div>
+              <span className="text-xs font-bold text-konkan-teal-700 uppercase tracking-widest">
+                Property & Stay Guide
+              </span>
+              <h3 className="text-xl font-black text-slate-900 mt-1">
+                Frequently Asked Questions about {hotel.name}
+              </h3>
+            </div>
+            <FaqAccordion
+              faqs={[
+                {
+                  q: `What are the check-in and checkout timings at ${hotel.name}?`,
+                  a: `Standard check-in is at ${hotel.checkin_time || "12:00 PM"} and checkout is at ${hotel.checkout_time || "10:30 AM"}. Early check-in or late checkout can be coordinated directly with our Dapoli co-founder Prachii Pawar (+91 74475 68595) based on room availability.`,
+                },
+                {
+                  q: `Are home-cooked Konkani meals available at this property?`,
+                  a: `Yes! Authentic Konkani meals (including fresh Surmai and Pomfret fry, Solkadhi, and vegetarian thalis) can be prepared fresh on advance request with the host. Please let the host or concierge know your dinner preferences before 6:30 PM so the freshest catch from the harbor can be sourced.`,
+                },
+                {
+                  q: `How far is ${hotel.name} from the nearest beach?`,
+                  a: `This property is located in ${hotel.area}. Walking or short driving distance to the beach has been verified in person. Murud, Karde, and Palande beaches are known for their gentle waves, water sports, and early morning dolphin watching safaris.`,
+                },
+                {
+                  q: `Is there safe parking for private cars driving from Mumbai or Pune?`,
+                  a: `Yes, safe on-premises parking is available free of charge for guest vehicles, whether you are arriving via the NH66 Mumbai-Goa highway or Tamhini Ghat from Pune.`,
+                },
+                {
+                  q: `How does payment and booking confirmation work on bhramo.com?`,
+                  a: `You pay a modest advance verification fee directly via UPI QR to secure your dates with 0% gateway commission. The remaining balance is paid directly upon arrival at the property desk via UPI or cash.`,
+                },
+              ]}
+              defaultOpenIndices={[0]}
+            />
+          </div>
         </div>
 
         {/* ========================================================= */}
