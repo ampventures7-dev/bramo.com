@@ -116,14 +116,24 @@ export function checkDuplicateUtr(utr: string, currentBookingId?: string): boole
   }
 }
 
-// 4. Submit UTR & Screenshot for Verification
+// 4. Submit UTR & Screenshot for Verification (with Server-Side Deduplication & Host Dispatch)
 export async function submitUpiForVerification(params: {
   bookingId: string;
   utr: string;
   screenshotUrl?: string;
+  hotelName?: string;
+  hotelArea?: string;
+  roomName?: string;
+  guestName?: string;
+  guestPhone?: string;
+  checkIn?: string;
+  checkOut?: string;
+  advanceAmount?: number;
+  balanceAmount?: number;
 }): Promise<{ success: boolean; error?: string; expiresAt?: number }> {
-  // Strict 12-digit validation
   const cleanUtr = params.utr.trim();
+
+  // 1. Strict 12-digit format check
   if (!/^\d{12}$/.test(cleanUtr)) {
     return {
       success: false,
@@ -131,7 +141,32 @@ export async function submitUpiForVerification(params: {
     };
   }
 
-  // Check duplicate UTR
+  // 2. Server-side verification & anti-fraud deduplication via /api/bookings/verify-utr
+  if (typeof window !== "undefined") {
+    try {
+      const verifyRes = await fetch("/api/bookings/verify-utr", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          bookingId: params.bookingId,
+          utr: cleanUtr,
+          screenshotUrl: params.screenshotUrl,
+        }),
+      });
+
+      const verifyData = await verifyRes.json();
+      if (!verifyRes.ok || !verifyData.success) {
+        return {
+          success: false,
+          error: verifyData.error || "UTR verification failed.",
+        };
+      }
+    } catch (apiErr) {
+      console.warn("Server UTR verification API fallback:", apiErr);
+    }
+  }
+
+  // 3. Check duplicate UTR in local storage as safety check
   if (checkDuplicateUtr(cleanUtr, params.bookingId)) {
     return {
       success: false,
@@ -141,6 +176,7 @@ export async function submitUpiForVerification(params: {
 
   const expiresAt = Date.now() + 6 * 60 * 60 * 1000; // 6 hours
 
+  // 4. Update local storage cache
   if (typeof window !== "undefined") {
     try {
       const raw = localStorage.getItem(PENDING_BOOKINGS_KEY);
@@ -165,6 +201,7 @@ export async function submitUpiForVerification(params: {
     }
   }
 
+  // 5. Update Supabase if configured
   if (isSupabaseConfigured) {
     try {
       const { data, error } = await supabase.rpc("submit_booking_upi", {
@@ -191,6 +228,35 @@ export async function submitUpiForVerification(params: {
           ? "Duplicate UTR: This 12-digit transaction ID has already been submitted for another booking. Please check your UPI payment receipt."
           : e.message || "Failed to submit verification.",
       };
+    }
+  }
+
+  // 6. Asynchronous Server-Side Host Notification Dispatch
+  // Guarantees host receives notification even if traveler closes the browser immediately
+  if (typeof window !== "undefined") {
+    try {
+      const hold = getBookingHold(params.bookingId);
+      fetch("/api/bookings/notify-host", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          bookingId: params.bookingId,
+          hostPhone: "919422388200",
+          hotelName: params.hotelName || hold?.hotelName || "Coastal Stay",
+          hotelArea: params.hotelArea || hold?.hotelArea || "Dapoli",
+          roomName: params.roomName || hold?.roomName || "Standard Room",
+          guestName: params.guestName || hold?.guestName || "Guest",
+          guestPhone: params.guestPhone || hold?.guestPhone || "",
+          checkIn: params.checkIn || hold?.checkIn || "",
+          checkOut: params.checkOut || hold?.checkOut || "",
+          advanceAmount: params.advanceAmount || 0,
+          balanceAmount: params.balanceAmount || 0,
+          utr: cleanUtr,
+          screenshotUrl: params.screenshotUrl,
+        }),
+      }).catch((e) => console.warn("Background host notification dispatch error:", e));
+    } catch (notifErr) {
+      console.warn("Could not dispatch server notification:", notifErr);
     }
   }
 

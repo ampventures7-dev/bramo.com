@@ -44,7 +44,7 @@ export default function BookingSummaryPage() {
   const [booking, setBooking] = useState<BookingHoldRecord | null>(null);
   const [settings, setSettings] = useState<PlatformSettings>(DEFAULT_PLATFORM_SETTINGS);
 
-  const [secondsRemaining, setSecondsRemaining] = useState<number>(600); // 10 mins hold
+  const [secondsRemaining, setSecondsRemaining] = useState<number>(900); // 15 mins hold
   const [isHoldExpired, setIsHoldExpired] = useState<boolean>(false);
 
   // UTR & Screenshot inputs
@@ -170,7 +170,7 @@ export default function BookingSummaryPage() {
     if (!booking) return;
 
     if (isHoldExpired) {
-      alert("The 10-minute hold has expired. Rooms have been released.");
+      alert("The 15-minute hold has expired. Rooms have been released.");
       return;
     }
 
@@ -187,6 +187,15 @@ export default function BookingSummaryPage() {
       bookingId: booking.id,
       utr: cleanUtr,
       screenshotUrl: persistentScreenshotUrl || screenshotPreview || undefined,
+      hotelName: booking.hotelName,
+      hotelArea: booking.hotelArea,
+      roomName: booking.roomName,
+      guestName: booking.guestName,
+      guestPhone: booking.guestPhone,
+      checkIn: booking.checkIn,
+      checkOut: booking.checkOut,
+      advanceAmount: bookingFee,
+      balanceAmount: balanceAmount,
     });
 
     setIsSubmitting(false);
@@ -256,7 +265,7 @@ export default function BookingSummaryPage() {
           <Clock className="w-5 h-5 shrink-0" />
           <div>
             <div className="text-[10px] uppercase font-bold tracking-wider">
-              {isHoldExpired ? "Hold Expired" : "10-Min Hold Window"}
+              {isHoldExpired ? "Hold Expired" : "15-Min Hold Window"}
             </div>
             <div className="font-mono text-base font-black">
               {isHoldExpired ? "00:00" : formatTimer(secondsRemaining)}
@@ -272,7 +281,7 @@ export default function BookingSummaryPage() {
             <span>Hold Expired — Rooms Released</span>
           </div>
           <p className="text-xs leading-relaxed text-rose-700">
-            The 10-minute hold window for this reservation has ended. To avoid double booking, rooms have been released. Please return and select your dates again.
+            The 15-minute hold window for this reservation has ended. To avoid double booking, rooms have been released. Please return and select your dates again.
           </p>
           <div className="pt-2">
             <Link

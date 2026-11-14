@@ -209,6 +209,13 @@ export function RoomBookingWidget({
       return;
     }
 
+    if (priceData?.minimumStayViolated) {
+      alert(
+        `Minimum Stay Requirement: A minimum of ${priceData.minimumStayNights} nights is required for ${priceData.activeSeasonSummary}. Please select at least ${priceData.minimumStayNights} nights.`
+      );
+      return;
+    }
+
     if (!availabilityStatus.available) {
       alert(availabilityStatus.error || "Selected dates are not available.");
       return;
@@ -509,7 +516,7 @@ export function RoomBookingWidget({
                 className="w-full py-3.5 px-4 rounded-2xl bg-konkan-teal-700 hover:bg-konkan-teal-800 disabled:opacity-50 disabled:cursor-not-allowed text-white font-black text-sm shadow-md transition-all active:scale-[0.99] flex items-center justify-center gap-2"
               >
                 {isHolding ? (
-                  <span>Securing 10-Minute Hold...</span>
+                  <span>Securing 15-Minute Hold...</span>
                 ) : (
                   <>
                     <span>Hold Room & Proceed</span>
@@ -525,7 +532,7 @@ export function RoomBookingWidget({
                 <span>Sign in to hold this room</span>
               </div>
               <p className="text-[11px] text-slate-600 leading-tight">
-                Inspect rates and room categories freely. Sign in to secure an instant 10-minute booking hold with direct host verification.
+                Inspect rates and room categories freely. Sign in to secure an instant 15-minute booking hold with direct host verification.
               </p>
               <Link
                 href={`/login?redirect=${encodeURIComponent(`/hotels/${hotel.id}`)}`}
@@ -564,6 +571,13 @@ export function RoomBookingWidget({
                 </div>
               )}
 
+              {priceData.peakHolidayNights > 0 && (
+                <div className="flex justify-between text-purple-900 bg-purple-50 p-1.5 rounded-lg border border-purple-200 font-semibold text-[11px]">
+                  <span>{priceData.activeSeasonSummary} ({priceData.peakHolidayNights} nt)</span>
+                  <span>{formatINR(priceData.totalPeakSurgeCost)}</span>
+                </div>
+              )}
+
               {priceData.extraGuestsCount > 0 && (
                 <div className="flex justify-between text-emerald-800 bg-emerald-50/80 p-1.5 rounded-lg border border-emerald-200 font-semibold text-[11px]">
                   <span>Additional guest fee</span>
@@ -592,7 +606,7 @@ export function RoomBookingWidget({
 
           {/* Guarantee Note */}
           <div className="text-center text-[11px] text-slate-500">
-            <span>You won&apos;t be charged yet. Instant 10-minute hold.</span>
+            <span>You won&apos;t be charged yet. Instant 15-minute hold.</span>
           </div>
 
           {/* Report this listing Link */}
