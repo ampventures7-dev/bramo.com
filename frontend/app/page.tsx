@@ -6,6 +6,7 @@ import { HeroSlider } from "@/components/HeroSlider";
 import { HotelCard } from "@/components/HotelCard";
 import { KonkanCategories } from "@/components/KonkanCategories";
 import { CoastalTideTimetable } from "@/components/CoastalTideTimetable";
+import { FaqAccordion } from "@/components/FaqAccordion";
 import { formatINR } from "@/lib/utils";
 import {
   Waves,
@@ -719,13 +720,8 @@ export default async function HomePage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
-            {HOME_FAQS.map((faq, idx) => (
-              <div key={idx} className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2">
-                <h3 className="font-bold text-sm text-slate-900">{faq.q}</h3>
-                <p className="text-xs text-slate-600 leading-relaxed aeo-faq-answer">{faq.a}</p>
-              </div>
-            ))}
+          <div className="pt-2">
+            <FaqAccordion faqs={HOME_FAQS} defaultOpenIndices={[0, 1]} />
           </div>
         </div>
       </section>

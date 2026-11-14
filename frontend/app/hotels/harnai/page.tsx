@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { fetchAllHotels } from "@/lib/hotels-service";
 import { HotelCard } from "@/components/HotelCard";
+import { FaqAccordion } from "@/components/FaqAccordion";
 import { formatINR } from "@/lib/utils";
 import {
   Anchor,
@@ -273,21 +274,8 @@ export default async function HarnaiLandingPage() {
             </h2>
           </div>
 
-          <div className="space-y-3">
-            {HARNAI_FAQS.map((faq, i) => (
-              <div
-                key={i}
-                className="bg-white p-5 rounded-2xl border border-konkan-sand-200 space-y-2 shadow-sm"
-              >
-                <div className="flex items-start gap-2.5 font-bold text-slate-900 text-sm">
-                  <HelpCircle className="w-4 h-4 text-konkan-teal-600 shrink-0 mt-0.5" />
-                  <span>{faq.q}</span>
-                </div>
-                <p className="text-xs text-slate-600 pl-6 leading-relaxed">
-                  {faq.a}
-                </p>
-              </div>
-            ))}
+          <div className="pt-2">
+            <FaqAccordion faqs={HARNAI_FAQS} defaultOpenIndices={[0]} />
           </div>
         </section>
       </div>
