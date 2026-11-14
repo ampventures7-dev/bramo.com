@@ -232,13 +232,14 @@ export function Navbar() {
               </div>
             ) : (
               <a
-                href="https://wa.me/917447568595?text=Hi%20bhramo.com,%20I%20need%20help%20finding%20a%20hotel%20in%20Dapoli%20or%20Harnai"
+                href="https://wa.me/917447568595?text=Hi%20bhramo.com,%20I%20need%20local%20guidance%20for%20staying%20in%20Dapoli%20or%20Harnai"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hidden sm:inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 transition-colors"
+                className="hidden sm:inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-300 hover:bg-emerald-100 transition-colors shadow-xs"
+                title="Chat directly with our Local Dapoli Co-Founder (+91 74475 68595)"
               >
-                <PhoneCall className="w-3.5 h-3.5" />
-                <span>WhatsApp Help</span>
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span>Dapoli Concierge</span>
               </a>
             )}
 

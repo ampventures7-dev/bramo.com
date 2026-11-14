@@ -202,3 +202,4 @@ CREATE TABLE IF NOT EXISTS public.host_notifications (
 );
 
 CREATE INDEX IF NOT EXISTS idx_host_notifications_token ON public.host_notifications(action_token);
+

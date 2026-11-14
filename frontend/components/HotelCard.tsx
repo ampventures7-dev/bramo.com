@@ -14,7 +14,9 @@ import {
   ShieldCheck,
   ChevronLeft,
   ChevronRight,
-  Waves
+  Waves,
+  Phone,
+  Flame
 } from "lucide-react";
 
 interface HotelCardProps {
@@ -63,8 +65,8 @@ export function HotelCard({ hotel: rawHotel }: HotelCardProps) {
     setPhotoIndex((prev) => (prev - 1 + images.length) % images.length);
   };
 
-  const quickWaMsg = `Hi, I am inquiring about room availability at *${hotel.name}* in ${hotel.location} via bhramo.com.`;
-  const waLink = getWhatsAppLink(hotel.whatsappNumber, quickWaMsg);
+  const quickWaMsg = `Hi! I am inquiring about staying at *${hotel.name}* in ${hotel.location} via bhramo.com. Could you please help me with availability, meals, and direct booking?`;
+  const waLink = `https://wa.me/917447568595?text=${encodeURIComponent(quickWaMsg)}`;
 
   return (
     <div
@@ -179,8 +181,19 @@ export function HotelCard({ hotel: rawHotel }: HotelCardProps) {
           </div>
         </div>
 
-        {/* 3. PRICING & QUICK ACTIONS */}
-        <div className="pt-3 border-t border-slate-100 space-y-3">
+        {/* 3. AGODA-STYLE SCARCITY & SOCIAL PROOF BADGE */}
+        <div className="flex items-center justify-between text-[11px] font-semibold text-rose-800 bg-rose-50/90 px-3 py-1.5 rounded-xl border border-rose-200">
+          <div className="flex items-center gap-1.5">
+            <Flame className="w-3.5 h-3.5 text-rose-600 shrink-0" />
+            <span>High demand in {hotel.location}</span>
+          </div>
+          <span className="text-[10px] text-rose-700 font-extrabold uppercase tracking-wide">
+            Only 1 room left
+          </span>
+        </div>
+
+        {/* 4. PRICING & QUICK ACTIONS */}
+        <div className="pt-2 border-t border-slate-100 space-y-3">
           <div className="flex items-baseline justify-between">
             <div>
               <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">
@@ -206,10 +219,11 @@ export function HotelCard({ hotel: rawHotel }: HotelCardProps) {
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
-              className="inline-flex items-center justify-center gap-1.5 py-2 px-3 rounded-full border border-emerald-300 text-emerald-800 bg-emerald-50/60 hover:bg-emerald-100 text-xs font-bold transition-colors"
+              className="inline-flex items-center justify-center gap-1.5 py-2 px-3 rounded-full border border-emerald-300 text-emerald-800 bg-emerald-50/80 hover:bg-emerald-100 text-xs font-bold transition-colors shadow-xs"
+              title="Chat with our Dapoli Local Concierge (+91 74475 68595)"
             >
-              <MessageSquare className="w-3.5 h-3.5 text-emerald-600" />
-              <span>WhatsApp</span>
+              <Phone className="w-3.5 h-3.5 text-emerald-600" />
+              <span>Ask Concierge</span>
             </a>
 
             <span className="inline-flex items-center justify-center gap-1 py-2 px-3 rounded-full bg-konkan-teal-700 group-hover:bg-konkan-teal-800 text-white text-xs font-bold transition-colors shadow-sm">

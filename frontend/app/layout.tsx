@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { LocalConciergeWidget } from "@/components/LocalConciergeWidget";
 import { AuthProvider } from "@/context/AuthContext";
 import { LanguageProvider } from "@/context/LanguageContext";
 
@@ -186,6 +187,7 @@ export default function RootLayout({
             <Navbar />
             <main className="flex-1">{children}</main>
             <Footer />
+            <LocalConciergeWidget customPhone="917447568595" />
           </LanguageProvider>
         </AuthProvider>
       </body>

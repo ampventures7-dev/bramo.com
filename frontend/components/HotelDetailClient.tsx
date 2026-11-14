@@ -90,9 +90,9 @@ export function HotelDetailClient({ hotel }: HotelDetailClientProps) {
     }
   }, [hotel.id, hotel.reviews]);
 
-  const phone = hotel.whatsapp_number || "919422388200";
-  const defaultMsg = `Hi, I am interested in inquiring about staying at *${hotel.name}* in ${hotel.area}.`;
-  const waLink = getWhatsAppLink(phone, defaultMsg);
+  const conciergePhone = "917447568595";
+  const defaultMsg = `Hi! I am inquiring about staying at *${hotel.name}* in ${hotel.area} via bhramo.com. Could you please help me with availability, meals, and booking?`;
+  const waLink = `https://wa.me/${conciergePhone}?text=${encodeURIComponent(defaultMsg)}`;
 
   const handleSelectRoomToBook = (room: RoomType) => {
     setSelectedRoomId(room.id);
@@ -582,14 +582,14 @@ export function HotelDetailClient({ hotel }: HotelDetailClientProps) {
               onFocusCalendar={handleFocusCalendar}
             />
 
-            {/* Direct Host WhatsApp Contact Pill */}
+            {/* Dapoli Local Concierge Contact Pill */}
             <div className="p-5 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-3 text-xs">
               <div className="flex items-center gap-2 font-bold text-slate-900">
-                <MessageSquare className="w-4 h-4 text-emerald-600" />
-                <span>Prefer to speak with the Host directly?</span>
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                <span>Dapoli Local Concierge</span>
               </div>
               <p className="text-[11px] text-slate-500 leading-relaxed">
-                Connect on WhatsApp for custom group discounts, late check-in notice, or special Konkani seafood meal requests.
+                Connect directly on WhatsApp with our Dapoli native co-founder (+91 74475 68595) for room availability, road guidance, authentic seafood thali requests, or group bookings.
               </p>
               <a
                 href={waLink}
@@ -598,7 +598,7 @@ export function HotelDetailClient({ hotel }: HotelDetailClientProps) {
                 className="w-full py-2.5 px-4 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center justify-center gap-2 transition-colors shadow-xs"
               >
                 <Phone className="w-3.5 h-3.5" />
-                <span>Chat on WhatsApp</span>
+                <span>Chat with Local Concierge</span>
               </a>
             </div>
           </div>
