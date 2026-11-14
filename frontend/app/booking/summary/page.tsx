@@ -61,11 +61,6 @@ export default function BookingSummaryPage() {
   // Load booking and platform settings
   useEffect(() => {
     async function loadData() {
-      if (!isAuthLoading && !user && !profile) {
-        router.push(`/login?redirect=${encodeURIComponent(`/booking/summary?id=${bookingId || ""}`)}`);
-        return;
-      }
-
       if (!bookingId) {
         router.push("/hotels");
         return;
@@ -506,31 +501,37 @@ export default function BookingSummaryPage() {
               <span className="text-[11px] text-konkan-teal-700 block">
                 {booking.checkIn} &rarr; {booking.checkOut}
               </span>
+              {booking.guestName && (
+                <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px]">
+                  <span className="text-slate-500">Reserved for:</span>
+                  <span className="font-bold text-slate-900">{booking.guestName} ({booking.guestPhone})</span>
+                </div>
+              )}
             </div>
 
             <div className="space-y-2.5 pt-2 border-t border-konkan-sand-100 text-xs">
               <div className="flex justify-between text-slate-600">
-                <span>Total Room Charges:</span>
+                <span>Total Stay Cost:</span>
                 <span className="font-bold text-slate-800">{formatINR(booking.totalAmount)}</span>
               </div>
 
-              <div className="p-3 bg-konkan-teal-50/70 rounded-2xl border border-konkan-teal-200 space-y-1">
-                <div className="flex justify-between font-bold text-konkan-teal-900">
-                  <span>Pay Now (Platform Fee {feePercent}%):</span>
+              <div className="p-3 bg-emerald-50/80 rounded-2xl border border-emerald-200 space-y-1">
+                <div className="flex justify-between font-bold text-emerald-950">
+                  <span>Payable Now (Advance {feePercent}%):</span>
                   <span>{formatINR(bookingFee)}</span>
                 </div>
-                <span className="text-[10px] text-konkan-teal-700 block">
-                  Covers platform booking confirmation
+                <span className="text-[10px] text-emerald-700 block">
+                  Secures your room hold via direct host UPI
                 </span>
               </div>
 
               <div className="p-3 bg-amber-50/80 rounded-2xl border border-amber-200 space-y-1">
-                <div className="flex justify-between font-bold text-amber-900">
-                  <span>Pay at Hotel on Check-in:</span>
+                <div className="flex justify-between font-bold text-amber-950">
+                  <span>Pay at Hotel Desk on Check-in (80%):</span>
                   <span>{formatINR(balanceAmount)}</span>
                 </div>
-                <span className="text-[10px] text-amber-700 block">
-                  To be paid directly to hotel front desk
+                <span className="text-[10px] text-amber-800 block">
+                  To be paid directly upon arrival via UPI or cash
                 </span>
               </div>
             </div>

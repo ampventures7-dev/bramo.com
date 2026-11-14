@@ -13,7 +13,7 @@ export const DEFAULT_PLATFORM_SETTINGS: PlatformSettings = {
   // Dummy QR code for local preview/development
   qr_image_url: "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=upi%3A%2F%2Fpay%3Fpa%3Dbhramo%40upi%26pn%3Dbhramo.com%26cu%3DINR",
   business_name: "bhramo.com",
-  default_booking_fee_percent: 15,
+  default_booking_fee_percent: 20,
 };
 
 // 1. Settings Get & Update
@@ -85,7 +85,7 @@ export async function updatePlatformSettings(
 export function calculateBookingFee(
   totalAmount: number,
   hotelFeePercent?: number | null,
-  defaultPercent: number = 15
+  defaultPercent: number = 20
 ): { feePercent: number; bookingFee: number; balanceAmount: number } {
   const feePercent = hotelFeePercent != null ? Number(hotelFeePercent) : defaultPercent;
   const bookingFee = Math.round((totalAmount * feePercent) / 100);
