@@ -5,6 +5,7 @@ import { fetchAllHotels } from "@/lib/hotels-service";
 import { HeroSlider } from "@/components/HeroSlider";
 import { HotelCard } from "@/components/HotelCard";
 import { KonkanCategories } from "@/components/KonkanCategories";
+import { CoastalTideTimetable } from "@/components/CoastalTideTimetable";
 import { formatINR } from "@/lib/utils";
 import {
   Waves,
@@ -624,6 +625,13 @@ export default async function HomePage() {
             </tbody>
           </table>
         </div>
+      </section>
+
+      {/* ========================================================= */}
+      {/* 4.5. LIVE COASTAL TIDE, DOLPHIN & AUCTION TIMETABLE       */}
+      {/* ========================================================= */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6">
+        <CoastalTideTimetable />
       </section>
 
       {/* ========================================================= */}

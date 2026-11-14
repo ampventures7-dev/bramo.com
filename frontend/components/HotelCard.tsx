@@ -205,6 +205,9 @@ export function HotelCard({ hotel: rawHotel }: HotelCardProps) {
                 </span>
                 <span className="text-xs text-slate-500">/ night</span>
               </div>
+              <span className="text-[10px] font-extrabold text-emerald-700 block mt-0.5">
+                Save ~{formatINR(Math.round(hotel.pricePerNight * 0.20))} vs MMT
+              </span>
             </div>
 
             <div className="flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">

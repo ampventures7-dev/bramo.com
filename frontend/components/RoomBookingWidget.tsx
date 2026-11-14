@@ -343,9 +343,8 @@ export function RoomBookingWidget({
                   CHECK-IN
                 </span>
                 <span
-                  className={`block text-xs sm:text-sm font-medium mt-0.5 ${
-                    checkIn ? "text-slate-900 font-semibold" : "text-slate-400"
-                  }`}
+                  className={`block text-xs sm:text-sm font-medium mt-0.5 ${checkIn ? "text-slate-900 font-semibold" : "text-slate-400"
+                    }`}
                 >
                   {checkIn ? format(checkIn, "MM/dd/yyyy") : "Add date"}
                 </span>
@@ -360,9 +359,8 @@ export function RoomBookingWidget({
                   CHECKOUT
                 </span>
                 <span
-                  className={`block text-xs sm:text-sm font-medium mt-0.5 ${
-                    checkOut ? "text-slate-900 font-semibold" : "text-slate-400"
-                  }`}
+                  className={`block text-xs sm:text-sm font-medium mt-0.5 ${checkOut ? "text-slate-900 font-semibold" : "text-slate-400"
+                    }`}
                 >
                   {checkOut ? format(checkOut, "MM/dd/yyyy") : "Add date"}
                 </span>
@@ -401,11 +399,10 @@ export function RoomBookingWidget({
                   <div
                     key={addon.id}
                     onClick={() => toggleAddon(addon.id)}
-                    className={`p-2.5 rounded-xl border text-xs cursor-pointer transition-all flex items-center justify-between ${
-                      isSelected
-                        ? "bg-emerald-50/70 border-emerald-300 text-emerald-950"
-                        : "bg-slate-50 border-slate-200 text-slate-700 hover:border-konkan-teal-300"
-                    }`}
+                    className={`p-2.5 rounded-xl border text-xs cursor-pointer transition-all flex items-center justify-between ${isSelected
+                      ? "bg-emerald-50/70 border-emerald-300 text-emerald-950"
+                      : "bg-slate-50 border-slate-200 text-slate-700 hover:border-konkan-teal-300"
+                      }`}
                   >
                     <div className="space-y-0.5 pr-2">
                       <div className="font-bold text-[11px] flex items-center gap-1">
@@ -421,11 +418,10 @@ export function RoomBookingWidget({
                         +{formatINR(addon.price)}
                       </span>
                       <div
-                        className={`w-4 h-4 rounded-md flex items-center justify-center border ${
-                          isSelected
-                            ? "bg-emerald-600 border-emerald-600 text-white"
-                            : "border-slate-300 bg-white"
-                        }`}
+                        className={`w-4 h-4 rounded-md flex items-center justify-center border ${isSelected
+                          ? "bg-emerald-600 border-emerald-600 text-white"
+                          : "border-slate-300 bg-white"
+                          }`}
                       >
                         {isSelected && <Check className="w-3 h-3" />}
                       </div>
@@ -600,6 +596,29 @@ export function RoomBookingWidget({
               <div className="pt-2 border-t border-slate-200 flex justify-between items-baseline text-sm font-black text-slate-900">
                 <span>Total amount</span>
                 <span className="text-xl text-konkan-teal-950 font-black">{formatINR(grandTotal)}</span>
+              </div>
+
+              {/* Direct Booking Savings Calculator (MMT / Agoda comparison) */}
+              <div className="mt-2 bg-emerald-50/90 border border-emerald-200 rounded-xl p-3 text-xs text-emerald-950 space-y-1.5 shadow-2xs">
+                <div className="flex items-center justify-between text-[11px] text-slate-500">
+                  <span>Price on MakeMyTrip / Agoda:</span>
+                  <span className="line-through font-semibold text-slate-500">
+                    {formatINR(Math.round(grandTotal * 1.20))}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between font-black text-emerald-900 text-xs">
+                  <span className="flex items-center gap-1">
+                    <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+                    <span>bhramo.com Direct Rate:</span>
+                  </span>
+                  <span>{formatINR(grandTotal)}</span>
+                </div>
+                <div className="pt-1.5 border-t border-emerald-200/80 text-[11px] text-emerald-800 font-extrabold flex items-center justify-between">
+                  <span>🎉 Direct Host Savings:</span>
+                  <span className="bg-emerald-700 text-white px-2 py-0.5 rounded-full font-black text-[10px] tracking-wide shadow-xs">
+                    You Save {formatINR(Math.round(grandTotal * 0.20))} (0% Commission)
+                  </span>
+                </div>
               </div>
             </div>
           )}

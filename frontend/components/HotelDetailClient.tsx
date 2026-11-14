@@ -11,6 +11,7 @@ import { DualMonthCalendar } from "@/components/DualMonthCalendar";
 import { formatINR, getWhatsAppLink } from "@/lib/utils";
 import { getLocalReviews } from "@/lib/review-service";
 import { TravelRouteGuide } from "@/components/TravelRouteGuide";
+import { CoastalTideTimetable } from "@/components/CoastalTideTimetable";
 import { useAuth } from "@/context/AuthContext";
 import {
   MapPin,
@@ -566,6 +567,9 @@ export function HotelDetailClient({ hotel }: HotelDetailClientProps) {
 
           {/* Mumbai & Pune Travel & Driving Route Guide */}
           <TravelRouteGuide area={hotel.area} />
+
+          {/* Live Coastal Tide, Dolphin & Auction Timetable */}
+          <CoastalTideTimetable hotelArea={hotel.area} />
         </div>
 
         {/* ========================================================= */}
