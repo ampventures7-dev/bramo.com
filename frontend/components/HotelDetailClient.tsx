@@ -440,11 +440,10 @@ export function HotelDetailClient({ hotel }: HotelDetailClientProps) {
                   <div
                     key={room.id}
                     onClick={() => setSelectedRoomId(room.id)}
-                    className={`rounded-3xl border-2 transition-all cursor-pointer flex flex-col justify-between overflow-hidden shadow-xs hover:shadow-md group ${
-                      isSelected
-                        ? "border-konkan-teal-700 bg-konkan-teal-50/20 ring-2 ring-konkan-teal-600/20"
-                        : "border-slate-200 hover:border-konkan-teal-300 bg-white"
-                    }`}
+                    className={`rounded-3xl border-2 transition-all cursor-pointer flex flex-col justify-between overflow-hidden shadow-xs hover:shadow-md group ${isSelected
+                      ? "border-konkan-teal-700 bg-konkan-teal-50/20 ring-2 ring-konkan-teal-600/20"
+                      : "border-slate-200 hover:border-konkan-teal-300 bg-white"
+                      }`}
                   >
                     {/* Visual Room Image Banner */}
                     <div className="relative h-44 w-full overflow-hidden bg-slate-100">
@@ -459,11 +458,10 @@ export function HotelDetailClient({ hotel }: HotelDetailClientProps) {
                       {/* Top Badges */}
                       <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
                         <span
-                          className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full shadow-xs ${
-                            room.is_ac
-                              ? "bg-cyan-600 text-white"
-                              : "bg-emerald-700 text-white"
-                          }`}
+                          className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full shadow-xs ${room.is_ac
+                            ? "bg-cyan-600 text-white"
+                            : "bg-emerald-700 text-white"
+                            }`}
                         >
                           {room.is_ac ? "❄️ AC Room" : "🌿 Non-AC Eco"}
                         </span>
@@ -545,11 +543,10 @@ export function HotelDetailClient({ hotel }: HotelDetailClientProps) {
                           e.stopPropagation();
                           handleSelectRoomToBook(room);
                         }}
-                        className={`w-full py-3 px-4 rounded-2xl text-xs font-black transition-all flex items-center justify-center gap-2 shadow-xs cursor-pointer ${
-                          isSelected
-                            ? "bg-konkan-teal-800 text-white hover:bg-konkan-teal-900 ring-2 ring-konkan-teal-700/30"
-                            : "bg-slate-900 hover:bg-black text-white"
-                        }`}
+                        className={`w-full py-3 px-4 rounded-2xl text-xs font-black transition-all flex items-center justify-center gap-2 shadow-xs cursor-pointer ${isSelected
+                          ? "bg-konkan-teal-800 text-white hover:bg-konkan-teal-900 ring-2 ring-konkan-teal-700/30"
+                          : "bg-slate-900 hover:bg-black text-white"
+                          }`}
                       >
                         <span>
                           {isSelected ? "Selected · Configure in Booking Bar" : "Book This Room Now"}
