@@ -20,7 +20,8 @@ import {
   Clock,
   ShieldCheck,
   MessageSquare,
-  MapPin
+  MapPin,
+  Sparkles
 } from "lucide-react";
 
 export default function SignupPage() {
@@ -224,6 +225,25 @@ export default function SignupPage() {
           <p className="text-xs text-slate-500">
             Join the coastal community for Dapoli and Harnai, Maharashtra
           </p>
+        </div>
+
+        {/* Friendly Guest Checkout Banner */}
+        <div className="p-3.5 bg-emerald-50 border border-emerald-200 text-emerald-950 rounded-2xl text-xs flex items-center justify-between shadow-2xs">
+          <div className="flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-emerald-600 shrink-0" />
+            <div>
+              <strong className="block font-bold text-emerald-900">Just want to book a room?</strong>
+              <span className="text-[11px] text-emerald-700">
+                You do not need an account. Book any cottage directly with Guest Checkout!
+              </span>
+            </div>
+          </div>
+          <Link
+            href={redirectParam || "/hotels"}
+            className="px-3 py-1.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl text-[11px] shrink-0 ml-2"
+          >
+            Guest Checkout &rarr;
+          </Link>
         </div>
 
         {errorMsg && (

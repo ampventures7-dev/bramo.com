@@ -314,8 +314,8 @@ export default function BookingSummaryPage() {
               </span>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-center gap-6 p-4 bg-konkan-sand-50/70 rounded-2xl border border-konkan-sand-200">
-              {/* Dummy QR Code Image */}
+            <div className="flex flex-col sm:flex-row items-center gap-6 p-4 sm:p-5 bg-konkan-sand-50/70 rounded-2xl border border-konkan-sand-200">
+              {/* QR Code Block (Desktop / Scanner) */}
               <div className="p-3 bg-white rounded-2xl border border-konkan-sand-300 shadow-sm shrink-0 text-center w-full sm:w-auto">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
@@ -323,46 +323,79 @@ export default function BookingSummaryPage() {
                   alt="Platform UPI QR Code"
                   className="w-44 h-44 object-contain mx-auto"
                 />
-                <span className="text-[10px] text-slate-400 block mt-1">Scan or tap below on phone</span>
-
-                {/* 1-Tap UPI Intent for Mobile Phones */}
-                <a
-                  href={dynamicUpiDeepLink}
-                  className="sm:hidden mt-2.5 w-full py-2.5 px-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl flex items-center justify-center gap-1.5 shadow-sm"
-                >
-                  <Lock className="w-3.5 h-3.5" />
-                  <span>Tap to Pay with UPI App</span>
-                </a>
+                <span className="text-[10px] text-slate-400 block mt-1.5 font-medium">
+                  Scan with GPay, PhonePe, Paytm or BHIM
+                </span>
               </div>
 
-              {/* UPI & Booking Note Details */}
+              {/* UPI & 1-Tap App Launchers Block */}
               <div className="space-y-3.5 flex-1 w-full text-xs">
                 {/* Amount Payable Now */}
-                <div className="p-3 bg-konkan-teal-50 rounded-xl border border-konkan-teal-200">
-                  <span className="text-[10px] font-bold text-konkan-teal-700 uppercase block">
-                    Amount Payable Now ({feePercent}% Advance Fee)
+                <div className="p-3 bg-emerald-50/80 rounded-xl border border-emerald-200">
+                  <span className="text-[10px] font-bold text-emerald-800 uppercase tracking-wide block">
+                    Advance Payable Now ({feePercent}% to Lock Room)
                   </span>
-                  <div className="text-2xl font-black text-konkan-teal-950 mt-0.5">
+                  <div className="text-2xl font-black text-emerald-950 mt-0.5">
                     {formatINR(bookingFee)}
                   </div>
-                  <span className="text-[11px] text-slate-500 block mt-0.5">
-                    Remaining balance of <strong>{formatINR(balanceAmount)}</strong> will be paid at the hotel.
+                  <span className="text-[11px] text-slate-600 block mt-0.5">
+                    Remaining balance of <strong>{formatINR(balanceAmount)}</strong> will be paid directly at the hotel desk upon check-in.
                   </span>
                 </div>
 
+                {/* 1-Tap UPI App Launchers (Mobile First) */}
+                <div className="space-y-1.5 pt-0.5">
+                  <span className="text-[10px] font-bold text-slate-700 uppercase tracking-wider block">
+                    1-Tap Fast Pay on Mobile:
+                  </span>
+                  <div className="grid grid-cols-2 gap-2">
+                    <a
+                      href={dynamicUpiDeepLink}
+                      className="py-2.5 px-3 rounded-xl bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 font-bold text-xs flex items-center justify-center gap-2 shadow-2xs hover:border-slate-400 transition-all active:scale-[0.98]"
+                    >
+                      <span className="w-2.5 h-2.5 rounded-full bg-blue-500" />
+                      <span>Google Pay</span>
+                    </a>
+
+                    <a
+                      href={dynamicUpiDeepLink}
+                      className="py-2.5 px-3 rounded-xl bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 font-bold text-xs flex items-center justify-center gap-2 shadow-2xs hover:border-slate-400 transition-all active:scale-[0.98]"
+                    >
+                      <span className="w-2.5 h-2.5 rounded-full bg-purple-600" />
+                      <span>PhonePe</span>
+                    </a>
+
+                    <a
+                      href={dynamicUpiDeepLink}
+                      className="py-2.5 px-3 rounded-xl bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 font-bold text-xs flex items-center justify-center gap-2 shadow-2xs hover:border-slate-400 transition-all active:scale-[0.98]"
+                    >
+                      <span className="w-2.5 h-2.5 rounded-full bg-cyan-500" />
+                      <span>Paytm</span>
+                    </a>
+
+                    <a
+                      href={dynamicUpiDeepLink}
+                      className="py-2.5 px-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-2xs transition-all active:scale-[0.98]"
+                    >
+                      <Lock className="w-3.5 h-3.5" />
+                      <span>Any UPI App</span>
+                    </a>
+                  </div>
+                </div>
+
                 {/* Platform UPI ID */}
-                <div>
+                <div className="pt-1">
                   <span className="text-slate-500 block uppercase font-bold text-[10px]">
-                    Platform UPI ID
+                    Platform UPI ID (for manual entry)
                   </span>
                   <div className="flex items-center gap-2 mt-0.5">
-                    <span className="font-mono font-bold text-sm text-slate-900 bg-white px-3 py-1.5 rounded-xl border border-konkan-sand-300 select-all">
+                    <span className="font-mono font-bold text-xs text-slate-900 bg-white px-3 py-1.5 rounded-xl border border-konkan-sand-300 select-all">
                       {settings.upi_id}
                     </span>
                     <button
                       type="button"
                       onClick={() => copyToClipboard(settings.upi_id, "upi")}
-                      className="p-1.5 text-xs text-konkan-teal-700 hover:bg-konkan-sand-100 rounded-lg flex items-center gap-1 border border-konkan-sand-200"
+                      className="p-1.5 text-xs text-konkan-teal-700 hover:bg-konkan-sand-100 rounded-lg flex items-center gap-1 border border-konkan-sand-200 cursor-pointer"
                     >
                       <Copy className="w-3.5 h-3.5" />
                       <span>{copiedUpi ? "Copied" : "Copy"}</span>
@@ -373,7 +406,7 @@ export default function BookingSummaryPage() {
                 {/* Booking ID Note */}
                 <div>
                   <span className="text-slate-500 block uppercase font-bold text-[10px]">
-                    Payment Note / Description (Must Include)
+                    Payment Note / Reference (Must Include)
                   </span>
                   <div className="flex items-center gap-2 mt-0.5">
                     <span className="font-mono font-bold text-xs text-slate-800 bg-white px-3 py-1.5 rounded-xl border border-konkan-sand-300 select-all">
@@ -382,7 +415,7 @@ export default function BookingSummaryPage() {
                     <button
                       type="button"
                       onClick={() => copyToClipboard(booking.id, "note")}
-                      className="p-1.5 text-xs text-konkan-teal-700 hover:bg-konkan-sand-100 rounded-lg flex items-center gap-1 border border-konkan-sand-200"
+                      className="p-1.5 text-xs text-konkan-teal-700 hover:bg-konkan-sand-100 rounded-lg flex items-center gap-1 border border-konkan-sand-200 cursor-pointer"
                     >
                       <Copy className="w-3.5 h-3.5" />
                       <span>{copiedNote ? "Copied" : "Copy"}</span>

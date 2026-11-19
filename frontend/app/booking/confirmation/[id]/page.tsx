@@ -88,23 +88,27 @@ export default function BookingConfirmationPage() {
     );
   }
 
-  const { bookingFee, balanceAmount } = calculateBookingFee(booking.totalAmount, null, 15);
+  const { bookingFee, balanceAmount } = calculateBookingFee(booking.totalAmount, null, 20);
   const isPendingVerification = booking.status === "pending_verification" || booking.status === "requested";
 
-  const ownerPhone = "919422388200";
-  const waConfirmMessage = `*🏖️ Booking Request — bhramo.com*
+  const conciergePhone = "917447568595"; // Co-Founder Prachii Pawar
+  const ownerPhone = conciergePhone;
+  const waConfirmMessage = `*🏖️ Booking Confirmation Voucher — bhramo.com*
 --------------------------------
 *Booking ID:* ${booking.id}
-*Hotel:* ${booking.hotelName} (${booking.hotelArea})
-*Room:* ${booking.roomName}
-*Guest:* ${booking.guestName} (${booking.guestPhone})
-*Dates:* ${booking.checkIn} to ${booking.checkOut}
-*Total Value:* ₹${booking.totalAmount}
-*Advance Fee Paid (15%):* ₹${bookingFee} (UTR: ${booking.upiRefNumber || "N/A"})
-*Balance to Pay at Hotel:* ₹${balanceAmount}
+*Hotel / Homestay:* ${booking.hotelName} (${booking.hotelArea}, Maharashtra)
+*Room Category:* ${booking.roomName}
+*Stay Configuration:* ${booking.roomsCount || 1} Room(s) · ${booking.guestsCount || 2} Guest(s)
+*Primary Guest:* ${booking.guestName} (${booking.guestPhone})
+*Dates of Stay:* ${booking.checkIn} ➔ ${booking.checkOut}
+*Total Stay Cost:* ₹${booking.totalAmount}
+*Advance Paid (20% via UPI):* ₹${bookingFee} (UTR: ${booking.upiRefNumber || "Submitted"})
+*Balance Payable at Hotel Desk:* ₹${balanceAmount}
 *Status:* ${isPendingVerification ? "Pending Manual UPI Verification" : "Confirmed"}
 --------------------------------
-Submitted via bhramo.com`;
+*Local Dapoli Desk:* Prachii Pawar (+91 74475 68595)
+*Meal Note:* Authentic Surmai/Pomfret thalis or Modak can be requested in advance.
+bhramo.com — 0% Commission Direct Konkan Stays`;
 
   const waLink = getWhatsAppLink(ownerPhone, waConfirmMessage);
 
@@ -277,7 +281,7 @@ Submitted via bhramo.com`;
           </div>
 
           <div className="flex justify-between text-emerald-800 font-medium">
-            <span>Advance Booking Fee Paid (15%):</span>
+            <span>Advance Booking Fee Paid (20% via UPI):</span>
             <span className="font-bold text-emerald-700">- {formatINR(bookingFee)}</span>
           </div>
 

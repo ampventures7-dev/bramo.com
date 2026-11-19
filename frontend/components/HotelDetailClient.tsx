@@ -403,68 +403,160 @@ export function HotelDetailClient({ hotel }: HotelDetailClientProps) {
           </div>
 
           {/* ========================================================= */}
-          {/* ROOM CATEGORIES LIST */}
+          {/* ROOM CATEGORIES LIST (MakeMyTrip / Agoda Grade Visual Cards) */}
           {/* ========================================================= */}
-          <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-5">
-            <div>
-              <h2 className="text-2xl font-black text-slate-900">Available Room Types</h2>
-              <p className="text-xs text-slate-500 mt-0.5">
-                Choose the best room configuration for your travel party
-              </p>
+          <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-4">
+              <div>
+                <span className="text-xs font-bold text-konkan-teal-700 uppercase tracking-widest">
+                  Direct Host Inventory
+                </span>
+                <h2 className="text-2xl font-black text-slate-900 mt-0.5">
+                  Available Room Configurations
+                </h2>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  Verified room layouts, direct host pricing & 0% middleman commission
+                </p>
+              </div>
+              <div className="flex items-center gap-1.5 self-start sm:self-auto text-[11px] font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+                <ShieldCheck className="w-3.5 h-3.5" />
+                <span>15-Min Guaranteed Hold</span>
+              </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {hotel.room_types.map((room) => {
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {hotel.room_types.map((room, idx) => {
                 const isSelected = room.id === selectedRoomId;
                 const rBeds = room.beds_count || (room.capacity > 2 ? 2 : 1);
+                // Select a relevant room image or fallback to hotel images
+                const roomImg =
+                  images.find((img) => img.toLowerCase().includes("bedroom") || img.toLowerCase().includes("room")) ||
+                  images[(idx + 1) % images.length] ||
+                  images[0];
+                const advanceAmount = Math.round(Number(room.base_price) * 0.20);
+                const mmtPrice = Math.round(Number(room.base_price) * 1.20);
+
                 return (
                   <div
                     key={room.id}
                     onClick={() => setSelectedRoomId(room.id)}
-                    className={`p-5 rounded-2xl border-2 transition-all cursor-pointer flex flex-col justify-between space-y-4 ${isSelected
-                      ? "border-konkan-teal-700 bg-konkan-teal-50/40 shadow-sm"
-                      : "border-slate-200 hover:border-slate-300 bg-white"
-                      }`}
+                    className={`rounded-3xl border-2 transition-all cursor-pointer flex flex-col justify-between overflow-hidden shadow-xs hover:shadow-md group ${
+                      isSelected
+                        ? "border-konkan-teal-700 bg-konkan-teal-50/20 ring-2 ring-konkan-teal-600/20"
+                        : "border-slate-200 hover:border-konkan-teal-300 bg-white"
+                    }`}
                   >
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between">
-                        <span className="text-[11px] font-bold uppercase tracking-wider text-konkan-teal-800">
-                          {rBeds === 1 ? "1 Bed · Max 2" : "2 Beds · Max 4"}
+                    {/* Visual Room Image Banner */}
+                    <div className="relative h-44 w-full overflow-hidden bg-slate-100">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={roomImg}
+                        alt={room.name}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+
+                      {/* Top Badges */}
+                      <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
+                        <span
+                          className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full shadow-xs ${
+                            room.is_ac
+                              ? "bg-cyan-600 text-white"
+                              : "bg-emerald-700 text-white"
+                          }`}
+                        >
+                          {room.is_ac ? "❄️ AC Room" : "🌿 Non-AC Eco"}
                         </span>
-                        <span className="text-xs font-bold text-slate-900">
-                          {formatINR(Number(room.base_price))} / night
+                        <span className="text-[10px] font-bold bg-white/95 text-slate-800 backdrop-blur-xs px-2.5 py-0.5 rounded-full shadow-xs">
+                          {rBeds === 1 ? "1 Bed · Max 2" : "2 Beds · Max 4"}
                         </span>
                       </div>
 
-                      <h3 className="font-black text-base text-slate-900">{room.name}</h3>
-                      <p className="text-xs text-slate-600 leading-relaxed">
-                        {room.bed_type || (rBeds === 1 ? "1 Queen Bed" : "2 Double Beds")} • Up to {room.capacity} guests
-                      </p>
-
-                      <div className="flex flex-wrap gap-1.5 pt-1">
-                        <span className="text-[10px] font-semibold bg-slate-100 text-slate-700 px-2.5 py-0.5 rounded-full">
-                          {room.is_ac ? "❄️ AC Room" : "🌿 Non-AC Eco"}
+                      {/* Bottom Image Overlay: Bed & Capacity info */}
+                      <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white text-xs">
+                        <span className="font-semibold drop-shadow-md">
+                          🛏️ {room.bed_type || (rBeds === 1 ? "1 Queen Bed" : "2 Double Beds")}
                         </span>
-                        <span className="text-[10px] font-semibold bg-slate-100 text-slate-700 px-2.5 py-0.5 rounded-full">
+                        <span className="font-semibold drop-shadow-md bg-black/40 backdrop-blur-xs px-2 py-0.5 rounded-md text-[11px]">
                           👥 Up to {room.capacity} Guests
                         </span>
                       </div>
                     </div>
 
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleSelectRoomToBook(room);
-                      }}
-                      className={`w-full py-2.5 px-3 rounded-full text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${isSelected
-                        ? "bg-konkan-teal-800 text-white shadow-sm"
-                        : "bg-slate-100 hover:bg-slate-200 text-slate-800"
+                    {/* Room Information & Inclusions */}
+                    <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
+                      <div className="space-y-2">
+                        <div className="flex items-start justify-between gap-2">
+                          <h3 className="font-black text-base text-slate-900 group-hover:text-konkan-teal-800 transition-colors">
+                            {room.name}
+                          </h3>
+                        </div>
+
+                        {/* Room Amenities / Inclusions Pills */}
+                        <div className="flex flex-wrap gap-1.5 pt-0.5">
+                          {room.amenities && room.amenities.length > 0 ? (
+                            room.amenities.slice(0, 4).map((am, aIdx) => (
+                              <span
+                                key={aIdx}
+                                className="text-[10px] font-medium bg-slate-100 text-slate-700 px-2.5 py-0.5 rounded-lg border border-slate-200/60"
+                              >
+                                {am}
+                              </span>
+                            ))
+                          ) : (
+                            <>
+                              <span className="text-[10px] font-medium bg-slate-100 text-slate-700 px-2.5 py-0.5 rounded-lg">
+                                Attached Bathroom
+                              </span>
+                              <span className="text-[10px] font-medium bg-slate-100 text-slate-700 px-2.5 py-0.5 rounded-lg">
+                                Hot Water
+                              </span>
+                            </>
+                          )}
+                        </div>
+
+                        {/* Direct Host Savings vs MMT Tag */}
+                        <div className="pt-2">
+                          <div className="p-2.5 bg-emerald-50/70 rounded-xl border border-emerald-200 text-xs space-y-1">
+                            <div className="flex items-center justify-between text-[11px] text-slate-500">
+                              <span>MakeMyTrip / Agoda:</span>
+                              <span className="line-through">{formatINR(mmtPrice)}</span>
+                            </div>
+                            <div className="flex items-center justify-between font-bold text-emerald-950 text-xs">
+                              <span>bhramo.com Direct Rate:</span>
+                              <span className="text-sm font-black text-slate-900">
+                                {formatINR(Number(room.base_price))} <span className="text-[10px] font-normal text-slate-500">/ night</span>
+                              </span>
+                            </div>
+                            <div className="text-[10px] text-emerald-800 font-extrabold flex items-center justify-between pt-0.5">
+                              <span>💰 20% Advance to Lock:</span>
+                              <span className="bg-emerald-600 text-white px-2 py-0.2 rounded-full font-bold">
+                                {formatINR(advanceAmount)}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Action Button */}
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleSelectRoomToBook(room);
+                        }}
+                        className={`w-full py-3 px-4 rounded-2xl text-xs font-black transition-all flex items-center justify-center gap-2 shadow-xs cursor-pointer ${
+                          isSelected
+                            ? "bg-konkan-teal-800 text-white hover:bg-konkan-teal-900 ring-2 ring-konkan-teal-700/30"
+                            : "bg-slate-900 hover:bg-black text-white"
                         }`}
-                    >
-                      <span>{isSelected ? "Selected for Booking" : "Select this Room"}</span>
-                      <ChevronRight className="w-3.5 h-3.5" />
-                    </button>
+                      >
+                        <span>
+                          {isSelected ? "Selected · Configure in Booking Bar" : "Book This Room Now"}
+                        </span>
+                        <ChevronRight className="w-4 h-4" />
+                      </button>
+                    </div>
                   </div>
                 );
               })}

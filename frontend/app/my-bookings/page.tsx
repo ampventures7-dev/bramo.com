@@ -75,12 +75,8 @@ export default function MyBookingsPage() {
   const [bookings, setBookings] = useState<GuestBookingItem[]>([]);
   const [copiedUtr, setCopiedUtr] = useState<string | null>(null);
 
-  // Route protection: Only logged in users allowed
-  useEffect(() => {
-    if (!isLoading && !profile) {
-      router.push("/login");
-    }
-  }, [isLoading, profile, router]);
+  // 1-Tap Guest Lookup query (allows unauthenticated guests to search vouchers by phone or booking ID)
+  const [guestLookupQuery, setGuestLookupQuery] = useState<string>("");
 
   // Cancellation Modal State
   const [cancellingBooking, setCancellingBooking] = useState<GuestBookingItem | null>(null);
@@ -132,15 +128,17 @@ export default function MyBookingsPage() {
               nights: hold.nights || 1,
               guests: hold.guests || 2,
               totalAmount: hold.totalAmount,
-              advancePaid: Math.round(hold.totalAmount * 0.15),
-              balanceAmount: hold.totalAmount - Math.round(hold.totalAmount * 0.15),
+              advancePaid: Math.round(hold.totalAmount * 0.20),
+              balanceAmount: hold.totalAmount - Math.round(hold.totalAmount * 0.20),
               paymentMethod: "upi_qr",
               utr: hold.upiRefNumber || hold.paymentId,
               status: hold.status === "confirmed" ? "confirmed" : "pending_verification",
               image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=800&q=80",
-              ownerWhatsapp: "919422388200",
+              ownerWhatsapp: "917447568595", // Co-Founder Prachii Pawar desk
               createdAt: new Date().toISOString(),
             };
+            (newBooking as any).guestPhone = hold.guestPhone;
+            (newBooking as any).guestName = hold.guestName;
             storedList.unshift(newBooking);
           }
         });
@@ -240,12 +238,23 @@ export default function MyBookingsPage() {
   const pastBookings = bookings.filter((b) => b.status === "completed");
   const cancelledBookings = bookings.filter((b) => b.status === "cancelled");
 
-  const displayedBookings =
+  const tabBookings =
     activeTab === "upcoming"
       ? upcomingBookings
       : activeTab === "past"
       ? pastBookings
       : cancelledBookings;
+
+  const cleanQuery = guestLookupQuery.trim().toLowerCase();
+  const displayedBookings = cleanQuery
+    ? tabBookings.filter(
+        (b) =>
+          b.id.toLowerCase().includes(cleanQuery) ||
+          b.hotelName.toLowerCase().includes(cleanQuery) ||
+          ((b as any).guestPhone && String((b as any).guestPhone).includes(cleanQuery)) ||
+          ((b as any).guestName && String((b as any).guestName).toLowerCase().includes(cleanQuery))
+      )
+    : tabBookings;
 
   // Copy UTR handler
   const handleCopyUtr = (utr: string) => {
@@ -394,7 +403,15 @@ export default function MyBookingsPage() {
             My Bookings & Stays
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
-            Logged in as <strong className="text-slate-800">{profile?.name || "Konkan Guest"}</strong> · Manage upcoming coastal trips, download vouchers, and write reviews
+            {profile ? (
+              <>
+                Logged in as <strong className="text-slate-800">{profile?.name || "Konkan Guest"}</strong> · Manage upcoming coastal trips, download vouchers, and write reviews
+              </>
+            ) : (
+              <>
+                Manage your Dapoli & Harnai reservations, view active 15-minute holds, and download offline vouchers.
+              </>
+            )}
           </p>
         </div>
 
@@ -406,6 +423,54 @@ export default function MyBookingsPage() {
           <ArrowRight className="w-3.5 h-3.5" />
         </Link>
       </div>
+
+      {/* 1-Tap Guest Lookup Bar (for guests who booked without passwords) */}
+      {!profile && (
+        <div className="p-4 sm:p-5 bg-white rounded-3xl border border-konkan-sand-300 shadow-sm space-y-3">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-emerald-600" />
+              <span className="font-bold text-slate-900 text-xs sm:text-sm">
+                Find Reservation Voucher by WhatsApp Number or Booking ID
+              </span>
+            </div>
+            <span className="text-[10px] text-slate-500 font-medium">
+              Zero password required · Instant voucher retrieval
+            </span>
+          </div>
+
+          <div className="flex gap-2">
+            <div className="relative flex-1">
+              <Phone className="w-4 h-4 text-slate-400 absolute left-3.5 top-3 pointer-events-none" />
+              <input
+                type="text"
+                placeholder="Enter 10-digit WhatsApp number (e.g. 9820012345) or Booking ID"
+                value={guestLookupQuery}
+                onChange={(e) => setGuestLookupQuery(e.target.value)}
+                className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-300 rounded-2xl text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-konkan-teal-600 font-medium"
+              />
+            </div>
+            {guestLookupQuery && (
+              <button
+                type="button"
+                onClick={() => setGuestLookupQuery("")}
+                className="px-3.5 py-2 text-xs font-bold text-slate-500 hover:text-slate-800 rounded-xl border border-slate-200 cursor-pointer"
+              >
+                Clear
+              </button>
+            )}
+          </div>
+
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-[11px] text-slate-500 pt-1">
+            <span>
+              Showing reservations matching your search or saved on this device.
+            </span>
+            <Link href="/login" className="text-konkan-teal-700 font-bold hover:underline">
+              Have an account? Sign in &rarr;
+            </Link>
+          </div>
+        </div>
+      )}
 
       {/* Tabs Filter Bar */}
       <div className="flex flex-wrap items-center gap-2 border-b border-konkan-sand-200 pb-3">

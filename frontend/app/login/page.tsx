@@ -389,18 +389,24 @@ export default function LoginPage() {
           </p>
         </div>
 
-        {/* Notice if redirected from Booking attempt */}
-        {redirectParam && (
-          <div className="p-3 bg-amber-50 border border-amber-200 text-amber-900 rounded-2xl text-xs flex items-center gap-2.5 shadow-xs">
-            <ShieldCheck className="w-4 h-4 text-amber-600 shrink-0" />
+        {/* Friendly Guest Checkout Option */}
+        <div className="p-3.5 bg-emerald-50 border border-emerald-200 text-emerald-950 rounded-2xl text-xs flex items-center justify-between shadow-2xs">
+          <div className="flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-emerald-600 shrink-0" />
             <div>
-              <strong className="block font-bold">Sign In Required to Book</strong>
-              <span className="text-[11px] text-amber-800">
-                You can freely inspect hotel details and rates, but you must be signed in to confirm reservations.
+              <strong className="block font-bold text-emerald-900">Booking as a Guest?</strong>
+              <span className="text-[11px] text-emerald-700">
+                You can book directly with just your name & WhatsApp number — zero password needed!
               </span>
             </div>
           </div>
-        )}
+          <Link
+            href={redirectParam || "/hotels"}
+            className="px-3 py-1.5 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-xl text-[11px] shrink-0 ml-2"
+          >
+            Guest Checkout &rarr;
+          </Link>
+        </div>
 
         {/* 1-Click Google Sign In (100% Free Social Auth) */}
         <div className="space-y-3">
