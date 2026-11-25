@@ -9,10 +9,10 @@ const PENDING_BOOKINGS_KEY = "bhramo_active_booking_holds";
 
 export const DEFAULT_PLATFORM_SETTINGS: PlatformSettings = {
   id: "default",
-  upi_id: "bhramo@upi",
-  // Dummy QR code for local preview/development
-  qr_image_url: "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=upi%3A%2F%2Fpay%3Fpa%3Dbhramo%40upi%26pn%3Dbhramo.com%26cu%3DINR",
-  business_name: "bhramo.com",
+  upi_id: "pawarprachi745-2@okicici",
+  // Official GPay QR code for Prachi Pawar
+  qr_image_url: "/qr/bhramo-official-qr.png",
+  business_name: "Prachi Pawar",
   default_booking_fee_percent: 20,
 };
 
@@ -29,6 +29,9 @@ export async function getPlatformSettings(): Promise<PlatformSettings> {
       if (!error && data) {
         return {
           ...data,
+          upi_id: data.upi_id === "bhramo@upi" ? DEFAULT_PLATFORM_SETTINGS.upi_id : data.upi_id,
+          business_name: data.business_name === "bhramo.com" ? DEFAULT_PLATFORM_SETTINGS.business_name : data.business_name,
+          qr_image_url: data.qr_image_url && data.qr_image_url.includes("bhramo%40upi") ? DEFAULT_PLATFORM_SETTINGS.qr_image_url : data.qr_image_url,
           default_booking_fee_percent: Number(data.default_booking_fee_percent),
         };
       }
@@ -40,7 +43,17 @@ export async function getPlatformSettings(): Promise<PlatformSettings> {
   if (typeof window !== "undefined") {
     try {
       const saved = localStorage.getItem(SETTINGS_STORAGE_KEY);
-      if (saved) return JSON.parse(saved);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        // Automatically migrate any legacy placeholder dummy UPI ID
+        if (parsed.upi_id === "bhramo@upi" || !parsed.upi_id) {
+          parsed.upi_id = DEFAULT_PLATFORM_SETTINGS.upi_id;
+          parsed.business_name = DEFAULT_PLATFORM_SETTINGS.business_name;
+          parsed.qr_image_url = DEFAULT_PLATFORM_SETTINGS.qr_image_url;
+          localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(parsed));
+        }
+        return parsed;
+      }
     } catch {
       // ignore
     }

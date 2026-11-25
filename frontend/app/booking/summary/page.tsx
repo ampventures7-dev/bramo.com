@@ -63,6 +63,9 @@ export default function BookingSummaryPage() {
   const [ocrScanning, setOcrScanning] = useState<boolean>(false);
   const [ocrDetectedUtr, setOcrDetectedUtr] = useState<string | null>(null);
 
+  // QR Mode: Dynamic amount pre-filled QR vs Official Prachi Pawar GPay QR Card
+  const [qrMode, setQrMode] = useState<"dynamic" | "official">("dynamic");
+
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -352,17 +355,49 @@ Hi Prachii, please verify my payment screenshot and confirm my reservation. Than
             </div>
 
             <div className="flex flex-col sm:flex-row items-center gap-6 p-4 sm:p-5 bg-konkan-sand-50/70 rounded-2xl border border-konkan-sand-200">
-              {/* QR Code Block (Desktop / Scanner) */}
-              <div className="p-3 bg-white rounded-2xl border border-konkan-sand-300 shadow-sm shrink-0 text-center w-full sm:w-auto">
+              {/* QR Code Block (Desktop / Scanner) with Dual Mode Toggle */}
+              <div className="p-3 bg-white rounded-2xl border border-konkan-sand-300 shadow-sm shrink-0 text-center w-full sm:w-auto space-y-2">
+                {/* QR Mode Toggle */}
+                <div className="flex items-center justify-center gap-1 p-1 bg-konkan-sand-100 rounded-xl">
+                  <button
+                    type="button"
+                    onClick={() => setQrMode("dynamic")}
+                    className={`px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all cursor-pointer ${
+                      qrMode === "dynamic"
+                        ? "bg-white text-konkan-teal-900 shadow-xs"
+                        : "text-slate-500 hover:text-slate-800"
+                    }`}
+                  >
+                    ⚡ Auto-Fill QR
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setQrMode("official")}
+                    className={`px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all cursor-pointer ${
+                      qrMode === "official"
+                        ? "bg-white text-konkan-teal-900 shadow-xs"
+                        : "text-slate-500 hover:text-slate-800"
+                    }`}
+                  >
+                    📷 Official GPay QR
+                  </button>
+                </div>
+
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={qrCodeUrl}
-                  alt="Platform UPI QR Code"
-                  className="w-44 h-44 object-contain mx-auto"
+                  src={qrMode === "dynamic" ? qrCodeUrl : "/qr/bhramo-official-qr.png"}
+                  alt={qrMode === "dynamic" ? "Dynamic Amount UPI QR Code" : "Official Prachi Pawar GPay QR"}
+                  className="w-44 h-44 object-contain mx-auto rounded-lg"
                 />
-                <span className="text-[10px] text-slate-400 block mt-1.5 font-medium">
-                  Scan with GPay, PhonePe, Paytm or BHIM
-                </span>
+
+                <div className="pt-0.5">
+                  <span className="text-[11px] font-bold text-slate-800 block">
+                    Prachi Pawar
+                  </span>
+                  <span className="text-[10px] text-emerald-700 font-semibold block">
+                    {qrMode === "dynamic" ? "Auto-fills exact advance" : "Official Google Pay QR"}
+                  </span>
+                </div>
               </div>
 
               {/* UPI & 1-Tap App Launchers Block */}

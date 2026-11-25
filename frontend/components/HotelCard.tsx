@@ -40,7 +40,7 @@ function toHotel(h: Hotel | HotelWithDetails): Hotel {
     coordinates: { lat: Number(h.lat), lng: Number(h.lng) },
     contactPhone: h.whatsapp_number || "919422388200",
     whatsappNumber: h.whatsapp_number || "919422388200",
-    upiId: "bhramo@upi",
+    upiId: "pawarprachi745-2@okicici",
     paymentOptions: ["pay_at_hotel", "upi_qr"],
     address: h.address,
     featured: true,
