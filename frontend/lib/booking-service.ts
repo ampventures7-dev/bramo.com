@@ -388,6 +388,7 @@ export async function createBookingHold(params: {
   roomsCount: number;
   guestsCount: number;
   totalAmount: number;
+  paymentMethod?: "advance_upi" | "pay_at_hotel";
 }): Promise<{ success: boolean; bookingId: string; holdExpiresAt: number; error?: string }> {
   // 1. Verify availability
   const avail = await checkRoomAvailability(
@@ -429,6 +430,7 @@ export async function createBookingHold(params: {
           roomsCount: params.roomsCount,
           guestsCount: params.guestsCount,
           totalAmount: params.totalAmount,
+          paymentMethod: params.paymentMethod || "advance_upi",
         }),
       });
 
@@ -441,6 +443,8 @@ export async function createBookingHold(params: {
           error: data.error || "Unable to acquire room hold.",
         };
       }
+
+      const isPayAtHotel = params.paymentMethod === "pay_at_hotel";
 
       // Cache locally for client session hydration
       const record: BookingHoldRecord = {
@@ -458,7 +462,8 @@ export async function createBookingHold(params: {
         roomsCount: params.roomsCount,
         guestsCount: params.guestsCount,
         totalAmount: params.totalAmount,
-        status: "holding",
+        paymentMethod: isPayAtHotel ? "pay_at_hotel" : "upi_qr",
+        status: isPayAtHotel ? "confirmed" : "holding",
         holdExpiresAt: data.holdExpiresAt,
         createdAt: Date.now(),
       };

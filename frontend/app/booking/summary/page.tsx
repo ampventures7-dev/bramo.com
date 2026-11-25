@@ -19,6 +19,7 @@ import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import { PlatformSettings } from "@/types/supabase";
 import { formatINR } from "@/lib/utils";
 import { useAuth } from "@/context/AuthContext";
+import { extractUtrFromScreenshot } from "@/lib/client-ocr";
 import {
   Clock,
   ShieldCheck,
@@ -32,7 +33,10 @@ import {
   Info,
   Building2,
   Image as ImageIcon,
-  Lock
+  Lock,
+  Sparkles,
+  MessageSquare,
+  Phone
 } from "lucide-react";
 
 export default function BookingSummaryPage() {
@@ -54,6 +58,10 @@ export default function BookingSummaryPage() {
   const [screenshotCompressing, setScreenshotCompressing] = useState<boolean>(false);
   const [copiedNote, setCopiedNote] = useState<boolean>(false);
   const [copiedUpi, setCopiedUpi] = useState<boolean>(false);
+
+  // Client-Side OCR States (Point 2: Zero API Cost Auto-Reader)
+  const [ocrScanning, setOcrScanning] = useState<boolean>(false);
+  const [ocrDetectedUtr, setOcrDetectedUtr] = useState<string | null>(null);
 
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -123,6 +131,18 @@ export default function BookingSummaryPage() {
       const compressed = await compressImageUnder300KB(file);
       const previewUrl = URL.createObjectURL(compressed);
       setScreenshotPreview(previewUrl);
+
+      // Point 2: Run Client-Side OCR Auto-Reader in Background (Zero API Cost)
+      setOcrScanning(true);
+      extractUtrFromScreenshot(compressed)
+        .then((ocrRes) => {
+          setOcrScanning(false);
+          if (ocrRes.success && ocrRes.utr) {
+            setUtr(ocrRes.utr);
+            setOcrDetectedUtr(ocrRes.utr);
+          }
+        })
+        .catch(() => setOcrScanning(false));
 
       // Upload to Supabase Storage bucket payment-receipts if configured
       if (isSupabaseConfigured) {
@@ -229,7 +249,24 @@ export default function BookingSummaryPage() {
   );
 
   const dynamicUpiDeepLink = `upi://pay?pa=${settings.upi_id}&pn=${encodeURIComponent(settings.business_name)}&am=${bookingFee}&cu=INR&tn=${encodeURIComponent(`Booking ${booking.id}`)}`;
+  const gpayDeepLink = `gpay://upi/pay?pa=${settings.upi_id}&pn=${encodeURIComponent(settings.business_name)}&am=${bookingFee}&cu=INR&tn=${encodeURIComponent(`Booking ${booking.id}`)}`;
+  const phonepeDeepLink = `phonepe://pay?pa=${settings.upi_id}&pn=${encodeURIComponent(settings.business_name)}&am=${bookingFee}&cu=INR&tn=${encodeURIComponent(`Booking ${booking.id}`)}`;
+  const paytmDeepLink = `paytmmp://pay?pa=${settings.upi_id}&pn=${encodeURIComponent(settings.business_name)}&am=${bookingFee}&cu=INR&tn=${encodeURIComponent(`Booking ${booking.id}`)}`;
   const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(dynamicUpiDeepLink)}`;
+
+  // Point 4: Co-Founder WhatsApp Concierge Pre-filled Message
+  const conciergePhone = "917447568595";
+  const conciergeWaMessage = `*🏖️ Booking Payment Receipt — bhramo.com*
+--------------------------------
+*Booking ID:* ${booking.id}
+*Hotel / Homestay:* ${booking.hotelName} (${booking.roomName})
+*Dates:* ${booking.checkIn} to ${booking.checkOut}
+*Guest:* ${booking.guestName || "Guest"} (${booking.guestPhone || "Direct"})
+*Advance Amount (20%):* ${formatINR(bookingFee)}
+${utr ? `*12-Digit UTR:* ${utr}` : "*Payment Note:* I have completed the UPI advance payment."}
+--------------------------------
+Hi Prachii, please verify my payment screenshot and confirm my reservation. Thank you!`;
+  const conciergeWaLink = `https://wa.me/${conciergePhone}?text=${encodeURIComponent(conciergeWaMessage)}`;
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10 space-y-8">
@@ -343,45 +380,50 @@ export default function BookingSummaryPage() {
                   </span>
                 </div>
 
-                {/* 1-Tap UPI App Launchers (Mobile First) */}
-                <div className="space-y-1.5 pt-0.5">
-                  <span className="text-[10px] font-bold text-slate-700 uppercase tracking-wider block">
-                    1-Tap Fast Pay on Mobile:
-                  </span>
-                  <div className="grid grid-cols-2 gap-2">
-                    <a
-                      href={dynamicUpiDeepLink}
-                      className="py-2.5 px-3 rounded-xl bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 font-bold text-xs flex items-center justify-center gap-2 shadow-2xs hover:border-slate-400 transition-all active:scale-[0.98]"
-                    >
-                      <span className="w-2.5 h-2.5 rounded-full bg-blue-500" />
-                      <span>Google Pay</span>
-                    </a>
+                  {/* 1-Tap UPI App Launchers (Mobile First: Point 3) */}
+                  <div className="space-y-1.5 pt-0.5">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-bold text-slate-700 uppercase tracking-wider block">
+                        ⚡ 1-Tap Fast Pay on Mobile:
+                      </span>
+                      <span className="text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                        Zero Fee
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <a
+                        href={gpayDeepLink}
+                        className="py-2.5 px-3 rounded-xl bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 font-bold text-xs flex items-center justify-center gap-2 shadow-2xs hover:border-slate-400 transition-all active:scale-[0.98]"
+                      >
+                        <span className="w-2.5 h-2.5 rounded-full bg-blue-500" />
+                        <span>Google Pay</span>
+                      </a>
 
-                    <a
-                      href={dynamicUpiDeepLink}
-                      className="py-2.5 px-3 rounded-xl bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 font-bold text-xs flex items-center justify-center gap-2 shadow-2xs hover:border-slate-400 transition-all active:scale-[0.98]"
-                    >
-                      <span className="w-2.5 h-2.5 rounded-full bg-purple-600" />
-                      <span>PhonePe</span>
-                    </a>
+                      <a
+                        href={phonepeDeepLink}
+                        className="py-2.5 px-3 rounded-xl bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 font-bold text-xs flex items-center justify-center gap-2 shadow-2xs hover:border-slate-400 transition-all active:scale-[0.98]"
+                      >
+                        <span className="w-2.5 h-2.5 rounded-full bg-purple-600" />
+                        <span>PhonePe</span>
+                      </a>
 
-                    <a
-                      href={dynamicUpiDeepLink}
-                      className="py-2.5 px-3 rounded-xl bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 font-bold text-xs flex items-center justify-center gap-2 shadow-2xs hover:border-slate-400 transition-all active:scale-[0.98]"
-                    >
-                      <span className="w-2.5 h-2.5 rounded-full bg-cyan-500" />
-                      <span>Paytm</span>
-                    </a>
+                      <a
+                        href={paytmDeepLink}
+                        className="py-2.5 px-3 rounded-xl bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 font-bold text-xs flex items-center justify-center gap-2 shadow-2xs hover:border-slate-400 transition-all active:scale-[0.98]"
+                      >
+                        <span className="w-2.5 h-2.5 rounded-full bg-cyan-500" />
+                        <span>Paytm</span>
+                      </a>
 
-                    <a
-                      href={dynamicUpiDeepLink}
-                      className="py-2.5 px-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-2xs transition-all active:scale-[0.98]"
-                    >
-                      <Lock className="w-3.5 h-3.5" />
-                      <span>Any UPI App</span>
-                    </a>
+                      <a
+                        href={dynamicUpiDeepLink}
+                        className="py-2.5 px-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-2xs transition-all active:scale-[0.98]"
+                      >
+                        <Lock className="w-3.5 h-3.5" />
+                        <span>Any UPI App</span>
+                      </a>
+                    </div>
                   </div>
-                </div>
 
                 {/* Platform UPI ID */}
                 <div className="pt-1">
@@ -478,6 +520,28 @@ export default function BookingSummaryPage() {
                   )}
                 </div>
 
+                {/* Point 2: Zero API Cost Client-Side OCR Status */}
+                {ocrScanning && (
+                  <div className="mt-2.5 p-3 rounded-xl bg-blue-50 border border-blue-200 text-blue-800 text-xs flex items-center gap-2 animate-pulse">
+                    <Sparkles className="w-4 h-4 text-blue-600 shrink-0" />
+                    <span>Reading 12-digit UTR from receipt using on-device OCR (₹0 API cost)...</span>
+                  </div>
+                )}
+
+                {ocrDetectedUtr && (
+                  <div className="mt-2.5 p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                      <span>
+                        Auto-detected 12-digit UTR: <strong className="font-mono">{ocrDetectedUtr}</strong> (Auto-filled)
+                      </span>
+                    </div>
+                    <span className="text-[10px] bg-emerald-200/80 text-emerald-900 font-bold px-2 py-0.5 rounded-full uppercase">
+                      OCR Extracted
+                    </span>
+                  </div>
+                )}
+
                 {screenshotPreview && (
                   <div className="mt-2.5">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -511,6 +575,44 @@ export default function BookingSummaryPage() {
                 </p>
               </div>
             </form>
+
+            {/* Point 4: 1-Tap WhatsApp Screenshot Concierge Card */}
+            <div className="pt-4 border-t border-konkan-sand-200">
+              <div className="p-4 rounded-2xl bg-emerald-50/70 border border-emerald-200/80 space-y-3">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0">
+                      <MessageSquare className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-xs sm:text-sm text-emerald-950">
+                        Prefer Sending Screenshot on WhatsApp?
+                      </h4>
+                      <p className="text-[11px] text-emerald-800">
+                        Direct Desk: Co-Founder Prachii Pawar (+91 74475 68595)
+                      </p>
+                    </div>
+                  </div>
+                  <span className="text-[10px] font-bold text-emerald-800 bg-white/80 border border-emerald-200 px-2 py-0.5 rounded-full shrink-0">
+                    ~2 min reply
+                  </span>
+                </div>
+
+                <p className="text-[11px] text-slate-600 leading-relaxed">
+                  If you prefer not typing the UTR, simply send your payment screenshot directly to our Co-Founder on WhatsApp. Our team will verify and lock your room instantly!
+                </p>
+
+                <a
+                  href={conciergeWaLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-sm transition-all active:scale-[0.98]"
+                >
+                  <MessageSquare className="w-4 h-4" />
+                  <span>Send Screenshot to Prachii on WhatsApp</span>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
 

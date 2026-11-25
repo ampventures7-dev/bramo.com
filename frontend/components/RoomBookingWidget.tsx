@@ -95,6 +95,9 @@ export function RoomBookingWidget({
   const [adultsCount, setAdultsCount] = useState<number>(2);
   const [childrenCount, setChildrenCount] = useState<number>(0);
 
+  // Dual Checkout Option (Point 1: 20% Advance via UPI vs 100% at Hotel Desk)
+  const [paymentOption, setPaymentOption] = useState<"advance_upi" | "pay_at_hotel">("advance_upi");
+
   // Guest Contact Information (Instant Guest Checkout)
   const [guestName, setGuestName] = useState<string>(profile?.name || "");
   const [guestPhone, setGuestPhone] = useState<string>(profile?.phone || "");
@@ -234,6 +237,8 @@ export function RoomBookingWidget({
 
     setIsHolding(true);
 
+    const isPayAtHotel = paymentOption === "pay_at_hotel";
+
     const res = await createBookingHold({
       hotelId: hotel.id,
       hotelName: hotel.name,
@@ -247,12 +252,19 @@ export function RoomBookingWidget({
       roomsCount,
       guestsCount,
       totalAmount: grandTotal,
+      paymentMethod: isPayAtHotel ? "pay_at_hotel" : "advance_upi",
     });
 
     setIsHolding(false);
 
     if (res.success && res.bookingId) {
-      router.push(`/booking/summary?id=${res.bookingId}`);
+      if (isPayAtHotel) {
+        // Point 1: Direct confirmation for zero-advance desk bookings (OYO Model)
+        router.push(`/booking/confirmation/${res.bookingId}?mode=hotel_desk`);
+      } else {
+        // Advance UPI route to lock 15-minute hold
+        router.push(`/booking/summary?id=${res.bookingId}`);
+      }
     } else {
       setFormError(res.error || "Unable to acquire room hold. Please try different dates.");
     }
@@ -803,6 +815,76 @@ export function RoomBookingWidget({
                   </span>
                 </div>
               </div>
+
+              {/* Point 1: Dual Checkout Method Selector (Advance UPI vs Pay at Hotel Desk) */}
+              <div className="pt-2 border-t border-slate-200 space-y-2">
+                <span className="block text-[11px] font-bold text-slate-800 uppercase tracking-wide">
+                  Choose Payment Option:
+                </span>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {/* Option A: 20% Advance via UPI */}
+                  <div
+                    onClick={() => setPaymentOption("advance_upi")}
+                    className={`p-3 rounded-2xl border-2 cursor-pointer transition-all ${
+                      paymentOption === "advance_upi"
+                        ? "border-emerald-600 bg-emerald-50/80 shadow-xs ring-1 ring-emerald-600/20"
+                        : "border-slate-200 bg-white hover:border-slate-300"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-black text-slate-900">⚡ 20% Advance UPI</span>
+                      <div
+                        className={`w-4 h-4 rounded-full border flex items-center justify-center ${
+                          paymentOption === "advance_upi"
+                            ? "border-emerald-600 bg-emerald-600"
+                            : "border-slate-300 bg-white"
+                        }`}
+                      >
+                        {paymentOption === "advance_upi" && (
+                          <div className="w-1.5 h-1.5 rounded-full bg-white" />
+                        )}
+                      </div>
+                    </div>
+                    <span className="text-xs font-black text-emerald-950 block mt-1">
+                      Pay {formatINR(advancePayable)} Now
+                    </span>
+                    <span className="text-[10px] text-emerald-700 leading-tight block mt-0.5">
+                      Guaranteed instant room hold. 80% balance paid at hotel.
+                    </span>
+                  </div>
+
+                  {/* Option B: Pay 100% at Hotel Desk */}
+                  <div
+                    onClick={() => setPaymentOption("pay_at_hotel")}
+                    className={`p-3 rounded-2xl border-2 cursor-pointer transition-all ${
+                      paymentOption === "pay_at_hotel"
+                        ? "border-amber-600 bg-amber-50/80 shadow-xs ring-1 ring-amber-600/20"
+                        : "border-slate-200 bg-white hover:border-slate-300"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-black text-slate-900">🏨 Pay at Hotel Desk</span>
+                      <div
+                        className={`w-4 h-4 rounded-full border flex items-center justify-center ${
+                          paymentOption === "pay_at_hotel"
+                            ? "border-amber-600 bg-amber-600"
+                            : "border-slate-300 bg-white"
+                        }`}
+                      >
+                        {paymentOption === "pay_at_hotel" && (
+                          <div className="w-1.5 h-1.5 rounded-full bg-white" />
+                        )}
+                      </div>
+                    </div>
+                    <span className="text-xs font-black text-amber-950 block mt-1">
+                      ₹0 Online Advance
+                    </span>
+                    <span className="text-[10px] text-amber-800 leading-tight block mt-0.5">
+                      Zero risk. Held till 4 PM check-in. 100% paid in Cash/UPI.
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
           )}
 
@@ -826,7 +908,17 @@ export function RoomBookingWidget({
                 {isHolding ? (
                   <>
                     <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    <span>Securing 15-Minute Room Hold...</span>
+                    <span>
+                      {paymentOption === "pay_at_hotel"
+                        ? "Confirming Zero-Advance Reservation..."
+                        : "Securing 15-Minute Room Hold..."}
+                    </span>
+                  </>
+                ) : paymentOption === "pay_at_hotel" ? (
+                  <>
+                    <Check className="w-4 h-4" />
+                    <span>Confirm Reservation · Pay ₹0 Now</span>
+                    <ArrowRight className="w-4 h-4" />
                   </>
                 ) : (
                   <>
@@ -837,7 +929,9 @@ export function RoomBookingWidget({
                 )}
               </button>
               <p className="text-[10px] text-slate-500 text-center leading-tight">
-                ⚡ Instant 15-minute room inventory lock. No login required.
+                {paymentOption === "pay_at_hotel"
+                  ? "🏨 Pay at Hotel Desk selected. Zero payment online. Pay upon arrival."
+                  : "⚡ Instant 15-minute room inventory lock via UPI. 0% platform fee."}
               </p>
             </div>
           )}

@@ -16,6 +16,7 @@ export interface ServerBookingHold {
   roomsCount: number;
   guestsCount: number;
   totalAmount: number;
+  paymentMethod?: "pay_at_hotel" | "upi_qr";
   status: "holding" | "pending_verification" | "confirmed" | "released" | "expired";
   holdExpiresAt: number; // ms timestamp
   createdAt: number;
@@ -184,7 +185,10 @@ export async function POST(req: NextRequest) {
       roomsCount = 1,
       guestsCount = 2,
       totalAmount,
+      paymentMethod = "advance_upi",
     } = body;
+
+    const isPayAtHotel = paymentMethod === "pay_at_hotel";
 
     // Validate inputs
     if (!hotelId || !roomTypeId || !checkIn || !checkOut || !guestName || !guestPhone) {
@@ -210,8 +214,10 @@ export async function POST(req: NextRequest) {
     }
 
     const bookingId = `BK-${Date.now().toString(36).toUpperCase()}-${Math.floor(100 + Math.random() * 900)}`;
-    const holdDurationMs = 15 * 60 * 1000; // 15-minute enterprise hold lease
-    const holdExpiresAt = Date.now() + holdDurationMs;
+    // Pay at hotel: valid until check-in day 4 PM. Advance UPI: 15-minute hold lease
+    const holdExpiresAt = isPayAtHotel
+      ? new Date(`${checkIn}T16:00:00`).getTime()
+      : Date.now() + 15 * 60 * 1000;
 
     // 1. Try Supabase Atomic Transaction first if configured
     if (isSupabaseConfigured) {
@@ -312,7 +318,8 @@ export async function POST(req: NextRequest) {
       roomsCount,
       guestsCount,
       totalAmount,
-      status: "holding",
+      paymentMethod: isPayAtHotel ? "pay_at_hotel" : "upi_qr",
+      status: isPayAtHotel ? "confirmed" : "holding",
       holdExpiresAt,
       createdAt: Date.now(),
     };

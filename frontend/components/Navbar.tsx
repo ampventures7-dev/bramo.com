@@ -5,6 +5,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
+
+
+
 import { useLanguage } from "@/context/LanguageContext";
 import {
   Waves,
@@ -67,8 +70,8 @@ export function Navbar() {
             <Link
               href="/"
               className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${isActive("/")
-                  ? "bg-konkan-teal-50 text-konkan-teal-800 border border-konkan-teal-200/60"
-                  : "text-slate-600 hover:text-konkan-teal-800 hover:bg-konkan-sand-50"
+                ? "bg-konkan-teal-50 text-konkan-teal-800 border border-konkan-teal-200/60"
+                : "text-slate-600 hover:text-konkan-teal-800 hover:bg-konkan-sand-50"
                 }`}
             >
               {t("nav.home")}
@@ -77,8 +80,8 @@ export function Navbar() {
             <Link
               href="/hotels"
               className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${isActive("/hotels")
-                  ? "bg-konkan-teal-50 text-konkan-teal-800 border border-konkan-teal-200/60"
-                  : "text-slate-600 hover:text-konkan-teal-800 hover:bg-konkan-sand-50"
+                ? "bg-konkan-teal-50 text-konkan-teal-800 border border-konkan-teal-200/60"
+                : "text-slate-600 hover:text-konkan-teal-800 hover:bg-konkan-sand-50"
                 }`}
             >
               {t("nav.hotels")}
@@ -87,8 +90,8 @@ export function Navbar() {
             <Link
               href="/services"
               className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${isActive("/services")
-                  ? "bg-konkan-teal-50 text-konkan-teal-800 border border-konkan-teal-200/60"
-                  : "text-slate-600 hover:text-konkan-teal-800 hover:bg-konkan-sand-50"
+                ? "bg-konkan-teal-50 text-konkan-teal-800 border border-konkan-teal-200/60"
+                : "text-slate-600 hover:text-konkan-teal-800 hover:bg-konkan-sand-50"
                 }`}
             >
               {t("nav.experiences")}
@@ -97,8 +100,8 @@ export function Navbar() {
             <Link
               href="/plan-trip"
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-semibold transition-all ${isActive("/plan-trip")
-                  ? "bg-konkan-teal-50 text-konkan-teal-800 border border-konkan-teal-200/60"
-                  : "text-slate-600 hover:text-konkan-teal-800 hover:bg-konkan-sand-50"
+                ? "bg-konkan-teal-50 text-konkan-teal-800 border border-konkan-teal-200/60"
+                : "text-slate-600 hover:text-konkan-teal-800 hover:bg-konkan-sand-50"
                 }`}
             >
               <Compass className="w-3.5 h-3.5 text-konkan-teal-700" />
@@ -110,8 +113,8 @@ export function Navbar() {
               <Link
                 href="/my-bookings"
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${isActive("/my-bookings")
-                    ? "bg-konkan-teal-50 text-konkan-teal-800 border border-konkan-teal-200/60"
-                    : "text-slate-600 hover:text-konkan-teal-800 hover:bg-konkan-sand-50"
+                  ? "bg-konkan-teal-50 text-konkan-teal-800 border border-konkan-teal-200/60"
+                  : "text-slate-600 hover:text-konkan-teal-800 hover:bg-konkan-sand-50"
                   }`}
               >
                 <CalendarCheck className="w-4 h-4 text-konkan-teal-600" />
@@ -123,8 +126,8 @@ export function Navbar() {
               <Link
                 href="/owner/dashboard"
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${isActive("/owner/dashboard")
-                    ? "bg-konkan-teal-50 text-konkan-teal-800 border border-konkan-teal-200/60"
-                    : "text-slate-600 hover:text-konkan-teal-800 hover:bg-konkan-sand-50"
+                  ? "bg-konkan-teal-50 text-konkan-teal-800 border border-konkan-teal-200/60"
+                  : "text-slate-600 hover:text-konkan-teal-800 hover:bg-konkan-sand-50"
                   }`}
               >
                 <Building2 className="w-4 h-4 text-konkan-teal-600" />
@@ -137,8 +140,8 @@ export function Navbar() {
                 <Link
                   href="/admin"
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${isActive("/admin") && !isActive("/admin/payments")
-                      ? "bg-purple-50 text-purple-900 border border-purple-300 font-bold"
-                      : "text-slate-600 hover:text-purple-800 hover:bg-purple-50"
+                    ? "bg-purple-50 text-purple-900 border border-purple-300 font-bold"
+                    : "text-slate-600 hover:text-purple-800 hover:bg-purple-50"
                     }`}
                 >
                   <ShieldCheck className="w-4 h-4 text-purple-600" />
@@ -148,8 +151,8 @@ export function Navbar() {
                 <Link
                   href="/admin/payments"
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${isActive("/admin/payments")
-                      ? "bg-amber-50 text-amber-900 border border-amber-300 font-bold"
-                      : "text-slate-600 hover:text-amber-800 hover:bg-amber-50"
+                    ? "bg-amber-50 text-amber-900 border border-amber-300 font-bold"
+                    : "text-slate-600 hover:text-amber-800 hover:bg-amber-50"
                     }`}
                 >
                   <ShieldAlert className="w-4 h-4 text-amber-600" />
@@ -163,8 +166,8 @@ export function Navbar() {
                 <Link
                   href="/login"
                   className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${isActive("/login")
-                      ? "bg-konkan-teal-50 text-konkan-teal-800 border border-konkan-teal-200/60"
-                      : "text-slate-600 hover:text-konkan-teal-800 hover:bg-konkan-sand-50"
+                    ? "bg-konkan-teal-50 text-konkan-teal-800 border border-konkan-teal-200/60"
+                    : "text-slate-600 hover:text-konkan-teal-800 hover:bg-konkan-sand-50"
                     }`}
                 >
                   {t("nav.login")}
@@ -187,8 +190,8 @@ export function Navbar() {
                 type="button"
                 onClick={() => setLanguage("en")}
                 className={`px-2 py-0.5 rounded-full font-bold transition-all ${language === "en"
-                    ? "bg-konkan-teal-700 text-white shadow-xs"
-                    : "text-slate-600 hover:text-slate-900"
+                  ? "bg-konkan-teal-700 text-white shadow-xs"
+                  : "text-slate-600 hover:text-slate-900"
                   }`}
                 title="English"
               >
@@ -198,8 +201,8 @@ export function Navbar() {
                 type="button"
                 onClick={() => setLanguage("mr")}
                 className={`px-2 py-0.5 rounded-full font-bold transition-all ${language === "mr"
-                    ? "bg-konkan-teal-700 text-white shadow-xs"
-                    : "text-slate-600 hover:text-slate-900"
+                  ? "bg-konkan-teal-700 text-white shadow-xs"
+                  : "text-slate-600 hover:text-slate-900"
                   }`}
                 title="मराठी (Marathi)"
               >
