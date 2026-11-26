@@ -21,7 +21,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://bhramo.com"),
+  metadataBase: new URL("https://www.bhramo.com"),
   title: {
     default: "bhramo.com — Coastal Hotels, Beach Resorts & Homestays in Dapoli & Harnai",
     template: "%s | bhramo.com",
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     telephone: true,
   },
   alternates: {
-    canonical: "https://bhramo.com",
+    canonical: "https://www.bhramo.com",
   },
   other: {
     "geo.region": "IN-MH",
@@ -69,7 +69,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_IN",
-    url: "https://bhramo.com",
+    url: "https://www.bhramo.com",
     siteName: "bhramo.com",
     title: "bhramo.com — Coastal Hotels, Beach Resorts & Homestays in Dapoli & Harnai",
     description:
@@ -115,10 +115,10 @@ export default function RootLayout({
     "@graph": [
       {
         "@type": ["TravelAgency", "Organization"],
-        "@id": "https://bhramo.com/#organization",
+        "@id": "https://www.bhramo.com/#organization",
         "name": "bhramo.com",
-        "url": "https://bhramo.com",
-        "logo": "https://bhramo.com/logo.png",
+        "url": "https://www.bhramo.com",
+        "logo": "https://www.bhramo.com/logo.png",
         "description": "Authentic coastal hospitality, beach resorts, dolphin safari stays, and homestays platform for Dapoli and Harnai, Konkan, Maharashtra.",
         "areaServed": [
           {
@@ -160,13 +160,13 @@ export default function RootLayout({
       },
       {
         "@type": "WebSite",
-        "@id": "https://bhramo.com/#website",
-        "url": "https://bhramo.com",
+        "@id": "https://www.bhramo.com/#website",
+        "url": "https://www.bhramo.com",
         "name": "bhramo.com",
-        "publisher": { "@id": "https://bhramo.com/#organization" },
+        "publisher": { "@id": "https://www.bhramo.com/#organization" },
         "potentialAction": {
           "@type": "SearchAction",
-          "target": "https://bhramo.com/hotels?area={search_term_string}",
+          "target": "https://www.bhramo.com/hotels?area={search_term_string}",
           "query-input": "required name=search_term_string",
         },
       },

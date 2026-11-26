@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description:
     "Learn about bhramo.com: Built to empower local homestay and cottage hosts across Dapoli and Harnai, Maharashtra with 0% gateway commission.",
   alternates: {
-    canonical: "https://bhramo.com/about",
+    canonical: "https://www.bhramo.com/about",
   },
 };
 

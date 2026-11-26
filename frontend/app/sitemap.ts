@@ -2,7 +2,7 @@ import { MetadataRoute } from "next";
 import { fetchAllHotels } from "@/lib/hotels-service";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = "https://bhramo.com";
+  const baseUrl = "https://www.bhramo.com";
   const now = new Date();
 
   // Fetch approved hotels
