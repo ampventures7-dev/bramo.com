@@ -34,8 +34,8 @@ export default function robots(): MetadataRoute.Robots {
         disallow: disallowedPaths,
       },
     ],
-    sitemap: "https://www.bhramo.com/sitemap.xml",
-    host: "https://www.bhramo.com",
+    sitemap: "https://bhramo.com/sitemap.xml",
+    host: "https://bhramo.com",
   };
 }
 

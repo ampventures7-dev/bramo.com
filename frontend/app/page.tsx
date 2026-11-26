@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   description:
     "Discover verified beachfront cottages, luxury sea-facing resorts, and rustic Konkani homestays across Murud, Ladghar, Karde and Harnai. Direct UPI booking with 0% extra gateway fees.",
   alternates: {
-    canonical: "https://www.bhramo.com",
+    canonical: "https://bhramo.com",
   },
 };
 
@@ -75,14 +75,14 @@ export default async function HomePage() {
     "@graph": [
       {
         "@type": "WebPage",
-        "@id": "https://www.bhramo.com/#webpage",
-        "url": "https://www.bhramo.com",
+        "@id": "https://bhramo.com/#webpage",
+        "url": "https://bhramo.com",
         "name": "bhramo.com — Coastal Hotels, Beach Resorts & Homestays in Dapoli & Harnai",
         "description": "Discover verified beachfront cottages, luxury sea-facing resorts, and rustic Konkani homestays across Murud, Ladghar, Karde and Harnai.",
       },
       {
         "@type": "FAQPage",
-        "@id": "https://www.bhramo.com/#faq",
+        "@id": "https://bhramo.com/#faq",
         "mainEntity": HOME_FAQS.map((faq) => ({
           "@type": "Question",
           "name": faq.q,
@@ -94,7 +94,7 @@ export default async function HomePage() {
       },
       {
         "@type": "HowTo",
-        "@id": "https://www.bhramo.com/#howto-book",
+        "@id": "https://bhramo.com/#howto-book",
         "name": "How to Book a Verified Coastal Stay on bhramo.com",
         "description": "Step-by-step process for booking authentic beach resorts and Konkani cottages in Dapoli & Harnai with 0% extra gateway fees.",
         "totalTime": "PT3M",

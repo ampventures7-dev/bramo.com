@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description:
     "Get in touch with bhramo.com: Dedicated WhatsApp helpline, host onboarding support, and visitor assistance for Dapoli and Harnai, Maharashtra.",
   alternates: {
-    canonical: "https://www.bhramo.com/contact",
+    canonical: "https://bhramo.com/contact",
   },
 };
 

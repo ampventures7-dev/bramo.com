@@ -36,12 +36,12 @@ export const metadata: Metadata = {
     "Dapoli Konkan tourism",
   ],
   alternates: {
-    canonical: "https://www.bhramo.com/hotels/dapoli",
+    canonical: "https://bhramo.com/hotels/dapoli",
   },
   openGraph: {
     type: "website",
     locale: "en_IN",
-    url: "https://www.bhramo.com/hotels/dapoli",
+    url: "https://bhramo.com/hotels/dapoli",
     title: "Hotels in Dapoli — Beach Resorts & Homestays | bhramo.com",
     description:
       "Handpicked beachfront resorts and authentic Konkani cottages across Murud, Ladghar, and Karde in Dapoli, Maharashtra.",
@@ -94,43 +94,43 @@ export default async function DapoliLandingPage() {
     "@graph": [
       {
         "@type": "CollectionPage",
-        "@id": "https://www.bhramo.com/hotels/dapoli#webpage",
+        "@id": "https://bhramo.com/hotels/dapoli#webpage",
         "name": "Hotels in Dapoli — Beach Resorts & Homestays",
         "description": "Curated list of verified beachfront resorts and cottages in Dapoli, Maharashtra.",
-        "url": "https://www.bhramo.com/hotels/dapoli",
+        "url": "https://bhramo.com/hotels/dapoli",
         "isPartOf": {
           "@type": "WebSite",
           "name": "bhramo.com",
-          "url": "https://www.bhramo.com",
+          "url": "https://bhramo.com",
         },
       },
       {
         "@type": "BreadcrumbList",
-        "@id": "https://www.bhramo.com/hotels/dapoli#breadcrumb",
+        "@id": "https://bhramo.com/hotels/dapoli#breadcrumb",
         "itemListElement": [
           {
             "@type": "ListItem",
             "position": 1,
             "name": "Home",
-            "item": "https://www.bhramo.com",
+            "item": "https://bhramo.com",
           },
           {
             "@type": "ListItem",
             "position": 2,
             "name": "Hotels",
-            "item": "https://www.bhramo.com/hotels",
+            "item": "https://bhramo.com/hotels",
           },
           {
             "@type": "ListItem",
             "position": 3,
             "name": "Hotels in Dapoli",
-            "item": "https://www.bhramo.com/hotels/dapoli",
+            "item": "https://bhramo.com/hotels/dapoli",
           },
         ],
       },
       {
         "@type": "FAQPage",
-        "@id": "https://www.bhramo.com/hotels/dapoli#faq",
+        "@id": "https://bhramo.com/hotels/dapoli#faq",
         "mainEntity": DAPOLI_FAQS.map((faq) => ({
           "@type": "Question",
           "name": faq.q,

@@ -51,12 +51,12 @@ export async function generateMetadata({
       hotel.area === "Dapoli" ? "Dapoli homestay" : "Harnai hotel",
     ],
     alternates: {
-      canonical: `https://www.bhramo.com/hotels/${hotel.id}`,
+      canonical: `https://bhramo.com/hotels/${hotel.id}`,
     },
     openGraph: {
       type: "website",
       locale: "en_IN",
-      url: `https://www.bhramo.com/hotels/${hotel.id}`,
+      url: `https://bhramo.com/hotels/${hotel.id}`,
       title,
       description,
       siteName: "bhramo.com",
@@ -96,10 +96,10 @@ export default async function HotelPage({ params }: { params: { id: string } }) 
     "@graph": [
       {
         "@type": ["Hotel", "LodgingBusiness"],
-        "@id": `https://www.bhramo.com/hotels/${hotel.id}#hotel`,
+        "@id": `https://bhramo.com/hotels/${hotel.id}#hotel`,
         "name": hotel.name,
         "description": hotel.description,
-        "url": `https://www.bhramo.com/hotels/${hotel.id}`,
+        "url": `https://bhramo.com/hotels/${hotel.id}`,
         "telephone": `+${hotel.whatsapp_number || "917447568595"}`,
         "priceRange": `₹${hotel.starting_price} - ₹${highestPrice}`,
         "image": hotel.images || [],
@@ -151,37 +151,37 @@ export default async function HotelPage({ params }: { params: { id: string } }) 
       },
       {
         "@type": "BreadcrumbList",
-        "@id": `https://www.bhramo.com/hotels/${hotel.id}#breadcrumb`,
+        "@id": `https://bhramo.com/hotels/${hotel.id}#breadcrumb`,
         "itemListElement": [
           {
             "@type": "ListItem",
             "position": 1,
             "name": "Home",
-            "item": "https://www.bhramo.com",
+            "item": "https://bhramo.com",
           },
           {
             "@type": "ListItem",
             "position": 2,
             "name": "Hotels & Stays",
-            "item": "https://www.bhramo.com/hotels",
+            "item": "https://bhramo.com/hotels",
           },
           {
             "@type": "ListItem",
             "position": 3,
             "name": `Hotels in ${hotel.area}`,
-            "item": `https://www.bhramo.com/hotels/${hotel.area.toLowerCase()}`,
+            "item": `https://bhramo.com/hotels/${hotel.area.toLowerCase()}`,
           },
           {
             "@type": "ListItem",
             "position": 4,
             "name": hotel.name,
-            "item": `https://www.bhramo.com/hotels/${hotel.id}`,
+            "item": `https://bhramo.com/hotels/${hotel.id}`,
           },
         ],
       },
       {
         "@type": "FAQPage",
-        "@id": `https://www.bhramo.com/hotels/${hotel.id}#faq`,
+        "@id": `https://bhramo.com/hotels/${hotel.id}#faq`,
         "mainEntity": [
           {
             "@type": "Question",
