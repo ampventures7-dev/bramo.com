@@ -6,6 +6,8 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { HotelWithDetails } from "@/lib/hotels-service";
 import { HotelCard } from "@/components/HotelCard";
+import { HotelMapWrapper } from "@/components/HotelMapWrapper";
+import { Hotel } from "@/types";
 import {
   MapPin,
   Star,
@@ -17,8 +19,38 @@ import {
   Search,
   Sparkles,
   Compass,
-  Filter
+  Filter,
+  LayoutGrid,
+  Map as MapIcon,
+  Columns2,
+  ArrowUpDown
 } from "lucide-react";
+
+type SortOption = "recommended" | "price_asc" | "price_desc" | "rating_desc";
+type ViewMode = "grid" | "split" | "map";
+
+function toMapHotel(h: HotelWithDetails): Hotel {
+  return {
+    id: h.id,
+    name: h.name,
+    slug: h.id,
+    location: h.area,
+    beachDistance: h.address,
+    description: h.description || "",
+    pricePerNight: h.starting_price,
+    rating: h.average_rating,
+    reviewCount: h.review_count,
+    images: h.images,
+    amenities: h.amenities,
+    coordinates: { lat: Number(h.lat) || 17.77, lng: Number(h.lng) || 73.11 },
+    contactPhone: h.whatsapp_number || "917447568595",
+    whatsappNumber: h.whatsapp_number || "917447568595",
+    upiId: "pawarprachi745-2@okicici",
+    paymentOptions: ["pay_at_hotel", "upi_qr"],
+    address: h.address,
+    featured: true,
+  };
+}
 
 interface HotelsExplorerProps {
   initialHotels: HotelWithDetails[];
@@ -49,15 +81,20 @@ export function HotelsExplorer({ initialHotels }: HotelsExplorerProps) {
   const [selectedArea, setSelectedArea] = useState<string>(initialArea);
   const [acFilter, setAcFilter] = useState<"all" | "ac" | "non_ac">("all");
   const [maxPrice, setMaxPrice] = useState<number>(5000);
+  const [minRating, setMinRating] = useState<number>(0);
   const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [activeChip, setActiveChip] = useState<string>("all");
+  const [sortBy, setSortBy] = useState<SortOption>("recommended");
+  const [viewMode, setViewMode] = useState<ViewMode>("grid");
+  const [selectedMapHotelId, setSelectedMapHotelId] = useState<string | undefined>(undefined);
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState<boolean>(false);
 
   const activeFilterCount =
     (selectedArea !== "all" ? 1 : 0) +
     (acFilter !== "all" ? 1 : 0) +
     (maxPrice < 5000 ? 1 : 0) +
+    (minRating > 0 ? 1 : 0) +
     selectedAmenities.length +
     (searchQuery.trim() ? 1 : 0);
 
@@ -87,13 +124,15 @@ export function HotelsExplorer({ initialHotels }: HotelsExplorerProps) {
     setSelectedArea("all");
     setAcFilter("all");
     setMaxPrice(5000);
+    setMinRating(0);
     setSelectedAmenities([]);
     setSearchQuery("");
     setActiveChip("all");
+    setSortBy("recommended");
   };
 
   const filteredHotels = useMemo(() => {
-    return initialHotels.filter((hotel) => {
+    const filtered = initialHotels.filter((hotel) => {
       // Area filter
       if (selectedArea !== "all" && hotel.area.toLowerCase() !== selectedArea.toLowerCase()) {
         return false;
@@ -109,6 +148,11 @@ export function HotelsExplorer({ initialHotels }: HotelsExplorerProps) {
 
       // Price filter
       if (hotel.starting_price > maxPrice) {
+        return false;
+      }
+
+      // Minimum Rating filter
+      if (minRating > 0 && Number(hotel.average_rating) < minRating) {
         return false;
       }
 
@@ -131,7 +175,21 @@ export function HotelsExplorer({ initialHotels }: HotelsExplorerProps) {
 
       return true;
     });
-  }, [initialHotels, selectedArea, acFilter, maxPrice, selectedAmenities, searchQuery]);
+
+    // Sort results (MMT / Agoda style)
+    if (sortBy === "price_asc") {
+      return [...filtered].sort((a, b) => a.starting_price - b.starting_price);
+    }
+    if (sortBy === "price_desc") {
+      return [...filtered].sort((a, b) => b.starting_price - a.starting_price);
+    }
+    if (sortBy === "rating_desc") {
+      return [...filtered].sort((a, b) => Number(b.average_rating) - Number(a.average_rating));
+    }
+    return filtered;
+  }, [initialHotels, selectedArea, acFilter, maxPrice, minRating, selectedAmenities, searchQuery, sortBy]);
+
+  const mapHotels = useMemo(() => filteredHotels.map(toMapHotel), [filteredHotels]);
 
   return (
     <div className="space-y-8">
@@ -185,6 +243,75 @@ export function HotelsExplorer({ initialHotels }: HotelsExplorerProps) {
             </button>
           );
         })}
+      </div>
+
+      {/* MMT / Agoda Style Sort & View Switcher Bar */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-3 sm:px-5 rounded-2xl border border-slate-200/90 shadow-xs">
+        <div className="flex items-center gap-2 overflow-x-auto scrollbar-none">
+          <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider shrink-0 flex items-center gap-1 mr-1">
+            <ArrowUpDown className="w-3.5 h-3.5 text-konkan-teal-700" />
+            <span>Sort:</span>
+          </span>
+          {[
+            { id: "recommended", label: "Recommended" },
+            { id: "price_asc", label: "Price: Low → High" },
+            { id: "price_desc", label: "Price: High → Low" },
+            { id: "rating_desc", label: "Top Rated ★" },
+          ].map((opt) => (
+            <button
+              key={opt.id}
+              type="button"
+              onClick={() => setSortBy(opt.id as SortOption)}
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold shrink-0 transition-all cursor-pointer ${
+                sortBy === opt.id
+                  ? "bg-konkan-teal-700 text-white shadow-xs"
+                  : "bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-200/70"
+              }`}
+            >
+              {opt.label}
+            </button>
+          ))}
+        </div>
+
+        {/* View Mode Switcher: Grid | Split Map + List | Map */}
+        <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200 self-start sm:self-auto shrink-0">
+          <button
+            type="button"
+            onClick={() => setViewMode("grid")}
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+              viewMode === "grid"
+                ? "bg-white text-konkan-teal-900 shadow-xs"
+                : "text-slate-600 hover:text-slate-900"
+            }`}
+          >
+            <LayoutGrid className="w-3.5 h-3.5" />
+            <span>Grid</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setViewMode("split")}
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+              viewMode === "split"
+                ? "bg-white text-konkan-teal-900 shadow-xs"
+                : "text-slate-600 hover:text-slate-900"
+            }`}
+          >
+            <Columns2 className="w-3.5 h-3.5" />
+            <span>Split Map</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setViewMode("map")}
+            className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+              viewMode === "map"
+                ? "bg-white text-konkan-teal-900 shadow-xs"
+                : "text-slate-600 hover:text-slate-900"
+            }`}
+          >
+            <MapIcon className="w-3.5 h-3.5" />
+            <span>Map</span>
+          </button>
+        </div>
       </div>
 
       {/* Mobile Filter Toggle Bar */}
@@ -328,6 +455,35 @@ export function HotelsExplorer({ initialHotels }: HotelsExplorerProps) {
               </div>
             </div>
 
+            {/* 3b. Guest Rating Filter (MMT/Agoda Style) */}
+            <div className="space-y-2">
+              <label className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1">
+                <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+                <span>Guest Rating</span>
+              </label>
+              <div className="grid grid-cols-2 gap-1.5">
+                {[
+                  { val: 0, label: "All Ratings" },
+                  { val: 4.5, label: "4.5+ Superb" },
+                  { val: 4.0, label: "4.0+ Very Good" },
+                  { val: 3.5, label: "3.5+ Good" },
+                ].map((r) => (
+                  <button
+                    key={r.val}
+                    type="button"
+                    onClick={() => setMinRating(r.val)}
+                    className={`py-1.5 px-2.5 rounded-xl text-[11px] font-bold border transition-all cursor-pointer ${
+                      minRating === r.val
+                        ? "bg-amber-50 border-amber-400 text-amber-900 shadow-2xs"
+                        : "bg-white border-slate-200 text-slate-600 hover:bg-slate-50"
+                    }`}
+                  >
+                    {r.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
             {/* 4. Amenities Filter */}
             <div className="space-y-2">
               <label className="text-xs font-bold text-slate-800 uppercase tracking-wider">
@@ -389,6 +545,39 @@ export function HotelsExplorer({ initialHotels }: HotelsExplorerProps) {
                 <RotateCcw className="w-3.5 h-3.5" />
                 <span>Reset All Filters</span>
               </button>
+            </div>
+          ) : viewMode === "map" ? (
+            /* FULL INTERACTIVE MAP VIEW */
+            <div className="h-[580px] rounded-3xl overflow-hidden border border-slate-200 shadow-md bg-white">
+              <HotelMapWrapper
+                hotels={mapHotels}
+                selectedHotelId={selectedMapHotelId}
+                onSelectHotel={(h) => setSelectedMapHotelId(h.id)}
+              />
+            </div>
+          ) : viewMode === "split" ? (
+            /* AGODA / MMT SPLIT VIEW: LIST + STICKY INTERACTIVE MAP */
+            <div className="grid grid-cols-1 xl:grid-cols-12 gap-5 items-start">
+              <div className="xl:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-5">
+                {filteredHotels.map((hotel) => (
+                  <div
+                    key={hotel.id}
+                    onMouseEnter={() => setSelectedMapHotelId(hotel.id)}
+                    className={`rounded-3xl transition-all ${
+                      selectedMapHotelId === hotel.id ? "ring-2 ring-konkan-teal-600 shadow-lg" : ""
+                    }`}
+                  >
+                    <HotelCard hotel={hotel} />
+                  </div>
+                ))}
+              </div>
+              <div className="xl:col-span-5 sticky top-24 h-[520px] rounded-3xl overflow-hidden border border-slate-200 shadow-md bg-white">
+                <HotelMapWrapper
+                  hotels={mapHotels}
+                  selectedHotelId={selectedMapHotelId}
+                  onSelectHotel={(h) => setSelectedMapHotelId(h.id)}
+                />
+              </div>
             </div>
           ) : (
             /* GRID OF ENHANCED HOTEL CARDS WITH HOVER PHOTO SWITCHER */

@@ -46,6 +46,27 @@ interface RoomBookingWidgetProps {
   onFocusCalendar?: () => void;
 }
 
+const MEAL_PLANS = [
+  {
+    id: "room_only",
+    label: "Room Only",
+    perNightFee: 0,
+    desc: "Accommodation only · Meals optional at property"
+  },
+  {
+    id: "breakfast",
+    label: "+ Konkani Breakfast",
+    perNightFee: 250,
+    desc: "Fresh Ghavan / Poha, Modak & Tea (per room/night)"
+  },
+  {
+    id: "map",
+    label: "+ Breakfast & Dinner Thali",
+    perNightFee: 650,
+    desc: "Morning Breakfast + Authentic Malvani Thali Dinner"
+  }
+] as const;
+
 const KONKAN_ADDONS = [
   {
     id: "dolphin",
@@ -97,6 +118,8 @@ export function RoomBookingWidget({
 
   // Dual Checkout Option (Point 1: 20% Advance via UPI vs 100% at Hotel Desk)
   const [paymentOption, setPaymentOption] = useState<"advance_upi" | "pay_at_hotel">("advance_upi");
+  // Meal Plan Matrix (MMT/Agoda style)
+  const [mealPlanId, setMealPlanId] = useState<"room_only" | "breakfast" | "map">("room_only");
 
   // Guest Contact Information (Instant Guest Checkout)
   const [guestName, setGuestName] = useState<string>(profile?.name || "");
@@ -187,13 +210,17 @@ export function RoomBookingWidget({
     };
   }, [selectedRoom, checkIn, checkOut, roomsCount, adultsCount, bedsCount]);
 
-  // Calculate total add-on cost
+  // Calculate total meal plan + add-on cost
+  const activeMealPlan = MEAL_PLANS.find((m) => m.id === mealPlanId) || MEAL_PLANS[0];
+  const nightsCount = priceData?.nights || 1;
+  const mealPlanTotal = activeMealPlan.perNightFee * nightsCount * roomsCount;
+
   const addonsTotal = selectedAddons.reduce((sum, id) => {
     const addon = KONKAN_ADDONS.find((a) => a.id === id);
     return sum + (addon ? addon.price * (id === "dolphin" ? guestsCount : 1) : 0);
   }, 0);
 
-  const grandTotal = (priceData?.totalAmount || Number(selectedRoom.base_price) * roomsCount) + addonsTotal;
+  const grandTotal = (priceData?.totalAmount || Number(selectedRoom.base_price) * roomsCount) + mealPlanTotal + addonsTotal;
   const advancePercent = 20; // 20% advance via UPI to lock 15-min hold
   const advancePayable = Math.round((grandTotal * advancePercent) / 100);
   const balanceAtHotel = Math.max(0, grandTotal - advancePayable);
@@ -355,6 +382,46 @@ export function RoomBookingWidget({
             </select>
           </div>
 
+          {/* Meal Plan Matrix (MMT / Agoda Style) */}
+          <div className="space-y-1.5">
+            <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wide">
+              Select Meal Plan
+            </label>
+            <div className="grid grid-cols-1 gap-1.5">
+              {MEAL_PLANS.map((plan) => {
+                const active = mealPlanId === plan.id;
+                return (
+                  <button
+                    key={plan.id}
+                    type="button"
+                    onClick={() => setMealPlanId(plan.id)}
+                    className={`p-2.5 rounded-xl border text-left transition-all flex items-center justify-between gap-2 cursor-pointer ${
+                      active
+                        ? "border-konkan-teal-700 bg-konkan-teal-50/70 ring-1 ring-konkan-teal-600/20"
+                        : "border-slate-200 bg-white hover:bg-slate-50"
+                    }`}
+                  >
+                    <div>
+                      <span className="text-xs font-bold text-slate-900 block">
+                        {plan.label}
+                      </span>
+                      <span className="text-[10px] text-slate-500 block">
+                        {plan.desc}
+                      </span>
+                    </div>
+                    <span
+                      className={`text-xs font-black shrink-0 ${
+                        plan.perNightFee === 0 ? "text-slate-600" : "text-konkan-teal-800"
+                      }`}
+                    >
+                      {plan.perNightFee === 0 ? "Included" : `+${formatINR(plan.perNightFee)}/nt`}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
           {/* Travel Dates Picker Bar */}
           <div className="rounded-2xl border border-slate-300 overflow-hidden text-xs bg-white shadow-2xs">
             <div className="grid grid-cols-2">
@@ -370,9 +437,8 @@ export function RoomBookingWidget({
                   </span>
                 </div>
                 <span
-                  className={`block text-xs sm:text-sm font-semibold ${
-                    checkIn ? "text-slate-900" : "text-slate-400"
-                  }`}
+                  className={`block text-xs sm:text-sm font-semibold ${checkIn ? "text-slate-900" : "text-slate-400"
+                    }`}
                 >
                   {checkIn ? format(checkIn, "dd MMM yyyy") : "Add date"}
                 </span>
@@ -390,9 +456,8 @@ export function RoomBookingWidget({
                   </span>
                 </div>
                 <span
-                  className={`block text-xs sm:text-sm font-semibold ${
-                    checkOut ? "text-slate-900" : "text-slate-400"
-                  }`}
+                  className={`block text-xs sm:text-sm font-semibold ${checkOut ? "text-slate-900" : "text-slate-400"
+                    }`}
                 >
                   {checkOut ? format(checkOut, "dd MMM yyyy") : "Add date"}
                 </span>
@@ -548,11 +613,10 @@ export function RoomBookingWidget({
                   <div
                     key={addon.id}
                     onClick={() => toggleAddon(addon.id)}
-                    className={`p-2.5 rounded-xl border text-xs cursor-pointer transition-all flex items-center justify-between ${
-                      isSelected
-                        ? "bg-emerald-50/70 border-emerald-300 text-emerald-950"
-                        : "bg-slate-50 border-slate-200 text-slate-700 hover:border-konkan-teal-300"
-                    }`}
+                    className={`p-2.5 rounded-xl border text-xs cursor-pointer transition-all flex items-center justify-between ${isSelected
+                      ? "bg-emerald-50/70 border-emerald-300 text-emerald-950"
+                      : "bg-slate-50 border-slate-200 text-slate-700 hover:border-konkan-teal-300"
+                      }`}
                   >
                     <div className="space-y-0.5 pr-2">
                       <div className="font-bold text-[11px] flex items-center gap-1">
@@ -568,11 +632,10 @@ export function RoomBookingWidget({
                         +{formatINR(addon.price)}
                       </span>
                       <div
-                        className={`w-4 h-4 rounded-md flex items-center justify-center border ${
-                          isSelected
-                            ? "bg-emerald-600 border-emerald-600 text-white"
-                            : "border-slate-300 bg-white"
-                        }`}
+                        className={`w-4 h-4 rounded-md flex items-center justify-center border ${isSelected
+                          ? "bg-emerald-600 border-emerald-600 text-white"
+                          : "border-slate-300 bg-white"
+                          }`}
                       >
                         {isSelected && <Check className="w-3 h-3" />}
                       </div>
@@ -825,20 +888,18 @@ export function RoomBookingWidget({
                   {/* Option A: 20% Advance via UPI */}
                   <div
                     onClick={() => setPaymentOption("advance_upi")}
-                    className={`p-3 rounded-2xl border-2 cursor-pointer transition-all ${
-                      paymentOption === "advance_upi"
-                        ? "border-emerald-600 bg-emerald-50/80 shadow-xs ring-1 ring-emerald-600/20"
-                        : "border-slate-200 bg-white hover:border-slate-300"
-                    }`}
+                    className={`p-3 rounded-2xl border-2 cursor-pointer transition-all ${paymentOption === "advance_upi"
+                      ? "border-emerald-600 bg-emerald-50/80 shadow-xs ring-1 ring-emerald-600/20"
+                      : "border-slate-200 bg-white hover:border-slate-300"
+                      }`}
                   >
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-black text-slate-900">⚡ 20% Advance UPI</span>
                       <div
-                        className={`w-4 h-4 rounded-full border flex items-center justify-center ${
-                          paymentOption === "advance_upi"
-                            ? "border-emerald-600 bg-emerald-600"
-                            : "border-slate-300 bg-white"
-                        }`}
+                        className={`w-4 h-4 rounded-full border flex items-center justify-center ${paymentOption === "advance_upi"
+                          ? "border-emerald-600 bg-emerald-600"
+                          : "border-slate-300 bg-white"
+                          }`}
                       >
                         {paymentOption === "advance_upi" && (
                           <div className="w-1.5 h-1.5 rounded-full bg-white" />
@@ -856,20 +917,18 @@ export function RoomBookingWidget({
                   {/* Option B: Pay 100% at Hotel Desk */}
                   <div
                     onClick={() => setPaymentOption("pay_at_hotel")}
-                    className={`p-3 rounded-2xl border-2 cursor-pointer transition-all ${
-                      paymentOption === "pay_at_hotel"
-                        ? "border-amber-600 bg-amber-50/80 shadow-xs ring-1 ring-amber-600/20"
-                        : "border-slate-200 bg-white hover:border-slate-300"
-                    }`}
+                    className={`p-3 rounded-2xl border-2 cursor-pointer transition-all ${paymentOption === "pay_at_hotel"
+                      ? "border-amber-600 bg-amber-50/80 shadow-xs ring-1 ring-amber-600/20"
+                      : "border-slate-200 bg-white hover:border-slate-300"
+                      }`}
                   >
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-black text-slate-900">🏨 Pay at Hotel Desk</span>
                       <div
-                        className={`w-4 h-4 rounded-full border flex items-center justify-center ${
-                          paymentOption === "pay_at_hotel"
-                            ? "border-amber-600 bg-amber-600"
-                            : "border-slate-300 bg-white"
-                        }`}
+                        className={`w-4 h-4 rounded-full border flex items-center justify-center ${paymentOption === "pay_at_hotel"
+                          ? "border-amber-600 bg-amber-600"
+                          : "border-slate-300 bg-white"
+                          }`}
                       >
                         {paymentOption === "pay_at_hotel" && (
                           <div className="w-1.5 h-1.5 rounded-full bg-white" />
